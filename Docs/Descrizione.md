@@ -1,4 +1,4 @@
-# Task Set del Firenze Reis
+# Task Set del Firenze Race
 Di seguito esposti i vari task che la CORE23 dovrà eseguire:
 ### Controllo acceleratore (Prio 2)
 - **Guida manuale**
