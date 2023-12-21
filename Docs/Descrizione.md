@@ -7,7 +7,7 @@ Un task in grado di leggere l'ADC via DMA, per poi inoltrare gli stessi valori a
 In questo caso il task deve disabilitare la lettura dall'ADC e deve invece prendere i valori di accelerazione dal CAN bus, ricevuti dal PC.
 
 ### Invio telemetria (Prio 5)
-- Telemetria del sistema autonomo e velocità del veicolo inviati sia alla EVO, collegata in CAN, sia al modulo LORA.
+- Telemetria del sistema autonomo e velocità del veicolo inviati sia alla EVO, collegata in CAN, sia al modulo LORA. La LoRa quando siamo in modalità autonomous riceverà anche i dati di telemetria che vengono inviati al data logger, quindi gli indirizzi 500, 501 502
 
 ### Controllo Ventole (Prio 7)
 Inizializzazione PWM TIM_CHANNEL_3, TIM_CHANNEL_4. 
@@ -32,7 +32,9 @@ Ad esempio: Pressioni motore, temperature, fuori range.
 
  
 ### Cambio marcia (Prio 4)
-Un task che se richiesto via CAN  dalla PILOT23 o dal sistema autonomo, occorre aumentare o ridurre una marcia.  Gestire anche il CUTOFF. Gestione anche frizione. alla partenza.
+Un task che se richiesto via CAN  dalla PILOT23 o dal sistema autonomo, occorre aumentare o ridurre una marcia.  Gestire anche il CUTOFF. Gestione anche frizione. alla partenza. Cambio marcia: Semplificato, praticamente non metteremo limiti di gear per la guida manuale in caso di fallimento del desmo. Lo faremo invece per la guida autonoma.
+- [ ] Fare ridondanza: se non funziona gear_prox, usare attesa minima. Quindi semplicemente implementare timeout di 1 secondo ad esempio.
+- [ ] Sentire Sandro range di cut-off.
 
 ### Gestione stato del sistema autonomo (Prio 5)
 Implementare Flow Chart del regolamento per poi inviare i dati sullo stato al PC, gestire Autonomous System Status Indicator e la sirena.
