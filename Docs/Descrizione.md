@@ -55,8 +55,11 @@ Viene attivato dal main della core
 
 
 
+#### **Check Mode: Periodic Task**
+Controlla la scelta della modalità di funzionamento dalla pilot. Rilascia il taskReleasing. Gestire la possibilità di cambio modalità in caso di cambio real time della missione/mode finché non è accesa l'asms e il motore non è acceso. 
+ASMS attivo solo dopo aver selezionato la missione e confermata, altrimenti da errore.
 
-
+- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
 
 
 
