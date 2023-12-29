@@ -50,8 +50,7 @@ Ridondanza per sensore cremagliera -> lettura da telemetria.
 ### One shot task: task dell'initial EBS
 Task che una volta eseguito l'initial setup, va a rilasciare i task dell'error handler dell'AS e il task della gestione, attiva quindi a cascata tutti i task relativi all'autonomous System. 
 Task attivato al momento della chiusura dell'ASMS. guardare specifico GPIO. controllare già missione selezionata e in modalità autonomous da Pilot.
-
-Viene attivato dal main della core
+Per disattivare l'errore sviluppato da questo task, occorre aprire LVMS.
 
 
 
