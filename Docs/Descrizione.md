@@ -53,12 +53,17 @@ Task attivato al momento della chiusura dell'ASMS. guardare specifico GPIO. cont
 Per disattivare l'errore sviluppato da questo task, occorre aprire LVMS.
 
 
+#### AS ErrorHandler
+Ad esempio dal nodo CAN viene richiamato ErrorHandler() che va a scrivere su una variabile booleana. Questa viene checkata da questo nodo. Se è true allora si da errore.
 
 #### **Check Mode: Periodic Task**
 Controlla la scelta della modalità di funzionamento dalla pilot. Rilascia il taskReleasing. Gestire la possibilità di cambio modalità in caso di cambio real time della missione/mode finché non è accesa l'asms e il motore non è acceso. 
 ASMS attivo solo dopo aver selezionato la missione e confermata, altrimenti da errore.
 
 - Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
+
+#### AS State Handler
+Attivato subito, controlla le varie variabili condivise degli altri task.
 
 
 
@@ -83,10 +88,11 @@ Procedura Auto autonomo:
 | Auto_Cmd  | Management of the Autonomous System Status ||
 
 
-
-
-
-
-
-
-
+Domande prof:
+- Chiedere in generale se la doc è corretta per continuare così.
+- Le entry point, abbiamo visto ad esempio nel modello che metteva nelle slide,metteva le entry points di inizio e fine con relativi semafori. noi dobbiamo fare uguale?
+CAnHandler task:
+ - Gestire la CAN: stm32 usa interrupt, forse meglio usare un task che legge e scrive sulle varie "code" condivise tra task?, il primo modo sarebbe più sicuro sulla scrittura. Però fare l'interrupt per ogni messaggio può essere costoso?
+Check mode task
+	- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
+	- 
