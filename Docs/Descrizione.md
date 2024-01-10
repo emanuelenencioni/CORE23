@@ -55,6 +55,7 @@ Per disattivare l'errore sviluppato da questo task, occorre aprire LVMS.
 
 #### AS ErrorHandler
 Ad esempio dal nodo CAN viene richiamato ErrorHandler() che va a scrivere su una variabile booleana. Questa viene checkata da questo nodo. Se è true allora si da errore.
+- [ ] Vedere se aggiungere un check della can per eventuali messaggi di errore del driver del freno. Forse meglio farlo fare direttamente al PC e poi lui inoltrerà. 
 
 #### **Check Mode: Periodic Task**
 Controlla la scelta della modalità di funzionamento dalla pilot. Rilascia il taskReleasing. Gestire la possibilità di cambio modalità in caso di cambio real time della missione/mode finché non è accesa l'asms e il motore non è acceso. 
@@ -66,14 +67,26 @@ ASMS attivo solo dopo aver selezionato la missione e confermata, altrimenti da e
 Attivato subito, controlla le varie variabili condivise degli altri task.
 
 
+### Varie
 
-Procedura Auto autonomo:
-- Accendere pc
-- LVMS on
-- Pilot23: selezionare missione da selettore di destra, premere quindi ok.
-- ASMS on
--  in 2 - 4 s accendere la macchina ( controllare sia in folle)
-- se EBS ok -> 
+- **Gestione task attivati da altri task**
+	Per i task attivati da altri, saranno istanziati dallo scheduler di freeRTOS, poi saranno subito sospesi e riattivati solo dalle specifiche condizioni dai relativi task, come si può vedere nell'Activity Diagram.
+
+- **vTaskDelayUntil** -> per i task periodici
+
+- **Procedura Auto autonomo**:
+	
+	- LVMS on
+	- Accendere pc
+	- Pilot23: selezionare missione da selettore di destra, premere quindi ok.
+	- ASMS on
+	-  in 2 - 4 s accendere la macchina ( controllare sia in folle)
+	- se EBS ok -> invio msg a PC "Start" per finire di avviare tutti i nodi e mettere in pressione l'ASB.
+	- [AS Ready]: Aspetta il go dal RES
+	- il go letto da StateHandler, setta prima ASSI a Driving, e lo stato a driving, e invia il segnale Go anche al PC.
+	- Se ASEMergency o finish, apposto.
+	- Tornare alla macchina e spegnere tutti i MS.
+
 
 
 | Capabilities| Description | Collaboration |
@@ -88,11 +101,12 @@ Procedura Auto autonomo:
 | Auto_Cmd  | Management of the Autonomous System Status ||
 
 
-Domande prof:
+### Domande prof
+- Uso dei semafori, chiedere nel nostro caso essendo single core... serve anche in lettura? forse no. Sentire la prof per la pre-emption. Se servo o no comunque a seconda dei tempi di esecuzione.
 - Chiedere in generale se la doc è corretta per continuare così.
 - Le entry point, abbiamo visto ad esempio nel modello che metteva nelle slide,metteva le entry points di inizio e fine con relativi semafori. noi dobbiamo fare uguale?
 CAnHandler task:
  - Gestire la CAN: stm32 usa interrupt, forse meglio usare un task che legge e scrive sulle varie "code" condivise tra task?, il primo modo sarebbe più sicuro sulla scrittura. Però fare l'interrupt per ogni messaggio può essere costoso?
 Check mode task
 	- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
-	- 
+
