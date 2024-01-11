@@ -60,15 +60,15 @@ Ad esempio dal nodo CAN viene richiamato ErrorHandler() che va a scrivere su una
 #### **Check Mode: Periodic Task**
 Controlla la scelta della modalità di funzionamento dalla pilot. Rilascia il taskReleasing. Gestire la possibilità di cambio modalità in caso di cambio real time della missione/mode finché non è accesa l'asms e il motore non è acceso. 
 ASMS attivo solo dopo aver selezionato la missione e confermata, altrimenti da errore.
+Essendo un task periodico, c'è da prendere in considerazione che verrà eseguito più volte. Perciò le attivazioni dei vari task non si possono fare più volte, ma una sola. altrimenti non funziona nulla.
 
-- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
 
 #### AS State Handler
 Attivato subito, controlla le varie variabili condivise degli altri task.
 
 
 ### Varie
-
+- Manual mode in automatico senza selezionare nulla.
 - **Gestione task attivati da altri task**
 	Per i task attivati da altri, saranno istanziati dallo scheduler di freeRTOS, poi saranno subito sospesi e riattivati solo dalle specifiche condizioni dai relativi task, come si può vedere nell'Activity Diagram.
 
@@ -109,4 +109,3 @@ CAnHandler task:
  - Gestire la CAN: stm32 usa interrupt, forse meglio usare un task che legge e scrive sulle varie "code" condivise tra task?, il primo modo sarebbe più sicuro sulla scrittura. Però fare l'interrupt per ogni messaggio può essere costoso?
 Check mode task
 	- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
-
