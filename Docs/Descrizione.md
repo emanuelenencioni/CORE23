@@ -102,6 +102,7 @@ Attivato subito, controlla le varie variabili condivise degli altri task.
 
 
 ### Domande prof
+- Le funzioni di entry point, lei, guardando le slide ne usava come una di inizio e una di fine, però non dovrebbe essere una sola? Nel nostro caso, ogni task esegue una funzione "xxThread" che ha il ciclo infinito nel caso dei task periodici etc...  Come dobbiamo fare quindi?
 - Uso dei semafori, chiedere nel nostro caso essendo single core... serve anche in lettura? forse no. Sentire la prof per la pre-emption. Se servo o no comunque a seconda dei tempi di esecuzione.
 - Chiedere in generale se la doc è corretta per continuare così.
 - Le entry point, abbiamo visto ad esempio nel modello che metteva nelle slide,metteva le entry points di inizio e fine con relativi semafori. noi dobbiamo fare uguale?
