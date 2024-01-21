@@ -36,19 +36,13 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/adc.c \
-Core/Src/can.c \
-Core/Src/dac.c \
-Core/Src/dma.c \
+Core/Src/CanHandlerTask.c \
 Core/Src/freertos.c \
-Core/Src/gpio.c \
 Core/Src/main.c \
-Core/Src/spi.c \
 Core/Src/stm32f7xx_hal_msp.c \
 Core/Src/stm32f7xx_hal_timebase_tim.c \
 Core/Src/stm32f7xx_it.c \
 Core/Src/system_stm32f7xx.c \
-Core/Src/tim.c \
 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c \
 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c \
 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc_ex.c \

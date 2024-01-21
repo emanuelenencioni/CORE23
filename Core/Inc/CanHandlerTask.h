@@ -10,6 +10,11 @@ void canHandlerThread(void *argument);
 void initEngineCAN();
 void initASCAN();
 
+void engineCanRxhandler();
+void engineCanTxHandler();
+
+void ASCanRxHandler();
+void ASCanTxHandler();
 
 // variables
 

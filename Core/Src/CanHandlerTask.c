@@ -1,25 +1,48 @@
 #include "CanHandlerTask.h"
 #include "cmsis_os.h"
 #include "main.h"
+#include "task.h"
 
-
-
+// Engine CAN
 extern CAN_HandleTypeDef hcan1;
-extern CAN_HandleTypeDef hcan2;
-extern SPI_HandleTypeDef hspi3;
 
-osMessageQueueId_t canRxQueue;
-osMessageQueueId_t canTxQueue;
+// AS CAN
+extern CAN_HandleTypeDef hcan2;
+
+
+osMessageQueueId_t canTxASQueue;
+osMessageQueueId_t canTxEngineQueue;
 
 typedef struct {
     CAN_TxHeaderTypeDef header;
     uint8_t data[8];
 
 } CANMessage;
+
 CAN_FilterTypeDef CANFilterEngine;
 CAN_FilterTypeDef CANFilterAS;
 
+CANMessage rxMsg, txMsg;
+// Buffer for all the message incoming from the CAN connected to the engine.
+typedef struct{
+uint16_t	Lambda;
+float		CutoffV;
+float		MAP;
+uint16_t	MTS;
+uint16_t	RPM;
+uint16_t	TPS;
+float		FPS;
+float		OPS;
+float 		IGN;
+float 		WTS;
+float 		VCC;
+} EngineCANBuffer;
+
+EngineCANBuffer EngCANBuffer;
+
 canInitialized = 0;
+
+uint16_t mailSize;
 
 /**
  * @brief Task that handle both CAN bus in the vehicle.
@@ -28,43 +51,32 @@ canInitialized = 0;
  */
 void canHandlerThread(void *argument){
 
+	TickType_t xLastWakeTime;
+	const TickType_t xFrequency = 20;
+
+
+
     if (!canInitialized){
 		initASCAN();
 		initEngineCAN();
         canInitialized = 1;
 	}
+	
+	uint32_t mailSize;
 
-    while(1){
-		CAN_Message rxMsg, txMsg;
-		uint32_t mailSize;
-		while(1) {
+	xLastWakeTime = xTaskGetTickCount();
+	while(1) {
+		// Engine CAN
+		engineCANRxhandler();
+		engineCanTxHandler();
 
-			if(HAL_CAN_GetRxFifoFillLevel(&hcan, CAN_RX_FIFO0) > 0) {
-				if(HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
-					osMessageQueuePut(canRxQueue, &rxMsg, 0, 0);
-				}
-			}
+		//AS CAN
 
-			mailSize = osMessageQueueGetCount(canTxQueue);
-			if(mailSize > 0)
-			{
-				if(osMessageQueueGet(canTxQueue, &txMsg, NULL, 0) == osOK)
-				{
-					// Invia il messaggio CAN
-					uint32_t TxMailbox;
-					if(HAL_CAN_AddTxMessage(&hcan, &txMsg.header, txMsg.data, &TxMailbox) != HAL_OK)
-					{
-						// Gestisci errore di trasmissione
-					}
-				}
-			}
+		
 
-			osDelay(10); // Ritardo per il polling
-		}
+		vTaskDelayUntil(xLastWakeTime, xFrequency); //Periodic task
 	}
 }
-
-
 
 
 // TODO riconfigurare
@@ -121,4 +133,106 @@ void addFilterCAN(CAN_FilterTypeDef CAN_Filter, CAN_HandleTypeDef hcan, int filt
 	CAN_Filter.FilterActivation = ENABLE;
 
     HAL_CAN_ConfigFilter(&hcan, &CAN_Filter);
+}
+
+/**
+ * @brief code for handling the incoming data from the engine CAN
+ * 
+ */
+void engineCanRxhandler(){
+	if(HAL_CAN_GetRxFifoFillLevel(&hcan1, CAN_RX_FIFO0) > 0) {
+			if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
+			uint32_t id = *(rxMsg.header).StdId;
+			uint8_t* data = rxMsg.data;
+			switch (id){
+				case 259:
+					EngCANBuffer.Lambda = (data[1] << 8 | data[0])/1000;
+					EngCANBuffer.CutoffV = (data[3] << 8 | data[2])/816.f;
+					break;
+
+				case 261:
+					EngCANBuffer.MAP =  (float)(data[1] << 8 | data[0]);
+					EngCANBuffer.FPS =  (float)((data[7] << 8 | data[6])/100);
+					EngCANBuffer.OPS =  (float)(data[5] << 8 | data[4]);
+					break;
+
+				case 262:
+					uint16_t local_CAN_WTS =  (float)(data[1] << 8 | data[0])/10;
+					uint16_t local_CAN_MTS = (data[3] << 8 | data[2])/10;
+					EngCANBuffer.MTS = local_CAN_MTS;
+					break;
+
+				case 263:
+					EngCANBuffer.VCC = (float)((data[3] << 8 | data[2])/1000);
+					break;
+				case 266:
+					EngCANBuffer.RPM = (data[1] << 8 | data[0]);
+					EngCANBuffer.TPS = (data[3] << 8 | data[2])/10;
+
+					// TODO spostare questo in Gear Task 
+					//useCutoff = EngCANBuffer.CAN_RPM > 6000 ? 1 : 0; 	//Disable cutoff if rpm < 6000
+					break;
+
+				case 270:
+					EngCANBuffer.IGN = (data[3] << 8 | data[2])/16.f;
+					break;
+			}
+		}
+	}
+}
+
+/**
+ * @brief code for handling the message to the engine CAN
+ * 
+ */
+void engineCanTxHandler(){
+	mailSize = osMessageQueueGetCount(canTxEngineQueue);
+	if(mailSize > 0)
+	{
+		if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
+		{
+			// Invia il messaggio CAN
+			uint32_t TxMailbox;
+			if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailbox) != HAL_OK)
+			{
+				// TODO Gestisci errore di trasmissione
+			}
+		}
+	}
+}
+
+void ASCanRxHandler(){
+	if(HAL_CAN_GetRxFifoFillLevel(&hcan2, CAN_RX_FIFO0) > 0) {
+			if(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
+			uint32_t id =  *(rxMsg.header).StdId;
+			uint8_t* data = rxMsg.data;
+			switch (id){
+				case 300:
+					request_clutchFollow(data[1] << 8 | data[0]);
+					break;
+				case 301:
+					//PADDLES:
+					if(data[0] == 1) //upshift
+						request_upShift();
+					else if (data[0] == 2) //downshift
+						request_downShift();
+					break;
+				case 302:
+					//BUTTONS:
+					if (data[0] == 1) 		//neutral
+						neutral();
+					else if (data[0] == 2) //drive
+						drive();
+					else if (data[0] == 3) //launch
+						//clutch_release(slow);
+						__NOP();
+					else if (data[0] == 4) //tag
+						__NOP(); //TODO: implementare messaggio
+					break;
+				case 303:
+					//OTHER:
+					break;
+			}
+		}
+	}
 }
