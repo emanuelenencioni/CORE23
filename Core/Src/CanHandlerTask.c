@@ -2,28 +2,17 @@
 #include "cmsis_os.h"
 #include "main.h"
 #include "task.h"
+#include "semphr.h"
 
 // Engine CAN
 extern CAN_HandleTypeDef hcan1;
 
-// AS CAN
-extern CAN_HandleTypeDef hcan2;
-
-
+extern osMutexId_t EngCanSemHandle;
 osMessageQueueId_t canTxASQueue;
-osMessageQueueId_t canTxEngineQueue;
 
-typedef struct {
-    CAN_TxHeaderTypeDef header;
-    uint8_t data[8];
-
-} CANMessage;
 
 CAN_FilterTypeDef CANFilterEngine;
-CAN_FilterTypeDef CANFilterAS;
 
-CANMessage rxMsg, txMsg;
-// Buffer for all the message incoming from the CAN connected to the engine.
 typedef struct{
 uint16_t	Lambda;
 float		CutoffV;
@@ -38,7 +27,32 @@ float 		WTS;
 float 		VCC;
 } EngineCANBuffer;
 
+// Buffer in sezione critica
 EngineCANBuffer EngCANBuffer;
+
+// AS CAN
+extern CAN_HandleTypeDef hcan2;
+osMessageQueueId_t canTxEngineQueue;
+
+
+CAN_FilterTypeDef CANFilterAS;
+
+typedef struct{
+	uint8_t reqUpShift;
+	uint8_t reqDownShift;
+
+}ASCANBuffer;
+
+
+typedef struct {
+    CAN_TxHeaderTypeDef header;
+    uint8_t data[8];
+
+} CANMessage;
+
+CANMessage rxMsg, txMsg;
+// Buffer for all the message incoming from the CAN connected to the engine.
+
 
 canInitialized = 0;
 
@@ -54,8 +68,6 @@ void canHandlerThread(void *argument){
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 20;
 
-
-
     if (!canInitialized){
 		initASCAN();
 		initEngineCAN();
@@ -67,12 +79,16 @@ void canHandlerThread(void *argument){
 	xLastWakeTime = xTaskGetTickCount();
 	while(1) {
 		// Engine CAN
+
+		xSemaphoreTake(EngCanSemHandle, (TickType_t) 0);
 		engineCANRxhandler();
+		xSemaphoreGive(EngCanSemHandle);
+
 		engineCanTxHandler();
 
-		//AS CAN
 
-		
+
+		//AS CAN
 
 		vTaskDelayUntil(xLastWakeTime, xFrequency); //Periodic task
 	}
@@ -139,10 +155,10 @@ void addFilterCAN(CAN_FilterTypeDef CAN_Filter, CAN_HandleTypeDef hcan, int filt
  * @brief code for handling the incoming data from the engine CAN
  * 
  */
-void engineCanRxhandler(){
+void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relativi campi dato
 	if(HAL_CAN_GetRxFifoFillLevel(&hcan1, CAN_RX_FIFO0) > 0) {
 			if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
-			uint32_t id = *(rxMsg.header).StdId;
+			uint32_t id = rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
 			switch (id){
 				case 259:
@@ -204,7 +220,7 @@ void engineCanTxHandler(){
 void ASCanRxHandler(){
 	if(HAL_CAN_GetRxFifoFillLevel(&hcan2, CAN_RX_FIFO0) > 0) {
 			if(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
-			uint32_t id =  *(rxMsg.header).StdId;
+			uint32_t id =  rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
 			switch (id){
 				case 300:

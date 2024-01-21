@@ -133,6 +133,16 @@ const osThreadAttr_t CheckModeTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for EngCanSem */
+osMutexId_t EngCanSemHandle;
+const osMutexAttr_t EngCanSem_attributes = {
+  .name = "EngCanSem"
+};
+/* Definitions for ASCanSem */
+osMutexId_t ASCanSemHandle;
+const osMutexAttr_t ASCanSem_attributes = {
+  .name = "ASCanSem"
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -215,6 +225,12 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();
+  /* Create the mutex(es) */
+  /* creation of EngCanSem */
+  EngCanSemHandle = osMutexNew(&EngCanSem_attributes);
+
+  /* creation of ASCanSem */
+  ASCanSemHandle = osMutexNew(&ASCanSem_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
