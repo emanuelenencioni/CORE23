@@ -35,8 +35,33 @@ void canHandlerThread(void *argument){
 	}
 
     while(1){
-        
-    }
+		CAN_Message rxMsg, txMsg;
+		uint32_t mailSize;
+		while(1) {
+
+			if(HAL_CAN_GetRxFifoFillLevel(&hcan, CAN_RX_FIFO0) > 0) {
+				if(HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
+					osMessageQueuePut(canRxQueue, &rxMsg, 0, 0);
+				}
+			}
+
+			mailSize = osMessageQueueGetCount(canTxQueue);
+			if(mailSize > 0)
+			{
+				if(osMessageQueueGet(canTxQueue, &txMsg, NULL, 0) == osOK)
+				{
+					// Invia il messaggio CAN
+					uint32_t TxMailbox;
+					if(HAL_CAN_AddTxMessage(&hcan, &txMsg.header, txMsg.data, &TxMailbox) != HAL_OK)
+					{
+						// Gestisci errore di trasmissione
+					}
+				}
+			}
+
+			osDelay(10); // Ritardo per il polling
+		}
+	}
 }
 
 
