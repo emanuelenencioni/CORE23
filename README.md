@@ -8,5 +8,9 @@
     - [ ] CanHandlerTask
         - [ ] Check ID.
         - [ ] Spostare cutoff nel gearTask.
+        - [ ] Finire handling AS.
     - [ ] PedalTask
     - [ ] TelemetryTask
+    - [ ] CheckModeTask
+    - [ ] ASBCheckTask
+    - [ ] ASStateHandlerTask

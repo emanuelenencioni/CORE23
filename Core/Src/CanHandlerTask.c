@@ -32,6 +32,8 @@ EngineCANBuffer EngCANBuffer;
 
 // AS CAN
 extern CAN_HandleTypeDef hcan2;
+
+extern osMutexId_t ASCanSemHandle;
 osMessageQueueId_t canTxEngineQueue;
 
 
@@ -84,10 +86,17 @@ void canHandlerThread(void *argument){
 		engineCANRxhandler();
 		xSemaphoreGive(EngCanSemHandle);
 
-		engineCanTxHandler();
+		
 
 
 		//AS CAN
+		xSemaphoreTake(ASCanSemHandle, (TickType_t) 0);
+		ASCanRxHandler();
+		xSemaphoreGive(ASCanSemHandle);
+
+
+		engineCanTxHandler();
+		ASCanRxHandler();
 
 		vTaskDelayUntil(xLastWakeTime, xFrequency); //Periodic task
 	}
