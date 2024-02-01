@@ -5,5 +5,8 @@
     - NVIC_SystemReset()
 
 - [ ] Programmazione tasks
+    - [ ] CanHandlerTask
+        - [ ] Check ID.
+        - [ ] Spostare cutoff nel gearTask.
     - [ ] PedalTask
     - [ ] TelemetryTask

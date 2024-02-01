@@ -87,7 +87,6 @@ void canHandlerThread(void *argument){
 		engineCanTxHandler();
 
 
-
 		//AS CAN
 
 		vTaskDelayUntil(xLastWakeTime, xFrequency); //Periodic task
