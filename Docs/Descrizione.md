@@ -34,7 +34,8 @@ Ad esempio: Pressioni motore, temperature, fuori range.
 ### Cambio marcia (Prio 4)
 Un task che se richiesto via CAN  dalla PILOT23 o dal sistema autonomo, occorre aumentare o ridurre una marcia.  Gestire anche il CUTOFF. Gestione anche frizione. alla partenza. Cambio marcia: Semplificato, praticamente non metteremo limiti di gear per la guida manuale in caso di fallimento del desmo. Lo faremo invece per la guida autonoma.
 - [ ] Fare ridondanza: se non funziona gear_prox, usare attesa minima. Quindi semplicemente implementare timeout di 1 secondo ad esempio.
-- [ ] Sentire Sandro range di cut-off.
+- [x] Sentire Sandro range di cut-off. -
+Il cutoff si può attivare a qualsiasi range di giri del motore, però per evitare di stressarlo, conviene attivarlo sopra un certo numero di giri (penso 6000 come aveva messo Naldo).
 
 ### Gestione stato del sistema autonomo (Prio 5)
 Implementare Flow Chart del regolamento per poi inviare i dati sullo stato al PC, gestire Autonomous System Status Indicator e la sirena.
@@ -42,7 +43,7 @@ Implementare Flow Chart del regolamento per poi inviare i dati sullo stato al PC
 #### Gestione EBS e altri flowchart dell'ASF = error Handler(Prio 2)
 Durante una prima esecuzione, all'avvio di tutta la parte autonoma del sistema, dovrà essere verificato il corretto funzionamento del EBS. Per fare questo occorre attivare e disattivare le valvole per mandare il sistema frenante in pressione, dopodiché capire se appunto il sistema frenerà per poi dare l'ok all'Autonomous System. Errori dell'AS, errori attuatori (sterzo)
 
-TODO Capire l'encoder dello sterzo come funziona per fare la ridondanza.
+- [ ] Capire l'encoder dello sterzo come funziona per fare la ridondanza.
 
 Implementazione di un watchdog  manuale, che permetta di chiudere lo Shutdown Cirtcuti in caso il sistema autonomo, le linee CAN, il RES (Remote Emergency System),  siano offline per abbastaza tempo (circa 200 ms), o se le bombole di aria compressa dell'EBS  scendono sotto una certa pressione soglia.
 Ridondanza per sensore cremagliera -> lettura da telemetria.
