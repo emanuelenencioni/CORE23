@@ -10,3 +10,6 @@
         - [ ] Spostare cutoff nel gearTask.
     - [ ] PedalTask
     - [ ] TelemetryTask
+    - [ ] CheckModeTask
+    - [ ] ASBCheckTask
+    - [ ] ASStateHandlerTask
