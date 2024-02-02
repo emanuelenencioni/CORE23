@@ -1,8 +1,4 @@
 #include "CanHandlerTask.h"
-#include "cmsis_os.h"
-#include "main.h"
-#include "task.h"
-#include "semphr.h"
 
 // Engine CAN
 extern CAN_HandleTypeDef hcan1;
@@ -13,22 +9,10 @@ osMessageQueueId_t canTxASQueue;
 
 CAN_FilterTypeDef CANFilterEngine;
 
-typedef struct{
-uint16_t	Lambda;
-float		CutoffV;
-float		MAP;
-uint16_t	MTS;
-uint16_t	RPM;
-uint16_t	TPS;
-float		FPS;
-float		OPS;
-float 		IGN;
-float 		WTS;
-float 		VCC;
-} EngineCANBuffer;
 
 // Buffer in sezione critica
 EngineCANBuffer EngCANBuffer;
+
 
 // AS CAN
 extern CAN_HandleTypeDef hcan2;
@@ -39,11 +23,9 @@ osMessageQueueId_t canTxEngineQueue;
 
 CAN_FilterTypeDef CANFilterAS;
 
-typedef struct{
-	uint8_t reqUpShift;
-	uint8_t reqDownShift;
+// Buffer in sezione critica
+ASCANBuffer AutCanBuffer;
 
-}ASCANBuffer;
 
 
 typedef struct {
@@ -56,7 +38,7 @@ CANMessage rxMsg, txMsg;
 // Buffer for all the message incoming from the CAN connected to the engine.
 
 
-canInitialized = 0;
+uint8_t canInitialized = 0;
 
 uint16_t mailSize;
 
@@ -82,18 +64,15 @@ void canHandlerThread(void *argument){
 	while(1) {
 		// Engine CAN
 
-		xSemaphoreTake(EngCanSemHandle, (TickType_t) 0);
-		engineCANRxhandler();
-		xSemaphoreGive(EngCanSemHandle);
-
-		
-
-
+		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
+			engineCANRxhandler();
+			xSemaphoreGive(EngCanSemHandle);
+		}
 		//AS CAN
-		xSemaphoreTake(ASCanSemHandle, (TickType_t) 0);
-		ASCanRxHandler();
-		xSemaphoreGive(ASCanSemHandle);
-
+		if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE){
+			ASCanRxHandler();
+			xSemaphoreGive(ASCanSemHandle);
+		}
 
 		engineCanTxHandler();
 		ASCanRxHandler();
@@ -237,9 +216,11 @@ void ASCanRxHandler(){
 				case 301:
 					//PADDLES:
 					if(data[0] == 1) //upshift
-						request_upShift();
+						//request_upShift();
+						AutCanBuffer.reqUpShift = 1;
 					else if (data[0] == 2) //downshift
-						request_downShift();
+						//request_downShift();
+						AutCanBuffer.reqDownShift = 1;
 					break;
 				case 302:
 					//BUTTONS:
