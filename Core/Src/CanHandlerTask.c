@@ -2,10 +2,9 @@
 
 // Engine CAN
 extern CAN_HandleTypeDef hcan1;
-
 extern osMutexId_t EngCanSemHandle;
-osMessageQueueId_t canTxASQueue;
 
+osMessageQueueId_t canTxEngineQueue;
 
 CAN_FilterTypeDef CANFilterEngine;
 
@@ -18,7 +17,7 @@ EngineCANBuffer EngCANBuffer;
 extern CAN_HandleTypeDef hcan2;
 
 extern osMutexId_t ASCanSemHandle;
-osMessageQueueId_t canTxEngineQueue;
+osMessageQueueId_t canTxASQueue;
 
 
 CAN_FilterTypeDef CANFilterAS;
@@ -28,11 +27,7 @@ ASCANBuffer AutCanBuffer;
 
 
 
-typedef struct {
-    CAN_TxHeaderTypeDef header;
-    uint8_t data[8];
 
-} CANMessage;
 
 CANMessage rxMsg, txMsg;
 // Buffer for all the message incoming from the CAN connected to the engine.
@@ -42,11 +37,7 @@ uint8_t canInitialized = 0;
 
 uint16_t mailSize;
 
-/**
- * @brief Task that handle both CAN bus in the vehicle.
- * 
- * 
- */
+
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
@@ -65,7 +56,7 @@ void canHandlerThread(void *argument){
 		// Engine CAN
 
 		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
-			engineCANRxhandler();
+			engineCanRxhandler();
 			xSemaphoreGive(EngCanSemHandle);
 		}
 		//AS CAN
@@ -102,12 +93,18 @@ void initEngineCAN(){
 
 	// Start CAN and enable the buffer notification
 	HAL_CAN_Start(&hcan1);
-	if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) error_handler(3);
+	if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) __NOP(); //TODO Error Handler
 }
 
 void initASCAN(){
 
 	// Start CAN and enable the buffer notification
+
+	if(xSemaphoreTake(ASCanSemHandle, (TickType_t) WAIT_FOR_PILOT_STATE) == pdTRUE){
+        // TODO init value of the buffer
+		AutCanBuffer.reqMode = 0; // NotSelected
+		xSemaphoreGive(ASCanSemHandle);
+    }
 
     addFilterCAN(CANFilterAS, &hcan2, 0, 300);
 
@@ -117,7 +114,7 @@ void initASCAN(){
     addFilterCAN(CANFilterAS, &hcan2, 4, 304);
 
 	HAL_CAN_Start(&hcan2);
-	if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING) != HAL_OK) error_handler(3);
+	if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING) != HAL_OK) __NOP(); //error_handler(3);
 }
 
 /**
@@ -211,7 +208,7 @@ void ASCanRxHandler(){
 			uint8_t* data = rxMsg.data;
 			switch (id){
 				case 300:
-					request_clutchFollow(data[1] << 8 | data[0]);
+					// TODO request_clutchFollow(data[1] << 8 | data[0]);
 					break;
 				case 301:
 					//PADDLES:
@@ -225,9 +222,9 @@ void ASCanRxHandler(){
 				case 302:
 					//BUTTONS:
 					if (data[0] == 1) 		//neutral
-						neutral();
+						__NOP();//neutral();
 					else if (data[0] == 2) //drive
-						drive();
+						__NOP(); //drive();
 					else if (data[0] == 3) //launch
 						//clutch_release(slow);
 						__NOP();

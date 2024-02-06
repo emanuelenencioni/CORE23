@@ -133,6 +133,13 @@ const osThreadAttr_t CheckModeTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for CanHandlerTask */
+osThreadId_t CanHandlerTaskHandle;
+const osThreadAttr_t CanHandlerTask_attributes = {
+  .name = "CanHandlerTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityRealtime,
+};
 /* Definitions for EngCanSem */
 osMutexId_t EngCanSemHandle;
 const osMutexAttr_t EngCanSem_attributes = {
@@ -171,6 +178,7 @@ void errorHandlerASThread(void *argument);
 void ASStateHandlerThread(void *argument);
 void ASBCheckThread(void *argument);
 void checkModeThread(void *argument);
+void canHandlerThread(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -282,6 +290,9 @@ int main(void)
   /* creation of CheckModeTask */
   CheckModeTaskHandle = osThreadNew(checkModeThread, NULL, &CheckModeTask_attributes);
 
+  /* creation of CanHandlerTask */
+  CanHandlerTaskHandle = osThreadNew(canHandlerThread, NULL, &CanHandlerTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -389,7 +400,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 12;
   hadc1.Init.DMAContinuousRequests = ENABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -1011,13 +1022,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
-
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
@@ -1222,6 +1226,24 @@ __weak void checkModeThread(void *argument)
     osDelay(1);
   }
   /* USER CODE END checkModeThread */
+}
+
+/* USER CODE BEGIN Header_canHandlerThread */
+/**
+* @brief Function implementing the CanHandlerTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_canHandlerThread */
+__weak void canHandlerThread(void *argument)
+{
+  /* USER CODE BEGIN canHandlerThread */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END canHandlerThread */
 }
 
 /**
