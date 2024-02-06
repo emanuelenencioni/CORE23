@@ -155,13 +155,11 @@ void Error_Handler(void);
 #define LED_R_GPIO_Port GPIOB
 #define BTN_1_Pin GPIO_PIN_0
 #define BTN_1_GPIO_Port GPIOE
-#define BTN_1_EXTI_IRQn EXTI0_IRQn
 #define BTN_2_Pin GPIO_PIN_1
 #define BTN_2_GPIO_Port GPIOE
-#define BTN_2_EXTI_IRQn EXTI1_IRQn
 
 /* USER CODE BEGIN Private defines */
-
+#define MIN_RPM_ENG_ON 800
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
