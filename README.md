@@ -14,3 +14,5 @@
     - [ ] CheckModeTask
     - [ ] ASBCheckTask
     - [ ] ASStateHandlerTask
+    - [ ] GearTask
+        - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
