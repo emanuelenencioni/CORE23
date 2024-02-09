@@ -138,7 +138,7 @@ osThreadId_t CanHandlerTaskHandle;
 const osThreadAttr_t CanHandlerTask_attributes = {
   .name = "CanHandlerTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityRealtime,
+  .priority = (osPriority_t) osPriorityLow3,
 };
 /* Definitions for EngCanSem */
 osMutexId_t EngCanSemHandle;
@@ -950,9 +950,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, ASSI_SIREN_Pin|LORA_D0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : GEAR_PROX_DOWN_Pin GEAR_PROX_UP_Pin DIO_AUX1_Pin RES_IN2_Pin
-                           EBS_PROX2_Pin EBS_PROX1_Pin */
+                           FREE_USE_Pin ASMS_STATUS_Pin */
   GPIO_InitStruct.Pin = GEAR_PROX_DOWN_Pin|GEAR_PROX_UP_Pin|DIO_AUX1_Pin|RES_IN2_Pin
-                          |EBS_PROX2_Pin|EBS_PROX1_Pin;
+                          |FREE_USE_Pin|ASMS_STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);

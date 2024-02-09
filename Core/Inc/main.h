@@ -107,10 +107,10 @@ void Error_Handler(void);
 #define RES_IN1_GPIO_Port GPIOB
 #define RES_IN2_Pin GPIO_PIN_7
 #define RES_IN2_GPIO_Port GPIOE
-#define EBS_PROX2_Pin GPIO_PIN_8
-#define EBS_PROX2_GPIO_Port GPIOE
-#define EBS_PROX1_Pin GPIO_PIN_9
-#define EBS_PROX1_GPIO_Port GPIOE
+#define FREE_USE_Pin GPIO_PIN_8
+#define FREE_USE_GPIO_Port GPIOE
+#define ASMS_STATUS_Pin GPIO_PIN_9
+#define ASMS_STATUS_GPIO_Port GPIOE
 #define BRAKE_LIGHT_Pin GPIO_PIN_11
 #define BRAKE_LIGHT_GPIO_Port GPIOE
 #define PWM_AUX_Pin GPIO_PIN_13
@@ -159,7 +159,7 @@ void Error_Handler(void);
 #define BTN_2_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
-#define MIN_RPM_ENG_ON 800
+#define MIN_RPM_ENG_ON 1000
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
