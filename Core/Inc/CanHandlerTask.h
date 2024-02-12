@@ -48,6 +48,17 @@ typedef struct {
  */
 void canHandlerThread(void *argument);
 
+/**
+ * @brief 
+ * 
+ * @param CAN_Filter 
+ * @param hcan 
+ * @param filterBank 
+ * @param filterID 
+ * @param FIFO
+ */
+void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32_t filterBank, uint32_t filterID, uint8_t fifo);
+
 void initEngineCAN();
 void initASCAN();
 
@@ -56,7 +67,6 @@ void engineCanTxHandler();
 
 void ASCanRxHandler();
 void ASCanTxHandler();
-
 // variables
 
 
