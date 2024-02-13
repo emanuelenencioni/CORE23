@@ -40,7 +40,7 @@ uint8_t counter;
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 1000;
+	const TickType_t xFrequency = 20;
 
     if (!canInitialized){
 		counter = 0;
