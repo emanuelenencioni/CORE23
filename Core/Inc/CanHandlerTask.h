@@ -3,7 +3,7 @@
 #include "main.h"
 #include "task.h"
 #include "semphr.h"
-
+#include "queue.h"
 
 #ifndef CANHANDLERTASK_H_
 #define CANHANDLERTASK_H_

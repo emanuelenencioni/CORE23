@@ -4,7 +4,8 @@
 extern CAN_HandleTypeDef hcan1;
 extern osMutexId_t EngCanSemHandle;
 
-osMessageQueueId_t canTxEngineQueue;
+//osMessageQueueId_t canTxEngineQueue;
+QueueHandle_t canTxEngineQueue;
 uint32_t TxMailboxEng;
 
 
@@ -18,7 +19,8 @@ EngineCANBuffer EngCANBuffer;
 extern CAN_HandleTypeDef hcan2;
 
 extern osMutexId_t ASCanSemHandle;
-osMessageQueueId_t canTxASQueue;
+//osMessageQueueId_t canTxASQueue;
+QueueHandle_t canTxASQueue;
 uint32_t TxMailboxAS;
 
 CAN_FilterTypeDef CANFilterAS;
@@ -75,7 +77,7 @@ void canHandlerThread(void *argument){
 
 // TODO riconfigurare
 void initEngineCAN(){
-    
+	canTxEngineQueue = xQueueCreate(10, sizeof(CANMessage));
 	// // Lambda + CutOffV (259)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0103 << 5, 0);
 
@@ -93,12 +95,13 @@ void initEngineCAN(){
 
 	// // Start CAN
 	HAL_CAN_Start(&hcan1);
+	
 }
 
 void initASCAN(){
 
 	// Start CAN
-
+	canTxASQueue = xQueueCreate(10, sizeof(CANMessage));
 	if(xSemaphoreTake(ASCanSemHandle, (TickType_t) WAIT_FOR_PILOT_STATE) == pdTRUE){
         // TODO init value of the buffer
 		AutCanBuffer.reqMode = 0; // NotSelected
@@ -114,6 +117,7 @@ void initASCAN(){
 
 
 	HAL_CAN_Start(&hcan2);
+	
 }
 
 /**
@@ -187,27 +191,27 @@ void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relati
  * 
  */
 void engineCanTxHandler(){
-	mailSize = osMessageQueueGetCount(canTxEngineQueue);
-	if(mailSize > 0)
-	{
-		if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
-		{
-			// Invia il messaggio CAN
-			uint32_t TxMailbox;
-			if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailboxEng) != HAL_OK)
-			{
-				// TODO Gestisci errore di trasmissione
-			}
-		}
-	}
+	// mailSize = osMessageQueueGetCount(canTxEngineQueue);
+	// if(mailSize > 0)
+	// {
+	// 	if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
+	// 	{
+	// 		// Invia il messaggio CAN
+	// 		uint32_t TxMailbox;
+	// 		if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailboxEng) != HAL_OK)
+	// 		{
+	// 			// TODO Gestisci errore di trasmissione
+	// 		}
+	// 	}
+	// }
 }
 
 void ASCanTxHandler(){
 	
-	mailSize = osMessageQueueGetCount(canTxEngineQueue);
+	mailSize = uxQueueMessagesWaiting(canTxASQueue);
 	if(mailSize > 0)
 	{
-		if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
+		if(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)
 		{
 			// Invia il messaggio CAN
 			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
