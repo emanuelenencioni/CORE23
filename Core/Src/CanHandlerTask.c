@@ -40,12 +40,12 @@ uint8_t counter;
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 500;
+	const TickType_t xFrequency = 1000;
 
     if (!canInitialized){
 		counter = 0;
-		initASCAN();
 		initEngineCAN();
+		initASCAN();
         canInitialized = 1;
 	}
 	
@@ -82,19 +82,17 @@ void initEngineCAN(){
 	// // // // MAP + FPS + OPS (261)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0105 << 5, 0);
 
-	// // // // WTS + MTS (262)
+	// // // // // WTS + MTS (262)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0106 << 5, 0);
 
-	// // // // VCC (263)
+	// // // // // VCC (263)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0107 << 5, 0);
 
 	// // // // RPM + TPS (266)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x010A << 5, 0);
 
-	// HAL_CAN_ConfigFilter(&hcan2, &CANFilterEngine);
 	// // Start CAN
 	HAL_CAN_Start(&hcan1);
-	if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) __NOP(); //TODO Error Handler
 }
 
 void initASCAN(){
@@ -116,7 +114,6 @@ void initASCAN(){
 
 
 	HAL_CAN_Start(&hcan2);
-	if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING) != HAL_OK) __NOP(); //error_handler(3);
 }
 
 /**
@@ -136,7 +133,7 @@ void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32
 	CAN_Filter->FilterIdHigh = filterID;
 	CAN_Filter->FilterIdLow  = 0;
 	CAN_Filter->FilterActivation = ENABLE;
-	CAN_Filter->FilterScale = CAN_FILTERSCALE_32BIT;
+	CAN_Filter->FilterScale = CAN_FILTERSCALE_16BIT;
 	HAL_CAN_ConfigFilter(hcan, CAN_Filter);
 }
 
@@ -145,13 +142,7 @@ void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32
  * 
  */
 void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relativi campi dato
-	if(HAL_CAN_GetRxFifoFillLevel(&hcan1, CAN_RX_FIFO0) > 0) {
-			HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_SET);
-			vTaskDelay(200 /  portTICK_PERIOD_MS);
-			HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_RESET);
-
-
-			if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
+		while(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
 			uint32_t id = rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
 			switch (id){
@@ -189,7 +180,6 @@ void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relati
 					break;
 			}
 		}
-	}
 }
 
 /**
@@ -204,7 +194,7 @@ void engineCanTxHandler(){
 		{
 			// Invia il messaggio CAN
 			uint32_t TxMailbox;
-			if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailbox) != HAL_OK)
+			if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailboxEng) != HAL_OK)
 			{
 				// TODO Gestisci errore di trasmissione
 			}
@@ -220,7 +210,7 @@ void ASCanTxHandler(){
 		if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
 		{
 			// Invia il messaggio CAN
-			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailbox) != HAL_OK)
+			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
 			{
 				// TODO Gestisci errore di trasmissione
 			}
@@ -235,21 +225,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 }
 
 void ASCanRxHandler(){
-		if(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &rxMsg.header, rxMsg.data) == HAL_OK) {
+		while(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &rxMsg.header, rxMsg.data) == HAL_OK) {
 			uint32_t id =  rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
-			HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_SET);
-			vTaskDelay(1000 /  portTICK_PERIOD_MS);
-			HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_RESET);
 			switch (id){
 				case 290:
 					AutCanBuffer.reqMode = data[0];
 					break;
 				case 300: // 0x0300
 					// TODO request_clutchFollow(data[1] << 8 | data[0]);
-					HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_SET);
-					vTaskDelay(1000 /  portTICK_PERIOD_MS);
-					HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_RESET);
 					break;
 				case 301:
 					//PADDLES:
@@ -262,7 +246,6 @@ void ASCanRxHandler(){
 						AutCanBuffer.reqDownShift = 1;
 					break;
 				case 302:
-
 					//BUTTONS:
 					if (data[0] == 1) 		//neutral
 						__NOP();//neutral();
