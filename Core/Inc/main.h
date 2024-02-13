@@ -139,6 +139,7 @@ void Error_Handler(void);
 #define EBS_LED_GPIO_Port GPIOC
 #define NEUTRAL_LED_Pin GPIO_PIN_7
 #define NEUTRAL_LED_GPIO_Port GPIOC
+#define NEUTRAL_LED_EXTI_IRQn EXTI9_5_IRQn
 #define ASSI_LED_B_Pin GPIO_PIN_8
 #define ASSI_LED_B_GPIO_Port GPIOC
 #define ASSI_LED_Y_Pin GPIO_PIN_9
@@ -155,8 +156,10 @@ void Error_Handler(void);
 #define LED_R_GPIO_Port GPIOB
 #define BTN_1_Pin GPIO_PIN_0
 #define BTN_1_GPIO_Port GPIOE
+#define BTN_1_EXTI_IRQn EXTI0_IRQn
 #define BTN_2_Pin GPIO_PIN_1
 #define BTN_2_GPIO_Port GPIOE
+#define BTN_2_EXTI_IRQn EXTI1_IRQn
 
 /* USER CODE BEGIN Private defines */
 #define MIN_RPM_ENG_ON 1000
