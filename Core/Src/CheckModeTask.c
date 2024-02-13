@@ -8,7 +8,7 @@ extern osMutexId_t EngCanSemHandle;
 extern ASCANBuffer AutCanBuffer;
 extern EngineCANBuffer EngCANBuffer;
 
-extern osMessageQueueId_t canTxASQueue;
+extern QueueHandle_t canTxASQueue;
 
 //Can message for sending state error to the pilot23
 CANMessage msg;
@@ -30,8 +30,11 @@ void checkModeThread(void* argument){
 
     HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, RESET);
     CAN_TxHeaderTypeDef header;
+    // Settings for can message
     header.StdId = 400;
-    header.DLC = 8;
+    header.ExtId = 0;
+    header.IDE = 0;
+    header.DLC = 1;
     msg.header = header;
     
     actualMode = NotSelected;
@@ -39,9 +42,8 @@ void checkModeThread(void* argument){
 
     HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_SET);
     vTaskDelay(1000 /  portTICK_PERIOD_MS);
+    //Default error message
     msg.data[0] = 10;
-
-    int AS_PIN = 0;
 
     xLastWakeTime = xTaskGetTickCount();
     while(1){
@@ -77,13 +79,13 @@ void checkModeThread(void* argument){
             
             // Misison already selected, to change mission is necessary reset the board.
             if(actualMode == Manual){
-                if(HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_RESET){ //ASMS on in manual mode
+                if(HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){ //ASMS on in manual mode
                     sendErrorToPilot(10);
                 }
             }
 
             if(actualMode == Autonomous){
-                if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
+                if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_RESET){
                     //TODO activation of autonomous tasks
                     HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, SET);
                 }
@@ -109,7 +111,7 @@ void readModeData() {
 
 void sendErrorToPilot(uint8_t errorCode) {
     msg.data[0] = errorCode;
-    if(osMessageQueuePut(canTxASQueue, &msg, NULL, 0) != HAL_OK){
+    if(xQueueSend(canTxASQueue, &msg, 0) != pdTRUE){
         // TODO comm. error
     }
 }
