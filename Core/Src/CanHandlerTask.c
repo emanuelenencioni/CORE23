@@ -4,14 +4,14 @@
 extern CAN_HandleTypeDef hcan1;
 extern osMutexId_t EngCanSemHandle;
 
-//osMessageQueueId_t canTxEngineQueue;
-QueueHandle_t canTxEngineQueue;
+
+QueueHandle_t canTxEngQueue;
 uint32_t TxMailboxEng;
 
 
 CAN_FilterTypeDef CANFilterEngine;
 
-// Buffer in sezione critica
+// Buffer for all the message incoming from the CAN connected to the engine. In critical section.
 EngineCANBuffer EngCANBuffer;
 
 
@@ -19,21 +19,20 @@ EngineCANBuffer EngCANBuffer;
 extern CAN_HandleTypeDef hcan2;
 
 extern osMutexId_t ASCanSemHandle;
-//osMessageQueueId_t canTxASQueue;
+
 QueueHandle_t canTxASQueue;
 uint32_t TxMailboxAS;
 
 CAN_FilterTypeDef CANFilterAS;
 
-// Buffer in sezione critica
+// Buffer for all the message incoming from the CAN connected to the AS. In critical section.
 ASCANBuffer AutCanBuffer;
 
 CANMessage rxMsg, txMsg;
-// Buffer for all the message incoming from the CAN connected to the engine.
+
+
 
 uint16_t mailSize;
-
-
 
 uint8_t canInitialized = 0;
 uint8_t counter;
@@ -58,7 +57,6 @@ void canHandlerThread(void *argument){
 
 		vTaskDelayUntil( &xLastWakeTime, xFrequency); //Periodic task
 		// Engine CAN
-
 		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
 			engineCanRxhandler();
 			xSemaphoreGive(EngCanSemHandle);
@@ -75,22 +73,22 @@ void canHandlerThread(void *argument){
 }
 
 
-// TODO riconfigurare
+// TODO check new ids
 void initEngineCAN(){
-	canTxEngineQueue = xQueueCreate(10, sizeof(CANMessage));
-	// // Lambda + CutOffV (259)
+	canTxEngQueue = xQueueCreate(10, sizeof(CANMessage));
+	// Lambda + CutOffV (259)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0103 << 5, 0);
 
-	// // // // MAP + FPS + OPS (261)
+	// MAP + FPS + OPS (261)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0105 << 5, 0);
 
-	// // // // // WTS + MTS (262)
+	// WTS + MTS (262)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0106 << 5, 0);
 
-	// // // // // VCC (263)
+	// VCC (263)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0107 << 5, 0);
 
-	// // // // RPM + TPS (266)
+	// RPM + TPS (266)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x010A << 5, 0);
 
 	// // Start CAN
@@ -120,12 +118,6 @@ void initASCAN(){
 	
 }
 
-/**
- * @brief function that generateW
- * 
- * @param filterBank 
- * @param filterID 
- */
 void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32_t filterBank, uint32_t filterID, uint8_t fifo){
 	if(fifo)
 		CAN_Filter->FilterFIFOAssignment = CAN_FILTER_FIFO1;
@@ -141,10 +133,7 @@ void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32
 	HAL_CAN_ConfigFilter(hcan, CAN_Filter);
 }
 
-/**
- * @brief code for handling the incoming data from the engine CAN
- * 
- */
+
 void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relativi campi dato
 		while(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
 			uint32_t id = rxMsg.header.StdId;
@@ -186,46 +175,19 @@ void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relati
 		}
 }
 
-/**
- * @brief code for handling the message to the engine CAN
- * 
- */
-void engineCanTxHandler(){
-	// mailSize = osMessageQueueGetCount(canTxEngineQueue);
-	// if(mailSize > 0)
-	// {
-	// 	if(osMessageQueueGet(canTxEngineQueue, &txMsg, NULL, 0) == osOK)
-	// 	{
-	// 		// Invia il messaggio CAN
-	// 		uint32_t TxMailbox;
-	// 		if(HAL_CAN_AddTxMessage(&hcan1, &txMsg.header, txMsg.data, &TxMailboxEng) != HAL_OK)
-	// 		{
-	// 			// TODO Gestisci errore di trasmissione
-	// 		}
-	// 	}
-	// }
-}
 
-void ASCanTxHandler(){
-	
-	mailSize = uxQueueMessagesWaiting(canTxASQueue);
-	if(mailSize > 0)
+void engineCanTxHandler(){
+	mailSize = uxQueueMessagesWaiting(canTxEngQueue);
+	if(mailSize > 0) 
 	{
-		if(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)
+		while(xQueueReceive(canTxEngQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
 		{
-			// Invia il messaggio CAN
 			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
 			{
 				// TODO Gestisci errore di trasmissione
 			}
 		}
 	}
-}
-
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
-	
-	HAL_CAN_GetRxMessage(hcan,CAN_RX_FIFO0, &rxMsg.header, rxMsg.data);
-
 }
 
 void ASCanRxHandler(){
@@ -266,4 +228,19 @@ void ASCanRxHandler(){
 					break;
 			}
 		}
+}
+
+void ASCanTxHandler(){
+	
+	mailSize = uxQueueMessagesWaiting(canTxASQueue);
+	while(mailSize > 0)
+	{
+		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
+		{
+			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
+			{
+				// TODO Gestisci errore di trasmissione
+			}
+		}
+	}
 }

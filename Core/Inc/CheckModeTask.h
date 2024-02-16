@@ -12,12 +12,6 @@
 void checkModeThread(void* argument);
 
 /**
- * @brief Read data from ASCanBuffer, remember to execute this in critical section.
- * 
- */
-void readModeData();
-
-/**
  * @brief Function that send the corrispective error code to the Pilot23 board.
  * 
  * @param errorCode Look at the CAN-ID table for reference

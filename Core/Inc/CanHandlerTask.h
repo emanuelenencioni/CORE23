@@ -13,6 +13,7 @@
 #define CAN_QUEUE_SIZE 10
 #define WAIT_FOR_PILOT_STATE 100
 
+
 typedef struct{
 uint16_t	Lambda;
 float		CutoffV;
@@ -43,19 +44,17 @@ typedef struct {
 
 /**
  * @brief Task that handle both CAN bus in the vehicle.
- * 
- * 
  */
 void canHandlerThread(void *argument);
 
 /**
- * @brief 
+ * @brief function that add a filter to the specified can bus
  * 
- * @param CAN_Filter 
- * @param hcan 
- * @param filterBank 
- * @param filterID 
- * @param FIFO
+ * @param CAN_Filter the filter to apply
+ * @param hcan the can bus
+ * @param filterBank the index of the filter in the bank
+ * @param filterID the can id 
+ * @param fifo which fifo to save on, 0 = FIFO0, 1 = FIFO1
  */
 void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32_t filterBank, uint32_t filterID, uint8_t fifo);
 
