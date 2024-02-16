@@ -134,7 +134,7 @@ void addFilterCAN(CAN_FilterTypeDef* CAN_Filter, CAN_HandleTypeDef* hcan, uint32
 }
 
 
-void engineCanRxhandler(){ // TODO vedere se gli id sono giusti e anche i relativi campi dato
+void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relativi campi dato
 		while(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg.header, rxMsg.data) == HAL_OK) {
 			uint32_t id = rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
