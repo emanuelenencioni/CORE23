@@ -34,6 +34,7 @@ void checkModeThread(void* argument){
     header.StdId = 400;
     header.ExtId = 0;
     header.IDE = 0;
+    header.RTR = 0;
     header.DLC = 1;
     msg.header = header;
 
