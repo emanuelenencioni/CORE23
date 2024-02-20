@@ -58,7 +58,7 @@ void canHandlerThread(void *argument){
 		vTaskDelayUntil( &xLastWakeTime, xFrequency); //Periodic task
 		// Engine CAN
 		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
-			engineCanRxhandler();
+			engineCanRxHandler();
 			xSemaphoreGive(EngCanSemHandle);
 		}
 		//AS CAN
@@ -235,7 +235,7 @@ void ASCanRxHandler(){
 void ASCanTxHandler(){
 	
 	mailSize = uxQueueMessagesWaiting(canTxASQueue);
-	while(mailSize > 0)
+	if(mailSize > 0)
 	{
 		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
 		{
