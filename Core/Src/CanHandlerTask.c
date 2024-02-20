@@ -235,7 +235,7 @@ void ASCanRxHandler(){
 void ASCanTxHandler(){
 	
 	mailSize = uxQueueMessagesWaiting(canTxASQueue);
-	while(mailSize > 0)
+	if(mailSize > 0)
 	{
 		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
 		{
