@@ -4,16 +4,11 @@
 #include "task.h"
 #include "semphr.h"
 #include "queue.h"
-#include "ADCTask.h"
 #include "CanHandlerTask.h"
-#include "stdlib.h"
-
-#define APPS1 5
-#define APPS2 6
-#define MAX_DEVIATION 400 // 10% deviation
+//#include "stdlib.h"
 
 #ifndef ACCTASK_H_
 #define ACCTASK_H_
 
-void AccThread(void* argument);
+void FanThread(void* argument);
 #endif
