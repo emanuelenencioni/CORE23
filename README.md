@@ -5,13 +5,14 @@
     - NVIC_SystemReset()
 
 - [ ] Programmazione tasks
-    - [ ] CanHandlerTask
-        - [ ] Check ID.
+    - [X] CanHandlerTask
+        - [X] Check ID.
         - [ ] Spostare cutoff nel gearTask.
         - [ ] Finire handling AS.
     - [ ] PedalTask
+    - [X] ADCTask
     - [ ] TelemetryTask
-    - [ ] CheckModeTask
+    - [X] CheckModeTask
     - [ ] ASBCheckTask
     - [ ] ASStateHandlerTask
     - [ ] GearTask
