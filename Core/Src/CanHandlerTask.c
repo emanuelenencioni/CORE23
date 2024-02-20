@@ -58,7 +58,7 @@ void canHandlerThread(void *argument){
 		vTaskDelayUntil( &xLastWakeTime, xFrequency); //Periodic task
 		// Engine CAN
 		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
-			engineCanRxhandler();
+			engineCanRxHandler();
 			xSemaphoreGive(EngCanSemHandle);
 		}
 		//AS CAN
