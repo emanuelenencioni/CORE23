@@ -4,7 +4,7 @@ extern ADC_HandleTypeDef hadc1;
 extern osMutexId_t ADCSemHandle;
 // Define the ADC buffer for DMA
 volatile uint16_t adcBuffer[ADC_BUFFER_SIZE];
-extern 
+
 // Define the ADC buffer in critical section
 uint16_t adcReadings[ADC_BUFFER_SIZE];
 
