@@ -37,6 +37,7 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/ADCTask.c \
+Core/Src/ASStateHandTask.c \
 Core/Src/CanHandlerTask.c \
 Core/Src/CheckModeTask.c \
 Core/Src/freertos.c \

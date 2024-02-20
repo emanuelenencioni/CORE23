@@ -43,7 +43,6 @@ void checkModeThread(void* argument){
     actualMode = NotSelected;
     reqMode = NotSelected;
 
-    HAL_GPIO_WritePin(BRAKE_LIGHT_GPIO_Port, BRAKE_LIGHT_Pin, GPIO_PIN_SET);
     vTaskDelay(1000 /  portTICK_PERIOD_MS);
     // Default error message
     msg.data[0] = 10;
@@ -113,4 +112,10 @@ void sendErrorToPilot(uint8_t errorCode) {
     if(xQueueSend(canTxASQueue, &msg, 0) != pdTRUE){
         // TODO comm. error
     }
+}
+
+
+void readModeData() {
+    reqMode = AutCanBuffer.reqMode;
+    selectedMission = AutCanBuffer.selectedMission;
 }

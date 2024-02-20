@@ -162,7 +162,8 @@ void Error_Handler(void);
 #define BTN_2_EXTI_IRQn EXTI1_IRQn
 
 /* USER CODE BEGIN Private defines */
-#define MIN_RPM_ENG_ON 1000
+#define MIN_RPM_ENG_ON 800
+#define AS_INIT_BRAKE_PRESSURE 15
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

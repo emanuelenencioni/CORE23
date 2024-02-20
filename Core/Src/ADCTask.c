@@ -1,41 +1,34 @@
-#include "FreeRTOS.h"
-#include "task.h"
-#include "stm32f7xx_hal.h"
+#include "ADCTask.h"
 
-#define ADC_BUFFER_SIZE 12
-
-// Define the ADC buffer
-uint16_t adcBuffer[ADC_BUFFER_SIZE];
-// Define the ADC buffer
+extern ADC_HandleTypeDef hadc1;
+extern osMutexId_t ADCSemHandle;
+// Define the ADC buffer for DMA
+volatile uint16_t adcBuffer[ADC_BUFFER_SIZE];
+extern 
+// Define the ADC buffer in critical section
 uint16_t adcReadings[ADC_BUFFER_SIZE];
 
 // ADC task function
-void ADCTask(void *pvParameters)
-{
-    while (1)
-    {
-        void vAnalogRead(void *argument)
-        {
+void ADCThread(void* argument) {
+    
+    TickType_t xLastWakeTime;
+	const TickType_t xFrequency = 100;
+
+    HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adcBuffer, sizeof(adcBuffer)/sizeof(adcBuffer[0]));
+
+
+    xLastWakeTime = xTaskGetTickCount();
+    while (1) {
+        vTaskDelayUntil( &xLastWakeTime, xFrequency);
         /* Infinite loop */
 
-            xSemaphoreTake(xsemaph_adc, portMAX_DELAY);
-            for(int i=0;i<12;i++)
-            {
-                adcReadings[i] = adcBuffer[i];
-            }
-            xSemaphoreGive(xsemaph_adc);
+            if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+                for(int i=0;i<12;i++) {
+                    adcReadings[i] = adcBuffer[i];
+                }
+                xSemaphoreGive(ADCSemHandle);
         }
-        /* USER CODE END StartLeAnalog */
-        
-        // Delay for 50ms
-        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
-// Create the ADC task
-void CreateADCTask()
-{
-    xTaskCreate(ADCTask, "ADCTask", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL);
-}
-
-https://electronics.stackexchange.com/questions/581003/stm32h7-adc-with-dma-reading-only-zeros-using-hal-and-freertos
+// https://electronics.stackexchange.com/questions/581003/stm32h7-adc-with-dma-reading-only-zeros-using-hal-and-freertos

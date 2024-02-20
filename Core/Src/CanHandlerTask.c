@@ -197,6 +197,8 @@ void ASCanRxHandler(){
 			switch (id){
 				case 290:
 					AutCanBuffer.reqMode = data[0];
+					AutCanBuffer.selectedMission = data[1];
+
 					break;
 				case 300: // 0x0300
 					// TODO request_clutchFollow(data[1] << 8 | data[0]);

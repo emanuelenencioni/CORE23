@@ -33,7 +33,7 @@ typedef struct{
 	uint8_t reqDownShift;
 	uint8_t reqMode;
 	uint8_t selectedMission;
-
+	uint8_t missionStatus;
 }ASCANBuffer;
 
 typedef struct {

@@ -140,6 +140,13 @@ const osThreadAttr_t CanHandlerTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow3,
 };
+/* Definitions for ADCTask */
+osThreadId_t ADCTaskHandle;
+const osThreadAttr_t ADCTask_attributes = {
+  .name = "ADCTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* Definitions for EngCanSem */
 osMutexId_t EngCanSemHandle;
 const osMutexAttr_t EngCanSem_attributes = {
@@ -149,6 +156,11 @@ const osMutexAttr_t EngCanSem_attributes = {
 osMutexId_t ASCanSemHandle;
 const osMutexAttr_t ASCanSem_attributes = {
   .name = "ASCanSem"
+};
+/* Definitions for ADCSem */
+osMutexId_t ADCSemHandle;
+const osMutexAttr_t ADCSem_attributes = {
+  .name = "ADCSem"
 };
 /* USER CODE BEGIN PV */
 
@@ -179,6 +191,7 @@ void ASStateHandlerThread(void *argument);
 void ASBCheckThread(void *argument);
 void checkModeThread(void *argument);
 void canHandlerThread(void *argument);
+void ADCThread(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -228,7 +241,7 @@ int main(void)
   MX_TIM12_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-
+  
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -239,6 +252,9 @@ int main(void)
 
   /* creation of ASCanSem */
   ASCanSemHandle = osMutexNew(&ASCanSem_attributes);
+
+  /* creation of ADCSem */
+  ADCSemHandle = osMutexNew(&ADCSem_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -292,6 +308,9 @@ int main(void)
 
   /* creation of CanHandlerTask */
   CanHandlerTaskHandle = osThreadNew(canHandlerThread, NULL, &CanHandlerTask_attributes);
+
+  /* creation of ADCTask */
+  ADCTaskHandle = osThreadNew(ADCThread, NULL, &ADCTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1254,6 +1273,24 @@ __weak void canHandlerThread(void *argument)
     osDelay(1);
   }
   /* USER CODE END canHandlerThread */
+}
+
+/* USER CODE BEGIN Header_ADCThread */
+/**
+* @brief Function implementing the ADCTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_ADCThread */
+__weak void ADCThread(void *argument)
+{
+  /* USER CODE BEGIN ADCThread */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END ADCThread */
 }
 
 /**

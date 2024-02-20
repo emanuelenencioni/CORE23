@@ -18,4 +18,6 @@ void checkModeThread(void* argument);
  */
 void sendErrorToPilot(uint8_t errorCode);
 
+void readModeData();
+
 #endif
