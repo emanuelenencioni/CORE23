@@ -12,8 +12,12 @@
     - [ ] PedalTask
     - [X] ADCTask
     - [ ] TelemetryTask
-    - [X] CheckModeTask
+    - [ ] CheckModeTask
+        - [ ] Add signal to resume ErrHandASTask
+        - [ ] Add signal to resume ASBCheckTask
     - [ ] ASBCheckTask
+    - [ ] ErrHandASTask
     - [ ] ASStateHandlerTask
+        -[ ] Finire PWM
     - [ ] GearTask
         - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
