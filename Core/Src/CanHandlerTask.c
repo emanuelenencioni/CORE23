@@ -41,7 +41,7 @@ uint8_t counter;
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 20;
+	const TickType_t xFrequency =  20;
 
     if (!canInitialized){
 		counter = 0;
@@ -108,6 +108,10 @@ void initASCAN(){
 	
     addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012C << 5, 1);
 	
+	// Mission status from PC
+	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x015F << 5, 1);
+	// Actual brake pressure
+	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0065 << 5, 1);
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0122 << 5, 1);
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012D << 5, 1);
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012E << 5, 1);
@@ -171,6 +175,8 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 
 					EngCANBuffer.IGN = (data[3] << 8 | data[2])/16.f;
 					break;
+
+
 			}
 		}
 }
@@ -195,6 +201,9 @@ void ASCanRxHandler(){
 			uint32_t id =  rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
 			switch (id){
+				case 101:
+					AutCanBuffer.brakePressure = data[0];
+					break;
 				case 290:
 					AutCanBuffer.reqMode = data[0];
 					AutCanBuffer.selectedMission = data[1];
@@ -227,6 +236,10 @@ void ASCanRxHandler(){
 					break;
 				case 303:
 					//OTHER:
+					break;
+
+				case 351:
+					AutCanBuffer.missionStatus = data[0];
 					break;
 			}
 		}

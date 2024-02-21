@@ -17,7 +17,7 @@ extern TIM_HandleTypeDef htim2;
 
 uint16_t waterTemp = 0;
 
-void AccThread(void* argument) {
+void fanThread(void* argument) {
     
     TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 10;

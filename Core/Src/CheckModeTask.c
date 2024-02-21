@@ -7,7 +7,7 @@ extern osMutexId_t EngCanSemHandle;
 
 extern ASCANBuffer AutCanBuffer;
 extern EngineCANBuffer EngCANBuffer;
-
+extern osThreadId_t ASStateHandTaskHandle;
 extern QueueHandle_t canTxASQueue;
 
 //Can message for sending state error to the pilot23
@@ -25,7 +25,7 @@ enum Mode reqMode;
 void checkModeThread(void* argument){
 
     TickType_t xLastWakeTime;
-    const TickType_t xFrequency = 100;
+    const TickType_t xFrequency = pdMS_TO_TICKS(200); // TODO 
 
 
     HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, RESET);
@@ -44,7 +44,6 @@ void checkModeThread(void* argument){
     actualMode = NotSelected;
     reqMode = NotSelected;
 
-    vTaskDelay(1000 /  portTICK_PERIOD_MS);
     // Default error message
     msg.data[0] = 10;
 
@@ -80,8 +79,10 @@ void checkModeThread(void* argument){
             case Autonomous:
                 if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
                     if(!autTaskActivated){
+                        vTaskResume(ASStateHandTaskHandle);
                         //TODO Activation of autonomous tasks
                         //TODO set and send mission
+                        autTaskActivated = 1;
                     }
                 }
                 else{ 
