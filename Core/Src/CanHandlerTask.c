@@ -175,21 +175,15 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 
 					EngCANBuffer.IGN = (data[3] << 8 | data[2])/16.f;
 					break;
-
-
 			}
 		}
 }
 
 
 void engineCanTxHandler(){
-	mailSize = uxQueueMessagesWaiting(canTxEngQueue);
-	if(mailSize > 0) 
-	{
-		while(xQueueReceive(canTxEngQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
-		{
-			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
-			{
+	if(uxQueueMessagesWaiting(canTxEngQueue) > 0) {
+		while(xQueueReceive(canTxEngQueue, &txMsg, 0) == pdTRUE) {// TODO capire criticità del while
+			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK) {
 				// TODO Gestisci errore di trasmissione
 			}
 		}
@@ -246,14 +240,10 @@ void ASCanRxHandler(){
 }
 
 void ASCanTxHandler(){
-	
-	mailSize = uxQueueMessagesWaiting(canTxASQueue);
-	if(mailSize > 0)
-	{
-		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE)// TODO capire criticità del while
-		{
-			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK)
-			{
+	if(uxQueueMessagesWaiting(canTxASQueue) > 0) {
+		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE) {// TODO capire criticità del while
+			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK){
+			
 				// TODO Gestisci errore di trasmissione
 			}
 		}
