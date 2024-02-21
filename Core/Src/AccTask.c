@@ -15,12 +15,12 @@ extern QueueHandle_t canTxASQueue;
 extern osMutexId_t ADCSemHandle;
 
 //Can message for sending state error to the pilot23
-CAN_TxHeaderTypeDef header;
+
 CANMessage msgAcc;
 
 // Acc task function
-void AccThread(void* argument) {
-    
+void accThread(void* argument) {
+    CAN_TxHeaderTypeDef header;
     TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 100;
     uint32_t timer = 0;

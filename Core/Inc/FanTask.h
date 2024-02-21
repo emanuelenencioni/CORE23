@@ -10,5 +10,5 @@
 #ifndef ACCTASK_H_
 #define ACCTASK_H_
 
-void FanThread(void* argument);
+void fanThread(void* argument);
 #endif

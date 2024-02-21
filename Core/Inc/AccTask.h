@@ -15,5 +15,5 @@
 #ifndef ACCTASK_H_
 #define ACCTASK_H_
 
-void AccThread(void* argument);
+void accThread(void* argument);
 #endif
