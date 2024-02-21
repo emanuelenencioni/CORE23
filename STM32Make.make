@@ -41,6 +41,7 @@ Core/Src/ASStateHandTask.c \
 Core/Src/AccTask.c \
 Core/Src/CanHandlerTask.c \
 Core/Src/CheckModeTask.c \
+Core/Src/ErrHandASTask.c \
 Core/Src/FanTask.c \
 Core/Src/freertos.c \
 Core/Src/main.c \
