@@ -83,7 +83,7 @@ void initEngineCAN(){
 	// MAP + FPS + OPS (261)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0105 << 5, 0);
 
-	// WTS + MTS (262)
+	// WTS + ATS (262)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0106 << 5, 0);
 
 	// VCC (263)
@@ -157,9 +157,9 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 
 				case 262:
 					uint16_t local_CAN_WTS =  (float)(data[1] << 8 | data[0])/10;
-					uint16_t local_CAN_MTS = (data[3] << 8 | data[2])/10;
+					uint16_t local_CAN_ATS = (data[3] << 8 | data[2])/10;
 					EngCANBuffer.WTS = local_CAN_WTS;
-					EngCANBuffer.MTS = local_CAN_MTS;
+					EngCANBuffer.ATS = local_CAN_ATS;
 					break;
 
 				case 263:

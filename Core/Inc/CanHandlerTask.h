@@ -18,7 +18,7 @@ typedef struct{
 uint16_t	Lambda;
 float		CutoffV;
 float		MAP;
-uint16_t	MTS;
+uint8_t		ATS;
 uint16_t	RPM;
 uint16_t	TPS;
 float		FPS;
