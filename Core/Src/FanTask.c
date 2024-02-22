@@ -32,7 +32,7 @@ void fansThread(void* argument) {
         if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
             waterTemp = EngCANBuffer.WTS; // store the value of the water temperature sensor
-            airTemp = EngCANBuffer.MTS; // store the value of the air temperature senso
+            airTemp = EngCANBuffer.ATS; // store the value of the air temperature senso
 
             xSemaphoreGive(EngCanSemHandle);
 
