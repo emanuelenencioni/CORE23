@@ -62,4 +62,5 @@ errorHandlerASThread(void* argument){
         }
     }
     while(HAL_GPIO_ReadPin(SHUTDOWN_SENSE_GPIO_Port, SHUTDOWN_SENSE_Pin));
+    //STOP TASK
 }
