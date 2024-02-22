@@ -15,24 +15,42 @@ CANMessage msgFan;
 
 extern TIM_HandleTypeDef htim2;
 
-uint16_t waterTemp = 0;
 
 void fansThread(void* argument) {
     
     TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 10;
 
+    uint8_t waterTemp = 0;
+    uint8_t airTemp = 0;
+
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Start PWM on TIM2 channel 3 Radiator Fan
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4); // Start PWM on TIM2 channel 4 Air Fan
 
     while(1){
 
         if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
             waterTemp = EngCANBuffer.WTS; // store the value of the water temperature sensor
+            airTemp = EngCANBuffer.ATS; // store the value of the air temperature senso
 
             xSemaphoreGive(EngCanSemHandle);
 
-            TIM2->CCR3 = waterTemp; // Set the PWM duty cycle to the value of the water temperature sensor
+            if (waterTemp < 80){
+                TIM2->CCR3 = 0; // Stop the Fan
+            }
+            else if (waterTemp >= 80){
+                TIM2->CCR3 = (waterTemp-10); // Set the PWM duty cycle to the value of the water temperature sensor
+            }
+
+            if (airTemp < 50){
+                TIM2->CCR4 = 0; // Stop the Fan
+            }
+            else if (airTemp >= 50){
+                TIM2->CCR4 = (airTemp+10); // Set the PWM duty cycle to the value of the air temperature sensor
+            }
+
+            
             
         }
 
