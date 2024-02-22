@@ -345,6 +345,7 @@ int main(void)
   HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, SET);
 
   vTaskSuspend(ASStateHandTaskHandle);
+  vTaskSuspend(ASBCheckTaskHandle);
   vTaskSuspend(ErrHandASTaskHandle);
   
   /* USER CODE END RTOS_THREADS */

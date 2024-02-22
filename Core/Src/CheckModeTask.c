@@ -85,8 +85,7 @@ void checkModeThread(void* argument){
                 if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
                     if(!autTaskActivated){
                         vTaskResume(ASStateHandTaskHandle);
-                        //TODO Activation of autonomous tasks
-                        //TODO set and send mission
+                        vTaskResume(ASBCheckTaskHandle);
                         autTaskActivated = 1;
                     }
                 }
