@@ -13,9 +13,8 @@
     - [ ] PedalTask
     - [X] ADCTask
     - [ ] TelemetryTask
-    - [ ] CheckModeTask
-        - [ ] Add signal to resume ErrHandASTask
-        - [ ] Add signal to resume ASBCheckTask
+    - [X] CheckModeTask
+        - [X] Add signal to resume ASBCheckTask
     - [ ] ASBCheckTask
     - [ ] ErrHandASTask
     - [ ] ASStateHandlerTask

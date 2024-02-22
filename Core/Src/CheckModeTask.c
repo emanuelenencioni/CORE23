@@ -11,9 +11,10 @@ extern ASCANBuffer AutCanBuffer;
 
 extern QueueHandle_t canTxASQueue;
 
-// For error handling if CAN goes down or input/output error
+
 extern osThreadId_t ASStateHandTaskHandle;
-uint8_t shutdownCMD = 0;
+extern osThreadId_t ASBCheckTaskHandle;
+
 
 //Can message for sending state error to the pilot23
 CANMessage msg;
@@ -30,7 +31,7 @@ enum Mode reqMode;
 void checkModeThread(void* argument){
 
     TickType_t xLastWakeTime;
-    const TickType_t xFrequency = pdMS_TO_TICKS(200); // TODO 
+    const TickType_t xFrequency = pdMS_TO_TICKS(200);
 
 
     HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, RESET);

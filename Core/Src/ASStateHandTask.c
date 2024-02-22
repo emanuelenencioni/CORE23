@@ -14,8 +14,8 @@ extern EngineCANBuffer EngCANBuffer;
 extern TIM_HandleTypeDef htim1;
 
 
-
-uint8_t checkedASB = 1; // maybe
+extern osMutexId_t ASBCheckSemHandle;
+extern uint8_t checkedASB;
 
 
 //For ASEmergency state
@@ -62,6 +62,7 @@ void ASStateHandlerThread(void* argument){
     header.RTR = 0;
     header.DLC = 1;
     msg.header = header;
+    uint8_t ASBCheckLocal = 0;
 
     xLastWakeTime = xTaskGetTickCount();
     while(1){
@@ -88,9 +89,13 @@ void ASStateHandlerThread(void* argument){
 
         //Check for anything other than CORE23 that open the SDC
         shutdownSense = HAL_GPIO_ReadPin(SHUTDOWN_SENSE_GPIO_Port, SHUTDOWN_SENSE_Pin);
-        //Check if CORE23 opened SDC
+        //TODO Check if CORE23 opened SDC
         
-        
+
+        if(xSemaphoreTake(ASBCheckSemHandle, (TickType_t) 0)){
+            ASBCheckLocal = checkedASB;
+        xSemaphoreGive(ASBCheckSemHandle);
+        }
 
         // Computing State, check FS_RULES 2024 v 1.1
         if(!shutdownSense){
@@ -107,7 +112,7 @@ void ASStateHandlerThread(void* argument){
             }
         }
         else{
-            if(mission && statusASMS  && checkedASB && rpm >= MIN_RPM_ENG_ON){
+            if(mission && statusASMS  && ASBCheckLocal && rpm >= MIN_RPM_ENG_ON){
                 if(!neutral){ //R2D -> only if TS on and gear is engaged
                     setASDriving();
                 }
