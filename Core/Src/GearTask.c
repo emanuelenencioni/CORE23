@@ -17,6 +17,7 @@ extern ADCBuffer adcReadings;
 
 uint16_t desmo1;
 uint16_t desmo2;
+uint16_t rpm;
 
 CANMessage msgGear;
 
@@ -33,12 +34,31 @@ void gearThread(void* argument) {
     uint8_t request_downshift = 0;
     uint8_t force_mode = 0;
 
+    // Settings for can message
+    header.StdId = 804; // Gear position
+    header.ExtId = 0;
+    header.IDE = 0;
+    header.RTR = 0;
+    header.DLC = 1;
+    msgGear.header = header;
+
     desmo1 = 0;
     desmo2 = 0;
 
     xLastWakeTime = xTaskGetTickCount(); // rate of execution
 
     while(1){
+
+        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+
+            desmo1 = adcReadings.desmo1;
+            desmo2 = adcReadings.desmo2;
+
+            xSemaphoreGive(ADCSemHandle);
+        }
+
+        msgGear.data[0] = desmo1; // Gear position
+        xQueueSend(canTxASQueue, &msgGear, 0); // TODO: check the queue
 
         if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
@@ -49,15 +69,13 @@ void gearThread(void* argument) {
             xSemaphoreGive(ASCanSemHandle);
         }
 
-        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+        if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
-            desmo1 = adcReadings.desmo1;
-            desmo2 = adcReadings.desmo2;
+            rpm = EngCANBuffer.RPM;
 
-            xSemaphoreGive(ADCSemHandle);
+            xSemaphoreGive(EngCanSemHandle);
         }
 
-        xQueueSend(canTxASQueue, &msgGear, 0); // TODO: check the queue
 
     }
 
@@ -67,6 +85,8 @@ void gearThread(void* argument) {
     else if(request_downshift == 1){
         downShift();
     }
+
+    vTaskDelayUntil( &xLastWakeTime, xFrequency);
     
 }
 
