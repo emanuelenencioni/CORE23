@@ -37,12 +37,14 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/ADCTask.c \
+Core/Src/ASBCheckTask.c \
 Core/Src/ASStateHandTask.c \
 Core/Src/AccTask.c \
 Core/Src/CanHandlerTask.c \
 Core/Src/CheckModeTask.c \
 Core/Src/ErrHandASTask.c \
 Core/Src/FanTask.c \
+Core/Src/GearTask.c \
 Core/Src/freertos.c \
 Core/Src/main.c \
 Core/Src/stm32f7xx_hal_msp.c \

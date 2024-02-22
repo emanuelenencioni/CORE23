@@ -147,6 +147,13 @@ const osThreadAttr_t ADCTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for accTask */
+osThreadId_t accTaskHandle;
+const osThreadAttr_t accTask_attributes = {
+  .name = "accTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* Definitions for EngCanSem */
 osMutexId_t EngCanSemHandle;
 const osMutexAttr_t EngCanSem_attributes = {
@@ -197,6 +204,7 @@ void ASBCheckThread(void *argument);
 void checkModeThread(void *argument);
 void canHandlerThread(void *argument);
 void ADCThread(void *argument);
+void accThread(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -319,6 +327,9 @@ int main(void)
 
   /* creation of ADCTask */
   ADCTaskHandle = osThreadNew(ADCThread, NULL, &ADCTask_attributes);
+
+  /* creation of accTask */
+  accTaskHandle = osThreadNew(accThread, NULL, &accTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1325,6 +1336,24 @@ __weak void ADCThread(void *argument)
     osDelay(1);
   }
   /* USER CODE END ADCThread */
+}
+
+/* USER CODE BEGIN Header_accThread */
+/**
+* @brief Function implementing the accTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_accThread */
+__weak void accThread(void *argument)
+{
+  /* USER CODE BEGIN accThread */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END accThread */
 }
 
 /**

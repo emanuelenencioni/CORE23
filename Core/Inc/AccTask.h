@@ -8,8 +8,6 @@
 #include "CanHandlerTask.h"
 #include "stdlib.h"
 
-#define APPS1 5
-#define APPS2 6
 #define MAX_DEVIATION 400 // 10% deviation
 
 #ifndef ACCTASK_H_

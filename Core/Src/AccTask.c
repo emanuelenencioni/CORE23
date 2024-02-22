@@ -1,7 +1,7 @@
 #include "AccTask.h"
 
 //adc buffer from dma
-extern uint16_t adcReadings[ADC_BUFFER_SIZE];
+extern ADCBuffer adcReadings;
 
 //CAN variables
 extern osMutexId_t ASCanSemHandle;
@@ -43,8 +43,8 @@ void accThread(void* argument) {
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 
-                apps1 = adcReadings[APPS1];
-                apps2 = adcReadings[APPS2];
+                apps1 = adcReadings.APPS1;
+                apps2 = adcReadings.APPS2;
 
                 xSemaphoreGive(ADCSemHandle);
                 
