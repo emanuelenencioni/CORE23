@@ -2,13 +2,18 @@
 
 
 //CAN variables
-extern osMutexId_t ASCanSemHandle;
-extern osMutexId_t EngCanSemHandle;
 
-extern ASCANBuffer AutCanBuffer;
+extern osMutexId_t EngCanSemHandle;
 extern EngineCANBuffer EngCANBuffer;
-extern osThreadId_t ASStateHandTaskHandle;
+
+extern osMutexId_t ASCanSemHandle;
+extern ASCANBuffer AutCanBuffer;
+
 extern QueueHandle_t canTxASQueue;
+
+// For error handling if CAN goes down or input/output error
+extern osThreadId_t ASStateHandTaskHandle;
+uint8_t shutdownCMD = 0;
 
 //Can message for sending state error to the pilot23
 CANMessage msg;

@@ -30,7 +30,8 @@ ASCANBuffer AutCanBuffer;
 
 CANMessage rxMsg, txMsg;
 
-
+//For segnaling errors
+extern osMutexId_t CanErrSemHandle;
 
 uint16_t mailSize;
 
@@ -157,6 +158,7 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 				case 262:
 					uint16_t local_CAN_WTS =  (float)(data[1] << 8 | data[0])/10;
 					uint16_t local_CAN_MTS = (data[3] << 8 | data[2])/10;
+					EngCANBuffer.WTS = local_CAN_WTS;
 					EngCANBuffer.MTS = local_CAN_MTS;
 					break;
 

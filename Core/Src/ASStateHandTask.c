@@ -52,6 +52,7 @@ void ASStateHandlerThread(void* argument){
     if(HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1) !=  HAL_OK){
         // TODO error generating PWM
     }
+    TIM1->CCR1 = 0;
     
     CAN_TxHeaderTypeDef header;
 
@@ -187,9 +188,12 @@ void setASDriving(){
 
 
 void actSiren(){
-    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, (50*COUNTER_PERIOD_PWM)/100);
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+    TIM1->CCR1 = 50;
+    
 }
 
 void deactSiren(){
-    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+    HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    TIM1->CCR1 = 0;
 }
