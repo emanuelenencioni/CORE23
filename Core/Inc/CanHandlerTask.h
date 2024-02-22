@@ -36,6 +36,7 @@ typedef struct{
 	uint8_t missionStatus;
 	uint8_t brakePressure;
 	uint64_t Heartbit;
+	uint8_t forcedGear;
 }ASCANBuffer;
 
 typedef struct {

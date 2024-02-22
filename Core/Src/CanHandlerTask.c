@@ -231,7 +231,8 @@ void ASCanRxHandler(){
 						__NOP(); //TODO: implementare messaggio
 					break;
 				case 303:
-					//OTHER:
+					if(data[0]==1 || data[0]==0)
+						AutCanBuffer.forcedGear == data[0];
 					break;
 
 				case 351:
