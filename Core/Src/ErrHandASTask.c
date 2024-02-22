@@ -1,17 +1,20 @@
 #include "ErrHandASTask.h"
 
-extern osMutexId_t ASCanSemHandle;
-extern osMutexId_t EngCanSemHandle;
 
-extern ASCANBuffer AutCanBuffer;
+//ENG CAN
+
 extern EngineCANBuffer EngCANBuffer;
-extern osThreadId_t ASStateHandTaskHandle;
-extern QueueHandle_t canTxASQueue;
+extern osMutexId_t EngCanSemHandle;
+//AS CAN
+extern ASCANBuffer AutCanBuffer;
+extern osMutexId_t ASCanSemHandle;
 
 extern osMutexId_t CanErrSemHandle;
 extern uint8_t shutdownCMD;
 
-
+//ADC buffer
+extern osMutexId_t ADCSemHandle;
+extern ADCBuffer adcReadings;
 
 errorHandlerASThread(void* argument){
     TickType_t xLastWakeTime;
@@ -49,7 +52,15 @@ errorHandlerASThread(void* argument){
             xSemaphoreGive(ASCanSemHandle);
         }
 
-        // TODO get EBS Air pressure
+    
+        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE){
+            //GetEBSAirPressure
+            if(adcReadings.EBSAir1 < 7.0 || adcReadings.EBSAir2 < 7.0){
+                HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
+            }
+            xSemaphoreGive(ADCSemHandle);
+        }
     }
     while(HAL_GPIO_ReadPin(SHUTDOWN_SENSE_GPIO_Port, SHUTDOWN_SENSE_Pin));
+    //STOP TASK
 }

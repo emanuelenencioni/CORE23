@@ -11,5 +11,22 @@
 #define ADC_BUFFER_SIZE 12
 
 
+
+
+typedef struct{
+    uint16_t desmo1;
+    uint16_t desmo2;
+    float clutchOil;
+    float GearUpAir;
+    float APPS1;
+    float APPS2;
+    float VPPMSense;
+    float BPPS;
+    float EBSAir1;
+    float EBSAir2;
+    uint16_t ADC_AUX1;
+    uint16_t ADC_AUX2;
+} ADCBuffer;
+float map(float x, float in_min, float in_max, float out_min, float out_max);
 void ADCThread(void* argument);
 #endif
