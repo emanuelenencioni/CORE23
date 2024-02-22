@@ -174,6 +174,11 @@ osMutexId_t CanErrSemHandle;
 const osMutexAttr_t CanErrSem_attributes = {
   .name = "CanErrSem"
 };
+/* Definitions for ASBCheckSem */
+osMutexId_t ASBCheckSemHandle;
+const osMutexAttr_t ASBCheckSem_attributes = {
+  .name = "ASBCheckSem"
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -271,6 +276,9 @@ int main(void)
 
   /* creation of CanErrSem */
   CanErrSemHandle = osMutexNew(&CanErrSem_attributes);
+
+  /* creation of ASBCheckSem */
+  ASBCheckSemHandle = osMutexNew(&ASBCheckSem_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
