@@ -9,6 +9,7 @@
         - [X] Check ID.
         - [ ] Spostare cutoff nel gearTask.
         - [ ] Finire handling AS.
+        - [ ] inviare nella ASCan tutti i dati per la pilot, devo capire meglio se sta cosa ha senso
     - [ ] PedalTask
     - [X] ADCTask
     - [ ] TelemetryTask
