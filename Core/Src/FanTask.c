@@ -27,6 +27,8 @@ void fansThread(void* argument) {
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Start PWM on TIM2 channel 3 Radiator Fan
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4); // Start PWM on TIM2 channel 4 Air Fan
 
+    xLastWakeTime = xTaskGetTickCount(); // rate of execution
+
     while(1){
 
         if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {

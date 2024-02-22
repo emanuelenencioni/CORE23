@@ -51,6 +51,7 @@ void accThread(void* argument) {
                 DAC->DHR12R2 = (apps1+apps2)/2; // Set DAC channel 2 value to average of APPS1 and APPS2
                 //DAC->DHR12R1: channel 1 12-bit right-aligned data holding register
                 //DHR12R2: channel 2 12-bit right-aligned data holding register
+                // Channel 1 is connected to VPPM and Channel 2 is connected to APPS
                 
                 
                 // check plausibility APPS
