@@ -79,7 +79,7 @@ void ASStateHandlerThread(void* argument){
             // ReadASData
             missionStatus = AutCanBuffer.missionStatus;
             mission = AutCanBuffer.selectedMission;
-            brakePressure = AutCanBuffer.brakePressure;
+            brakePressure = AutCanBuffer.brakePressureFront;
 			xSemaphoreGive(ASCanSemHandle);
 		}
 
