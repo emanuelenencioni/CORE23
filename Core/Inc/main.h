@@ -113,8 +113,8 @@ void Error_Handler(void);
 #define ASMS_STATUS_GPIO_Port GPIOE
 #define BRAKE_LIGHT_Pin GPIO_PIN_11
 #define BRAKE_LIGHT_GPIO_Port GPIOE
-#define PWM_AUX_Pin GPIO_PIN_13
-#define PWM_AUX_GPIO_Port GPIOE
+#define QM_TRIGGER_Pin GPIO_PIN_13
+#define QM_TRIGGER_GPIO_Port GPIOE
 #define SHUTDOWN_CMD_Pin GPIO_PIN_14
 #define SHUTDOWN_CMD_GPIO_Port GPIOE
 #define RADIATOR_Pin GPIO_PIN_10

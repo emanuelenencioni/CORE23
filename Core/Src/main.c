@@ -792,11 +792,6 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  sConfigOC.Pulse = 0;
-  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -1009,7 +1004,7 @@ static void MX_GPIO_Init(void)
                           |ASSI_LED_B_Pin|ASSI_LED_Y_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, BRAKE_LIGHT_Pin|SHUTDOWN_CMD_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, BRAKE_LIGHT_Pin|QM_TRIGGER_Pin|SHUTDOWN_CMD_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, MOT_SEL0_Pin|MOT_INA_Pin|LED_B_Pin|LED_R_Pin, GPIO_PIN_RESET);
@@ -1049,8 +1044,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(RES_IN1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BRAKE_LIGHT_Pin SHUTDOWN_CMD_Pin */
-  GPIO_InitStruct.Pin = BRAKE_LIGHT_Pin|SHUTDOWN_CMD_Pin;
+  /*Configure GPIO pins : BRAKE_LIGHT_Pin QM_TRIGGER_Pin SHUTDOWN_CMD_Pin */
+  GPIO_InitStruct.Pin = BRAKE_LIGHT_Pin|QM_TRIGGER_Pin|SHUTDOWN_CMD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

@@ -34,9 +34,11 @@ typedef struct{
 	uint8_t reqMode;
 	uint8_t selectedMission;
 	uint8_t missionStatus;
-	uint8_t brakePressure;
+	uint8_t brakePressureFront;
+	uint8_t brakePressureBack;
 	uint64_t Heartbit;
 	uint8_t forcedGear;
+	uint8_t clutchPosition;
 }ASCANBuffer;
 
 typedef struct {

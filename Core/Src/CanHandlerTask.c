@@ -39,6 +39,9 @@ uint8_t canInitialized = 0;
 uint8_t counter;
 
 
+// For error handling if CAN goes down or input/output error
+uint8_t shutdownCMD = 0;
+
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
@@ -185,8 +188,11 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 void engineCanTxHandler(){
 	if(uxQueueMessagesWaiting(canTxEngQueue) > 0) {
 		while(xQueueReceive(canTxEngQueue, &txMsg, 0) == pdTRUE) {// TODO capire criticità del while
-			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK) {
-				// TODO Gestisci errore di trasmissione
+			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) == HAL_ERROR) {
+				if(xSemaphoreTake(CanErrSemHandle, (TickType_t) 0)){
+						//TODO add check in ErrorHandManTask
+					xSemaphoreGive(CanErrSemHandle);
+				}
 			}
 		}
 	}
@@ -198,15 +204,16 @@ void ASCanRxHandler(){
 			uint8_t* data = rxMsg.data;
 			switch (id){
 				case 101:
-					AutCanBuffer.brakePressure = data[0];
+					AutCanBuffer.brakePressureFront = data[0];
+					AutCanBuffer.brakePressureBack = data[1];
 					break;
 				case 290:
 					AutCanBuffer.reqMode = data[0];
 					AutCanBuffer.selectedMission = data[1];
 
 					break;
-				case 300: // 0x0300
-					// TODO request_clutchFollow(data[1] << 8 | data[0]);
+				case 300: // 
+					AutCanBuffer.clutchPosition;
 					break;
 				case 301:
 					//PADDLES:
@@ -246,8 +253,10 @@ void ASCanTxHandler(){
 	if(uxQueueMessagesWaiting(canTxASQueue) > 0) {
 		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE) {// TODO capire criticità del while
 			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK){
-			
-				// TODO Gestisci errore di trasmissione
+				if(xSemaphoreTake(CanErrSemHandle, (TickType_t) 0)){
+						//TODO add check in ErrorHandManTask
+					xSemaphoreGive(CanErrSemHandle);
+				}
 			}
 		}
 	}
