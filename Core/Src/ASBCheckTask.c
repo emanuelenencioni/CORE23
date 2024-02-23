@@ -35,7 +35,7 @@ void ASBCheckThread(void* argument) {
     header.ExtId = 0;
     header.IDE = 0;
     header.RTR = 0;
-    header.DLC = 1;
+    header.DLC = 2;
     msg.header = header;
     msg.data[0] = 14;
 
@@ -93,7 +93,7 @@ void ASBCheckThread(void* argument) {
 
     if(!(BrakePressureFront > 10 && BrakePressureBack > 10 && BrakePressureFront < 40  && BrakePressureBack < 40)){ // TODO find EBS pressure
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
-        msg.data[1] = 0;
+        msg.data[1] = 1;
         xQueueSend(canTxASQueue, &msg, 0);
         vTaskSuspend(NULL);
     }
@@ -111,7 +111,7 @@ void ASBCheckThread(void* argument) {
 
     if(EBSAir1 < 7.0 || EBSAir2 < 7.0){
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
-        msg.data[1] = 0;
+        msg.data[1] = 2;
         xQueueSend(canTxASQueue, &msg, 0);
         vTaskSuspend(NULL);
     }
