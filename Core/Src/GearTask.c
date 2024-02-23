@@ -18,6 +18,8 @@ extern ADCBuffer adcReadings;
 uint16_t desmo1;
 uint16_t desmo2;
 uint16_t rpm;
+uint16_t clutchRequest;
+uint16_t VPPMSense;
 
 CANMessage msgGear;
 
@@ -30,8 +32,8 @@ void gearThread(void* argument) {
 	const TickType_t xFrequency = 10;
 
     // Gear task function
-    uint8_t request_upshift = 0;
-    uint8_t request_downshift = 0;
+    uint8_t reqDownShift = 0;
+    uint8_t reqUpShift = 0;
     uint8_t force_mode = 0;
 
     // Settings for can message
@@ -53,6 +55,7 @@ void gearThread(void* argument) {
 
             desmo1 = adcReadings.desmo1;
             desmo2 = adcReadings.desmo2;
+            VPPMSense = adcReadings.VPPMSense;
 
             xSemaphoreGive(ADCSemHandle);
         }
@@ -62,9 +65,9 @@ void gearThread(void* argument) {
 
         if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
-            request_downshift = AutCanBuffer.reqDownShift;
-            request_upshift = AutCanBuffer.reqUpShift;
-            force_mode = AutCanBuffer.reqDownShift;
+            reqDownShift = AutCanBuffer.reqDownShift;
+            reqUpShift = AutCanBuffer.reqUpShift;
+            clutchRequest = AutCanBuffer.clutchRequest;
 
             xSemaphoreGive(ASCanSemHandle);
         }
@@ -79,18 +82,28 @@ void gearThread(void* argument) {
 
     }
 
-    if(request_upshift == 1){
-        upShift();
+    if(reqUpShift == 1){
+        if(rpm > RPM_THRESHOLD){
+            upShiftCutOff();
+        }
+        else{
+            upShift();
+        }
     }
-    else if(request_downshift == 1){
-        downShift();
+    else if(reqDownShift == 1){
+        if(rpm > RPM_THRESHOLD){
+            downShiftCutOff();
+        }
+        else{
+            downShift();
+        }
     }
 
     vTaskDelayUntil( &xLastWakeTime, xFrequency);
     
 }
 
-void upShift() {
+void upShiftCutOff() {
     // Gear upshift with cut-off
     HAL_GPIO_WritePin(CUTOFF_GPIO_Port, CUTOFF_Pin, GPIO_PIN_SET);
     vTaskDelay(CUTOFF_TIME); // Cut-off Duration
@@ -100,12 +113,26 @@ void upShift() {
     HAL_GPIO_WritePin(VUVG_UP_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_RESET);
 }
 
-void downShift() {
+void downShiftCutOff() {
     // Gear downshift with cut-off
     HAL_GPIO_WritePin(CUTOFF_GPIO_Port, CUTOFF_Pin, GPIO_PIN_SET);
     vTaskDelay(CUTOFF_TIME); // Cut-off Duration
     HAL_GPIO_WritePin(VUVG_DOWN_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(CUTOFF_GPIO_Port, CUTOFF_Pin, GPIO_PIN_RESET);
+    vTaskDelay(SHIFT_HOLD); // Upshift Duration
+    HAL_GPIO_WritePin(VUVG_DOWN_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_RESET);
+}
+
+void upShift() {
+    // Gear upshift without cut-off
+    HAL_GPIO_WritePin(VUVG_UP_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_SET);
+    vTaskDelay(SHIFT_HOLD); // Upshift Duration
+    HAL_GPIO_WritePin(VUVG_UP_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_RESET);
+}
+
+void downShift() {
+    // Gear downshift without cut-off
+    HAL_GPIO_WritePin(VUVG_DOWN_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_SET);
     vTaskDelay(SHIFT_HOLD); // Upshift Duration
     HAL_GPIO_WritePin(VUVG_DOWN_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_RESET);
 }
