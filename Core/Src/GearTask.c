@@ -65,8 +65,8 @@ void gearThread(void* argument) {
 
         if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
-            reqDownShift = AutCanBuffer.reqDownShift;
-            reqUpShift = AutCanBuffer.reqUpShift;
+            reqDownShift = AutCanBuffer.reqDownShift--;
+            reqUpShift = AutCanBuffer.reqUpShift--;
             clutchRequest = AutCanBuffer.clutchRequest;
 
             xSemaphoreGive(ASCanSemHandle);
