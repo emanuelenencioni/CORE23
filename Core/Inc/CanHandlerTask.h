@@ -38,7 +38,7 @@ typedef struct{
 	uint8_t brakePressureBack;
 	uint64_t Heartbit;
 	uint8_t forcedGear;
-	uint8_t clutchPosition;
+	uint8_t clutchRequest;
 }ASCANBuffer;
 
 typedef struct {
