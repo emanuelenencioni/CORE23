@@ -45,6 +45,7 @@ Core/Src/CheckModeTask.c \
 Core/Src/ErrHandASTask.c \
 Core/Src/FanTask.c \
 Core/Src/GearTask.c \
+Core/Src/TelemetryTask.c \
 Core/Src/freertos.c \
 Core/Src/main.c \
 Core/Src/stm32f7xx_hal_msp.c \
