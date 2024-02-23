@@ -19,7 +19,7 @@ uint16_t desmo1;
 uint16_t desmo2;
 uint16_t rpm;
 uint16_t clutchRequest;
-uint16_t VPPMSense;
+float VPPMSense;
 
 CANMessage msgGear;
 
@@ -60,7 +60,8 @@ void gearThread(void* argument) {
             xSemaphoreGive(ADCSemHandle);
         }
 
-        msgGear.data[0] = desmo1; // Gear position
+        msgGear.data[0] = (uint8_t)(desmo1 >> 8); // Byte più significativo di desmo1
+        msgGear.data[1] = (uint8_t)desmo1; // Byte meno significativo di desmo1
         xQueueSend(canTxASQueue, &msgGear, 0); // TODO: check the queue
 
         if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
