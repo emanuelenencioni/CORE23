@@ -80,6 +80,7 @@ void gearThread(void* argument) {
         }
     
         if(reqUpShift == 1){
+            reqDownShift = 0;
             if(rpm > RPM_THRESHOLD){
                 upShiftCutOff();
             }
@@ -88,6 +89,7 @@ void gearThread(void* argument) {
             }
         }
         else if(reqDownShift == 1){
+            reqDownShift = 0;
             if(rpm > RPM_THRESHOLD){
                 downShiftCutOff();
             }

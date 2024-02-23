@@ -213,7 +213,7 @@ void ASCanRxHandler(){
 
 					break;
 				case 300: // 
-					AutCanBuffer.clutchPosition;
+					AutCanBuffer.clutchRequest = data[0];
 					break;
 				case 301:
 					//PADDLES:
