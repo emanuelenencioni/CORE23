@@ -78,29 +78,26 @@ void gearThread(void* argument) {
 
             xSemaphoreGive(EngCanSemHandle);
         }
-
-
-    }
-
-    if(reqUpShift == 1){
-        if(rpm > RPM_THRESHOLD){
-            upShiftCutOff();
-        }
-        else{
-            upShift();
-        }
-    }
-    else if(reqDownShift == 1){
-        if(rpm > RPM_THRESHOLD){
-            downShiftCutOff();
-        }
-        else{
-            downShift();
-        }
-    }
-
-    vTaskDelayUntil( &xLastWakeTime, xFrequency);
     
+        if(reqUpShift == 1){
+            if(rpm > RPM_THRESHOLD){
+                upShiftCutOff();
+            }
+            else{
+                upShift();
+            }
+        }
+        else if(reqDownShift == 1){
+            if(rpm > RPM_THRESHOLD){
+                downShiftCutOff();
+            }
+            else{
+                downShift();
+            }
+        }
+
+        vTaskDelayUntil( &xLastWakeTime, xFrequency);
+    }
 }
 
 void upShiftCutOff() {
