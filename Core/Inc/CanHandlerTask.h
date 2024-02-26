@@ -16,7 +16,6 @@
 
 typedef struct{
 	uint16_t	Lambda;
-	float		CutoffV;
 	float		MAP;
 	uint8_t		ATS;
 	uint16_t	RPM;
@@ -43,6 +42,7 @@ typedef struct{
 	uint64_t Heartbit;
 	uint8_t forcedGear;
 	uint8_t clutchRequest;
+	uint8_t reqAcceleration;
 
 }ASCANBuffer;
 
