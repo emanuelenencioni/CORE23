@@ -45,6 +45,18 @@ void telemetryThread(void* argument) {
     uint16_t ADC_AUX1 = 0;
     uint16_t ADC_AUX2 = 0;
 
+    // AS CAN Variables
+    uint8_t reqUpShift = 0;
+    uint8_t reqDownShift = 0;
+    uint8_t reqMode = 0;
+    uint8_t selectedMission = 0;
+    uint8_t missionStatus = 0;
+    uint8_t brakePressureFront = 0;
+    uint8_t brakePressureBack = 0;
+    uint64_t Heartbit = 0;
+    uint8_t forcedGear = 0;
+    uint8_t clutchRequest = 0;
+    uint8_t reqAcceleration = 0;
 
     xLastWakeTime = xTaskGetTickCount(); // rate of execution
 
@@ -67,6 +79,24 @@ void telemetryThread(void* argument) {
             ADC_AUX2 = adcReadings.ADC_AUX2;
 
             xSemaphoreGive(ADCSemHandle);
+        }
+
+        // Let's get the AS CAN values
+        if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
+
+            reqUpShift = AutCanBuffer.reqUpShift;
+            reqDownShift = AutCanBuffer.reqDownShift;
+            reqMode = AutCanBuffer.reqMode;
+            selectedMission = AutCanBuffer.selectedMission;
+            missionStatus = AutCanBuffer.missionStatus;
+            brakePressureFront = AutCanBuffer.brakePressureFront;
+            brakePressureBack = AutCanBuffer.brakePressureBack;
+            Heartbit = AutCanBuffer.Heartbit;
+            forcedGear = AutCanBuffer.forcedGear;
+            clutchRequest = AutCanBuffer.clutchRequest;
+            reqAcceleration = AutCanBuffer.reqAcceleration;
+
+            xSemaphoreGive(ASCanSemHandle);
         }
 
 
