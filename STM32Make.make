@@ -37,6 +37,7 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/ADCTask.c \
+Core/Src/ASAccTask.c \
 Core/Src/ASBCheckTask.c \
 Core/Src/ASStateHandTask.c \
 Core/Src/AccTask.c \
