@@ -16,14 +16,14 @@
 typedef struct{
     uint16_t desmo1;
     uint16_t desmo2;
-    float clutchOil;
-    float GearUpAir;
-    float APPS1;
-    float APPS2;
-    float VPPMSense;
-    float BPS;
-    float EBSAir1;
-    float EBSAir2;
+    uint16_t clutchOil;
+    uint16_t GearUpAir;
+    uint16_t APPS1;
+    uint16_t APPS2;
+    uint16_t VPPMSense;
+    uint16_t BPS;
+    uint16_t EBSAir1;
+    uint16_t EBSAir2;
     uint16_t ADC_AUX1;
     uint16_t ADC_AUX2;
 } ADCBuffer;

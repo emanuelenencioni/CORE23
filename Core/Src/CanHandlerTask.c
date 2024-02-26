@@ -190,7 +190,6 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 					EngCANBuffer.speedFrontR = (data[3] << 8 | data[2]);
 					EngCANBuffer.speedBackL = (data[5] << 8 | data[4]);
 					EngCANBuffer.speedBackR = (data[7] << 8 | data[6]);
-					canTxASQueue()
 					break;
 
 			}
