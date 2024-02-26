@@ -31,6 +31,8 @@ void telemetryThread(void* argument) {
     header.DLC = 8;
     msg.header = header;
 
+    uint8_t autonomousMode = 0;
+
     // ADC Variables
     uint16_t desmo1 = 0;
     uint16_t desmo2 = 0;
@@ -81,23 +83,28 @@ void telemetryThread(void* argument) {
             xSemaphoreGive(ADCSemHandle);
         }
 
-        // Let's get the AS CAN values
-        if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
+        if(autonomousMode == 1) {
+            
+            // Let's get the AS CAN values
+            if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
-            reqUpShift = AutCanBuffer.reqUpShift;
-            reqDownShift = AutCanBuffer.reqDownShift;
-            reqMode = AutCanBuffer.reqMode;
-            selectedMission = AutCanBuffer.selectedMission;
-            missionStatus = AutCanBuffer.missionStatus;
-            brakePressureFront = AutCanBuffer.brakePressureFront;
-            brakePressureBack = AutCanBuffer.brakePressureBack;
-            Heartbit = AutCanBuffer.Heartbit;
-            forcedGear = AutCanBuffer.forcedGear;
-            clutchRequest = AutCanBuffer.clutchRequest;
-            reqAcceleration = AutCanBuffer.reqAcceleration;
+                reqUpShift = AutCanBuffer.reqUpShift;
+                reqDownShift = AutCanBuffer.reqDownShift;
+                reqMode = AutCanBuffer.reqMode;
+                selectedMission = AutCanBuffer.selectedMission;
+                missionStatus = AutCanBuffer.missionStatus;
+                brakePressureFront = AutCanBuffer.brakePressureFront;
+                brakePressureBack = AutCanBuffer.brakePressureBack;
+                Heartbit = AutCanBuffer.Heartbit;
+                forcedGear = AutCanBuffer.forcedGear;
+                clutchRequest = AutCanBuffer.clutchRequest;
+                reqAcceleration = AutCanBuffer.reqAcceleration;
 
-            xSemaphoreGive(ASCanSemHandle);
+                xSemaphoreGive(ASCanSemHandle);
+            }
         }
+
+
 
 
         // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 //////////////////////////////////////////
