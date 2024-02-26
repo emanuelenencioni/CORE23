@@ -41,34 +41,31 @@ void pedalThread(void* argument) {
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
         /* Infinite loop */
 
-            if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
-                
-                apps1 = adcReadings.APPS1;
-                apps2 = adcReadings.APPS2;
+        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+            //ReadApps
+            apps1 = adcReadings.APPS1;
+            apps2 = adcReadings.APPS2;
 
-                xSemaphoreGive(ADCSemHandle);
-                
-                DAC->DHR12R2 = (apps1+apps2)/2; // Set DAC channel 2 value to average of APPS1 and APPS2
-                //DAC->DHR12R1: channel 1 12-bit right-aligned data holding register
-                //DHR12R2: channel 2 12-bit right-aligned data holding register
-                // Channel 1 is connected to VPPM and Channel 2 is connected to APPS
-                
-                
-                // check plausibility APPS
-                if (abs(apps1 - apps2) > MAX_DEVIATION) {
-                    timer++;
-                    if (timer > 10) { // 100ms implausibility
-                        HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, GPIO_PIN_RESET); // Shutdown OFF
-                        msgAcc.data[0] = 13; // Error code
-                        xQueueSend(canTxASQueue, &msgAcc, 0); // Send error message
-                    }
-                }
-                else {
-                    timer = 0;
-                }
-
-                //do something with adcReadings
-                
+            xSemaphoreGive(ADCSemHandle);
+        }
+        //SendData
+        DAC->DHR12R2 = (apps1+apps2)/2; // Set DAC channel 2 value to average of APPS1 and APPS2
+        //DAC->DHR12R1: channel 1 12-bit right-aligned data holding register
+        //DHR12R2: channel 2 12-bit right-aligned data holding register
+        // Channel 1 is connected to VPPM and Channel 2 is connected to APPS
+        
+        
+        //CheckPlausibility
+        if (abs(apps1 - apps2) > MAX_DEVIATION) {
+            timer++;
+            if (timer > 10) { // 100ms implausibility
+                HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, GPIO_PIN_RESET); // Shutdown OFF
+                msgAcc.data[0] = 13; // Error code
+                xQueueSend(canTxASQueue, &msgAcc, 0); // Send error message
+            }
+        }
+        else {
+            timer = 0;
         }
     }
 }

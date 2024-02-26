@@ -43,6 +43,7 @@ void gearThread(void* argument) {
     header.RTR = 0;
     header.DLC = 1;
     msgGear.header = header;
+    uint8_t actualGear = 0;
 
     desmo1 = 0;
     desmo2 = 0;
@@ -50,8 +51,8 @@ void gearThread(void* argument) {
     xLastWakeTime = xTaskGetTickCount(); // rate of execution
 
     while(1){
-
-        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+        
+        if(xSemaphoreTake(ADCSemHandle, portMAX_DELAY) == pdTRUE) {
 
             desmo1 = adcReadings.desmo1;
             desmo2 = adcReadings.desmo2;
@@ -59,13 +60,15 @@ void gearThread(void* argument) {
 
             xSemaphoreGive(ADCSemHandle);
         }
-
-        msgGear.data[0] = (uint8_t)(desmo1 >> 8); // Byte più significativo di desmo1
-        msgGear.data[1] = (uint8_t)desmo1; // Byte meno significativo di desmo1
+        //GetCurrentGear
+        actualGear = getCurrentGear();
+        msgGear.data[0] = actualGear; // Byte più significativo di desmo1
         xQueueSend(canTxASQueue, &msgGear, 0); // TODO: check the queue
 
-        if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
 
+
+        if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
+            //ReadRequestedShift
             reqDownShift = AutCanBuffer.reqDownShift--;
             reqUpShift = AutCanBuffer.reqUpShift--;
             clutchRequest = AutCanBuffer.clutchRequest;
@@ -73,14 +76,13 @@ void gearThread(void* argument) {
             xSemaphoreGive(ASCanSemHandle);
         }
 
-        if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
-
+        if(xSemaphoreTake(EngCanSemHandle, portMAX_DELAY) == pdTRUE) {
+            //ReadRPM
             rpm = EngCANBuffer.RPM;
-
             xSemaphoreGive(EngCanSemHandle);
         }
     
-        // Gear control
+        //ActuateGear
         if(reqUpShift == 1){
             reqDownShift = 0;
             if(rpm > RPM_THRESHOLD){
@@ -99,8 +101,6 @@ void gearThread(void* argument) {
                 downShift();
             }
         }
-
-        // Clutch control
         DAC->DHR12R1 = clutchRequest; //channel 1 12-bit right-aligned data holding register
 
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
@@ -141,7 +141,7 @@ void downShift() {
     HAL_GPIO_WritePin(VUVG_DOWN_GPIO_Port, VUVG_UP_Pin, GPIO_PIN_RESET);
 }
 
-uint8_t gear_getCurrent(){
+uint8_t getCurrentGear(){
 	//find minimum error to guess the current gear
 	uint16_t error = 4095;
 	uint8_t  guessed_gear;

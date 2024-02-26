@@ -19,7 +19,8 @@
     - [X] ErrHandASTask
     - [X] ASStateHandlerTask
         -[X] Finire PWM
-    - [ ] GearTask
+    - [ ] GearTask -> solo manuale
         - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
     - [ ] AccASTask
         - [ ] Aggiungere velocità a CanHandler
+    - [ ] AutoGearTask

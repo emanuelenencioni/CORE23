@@ -23,5 +23,5 @@ void upShift();
 void downShift();
 void upShiftCutOff();
 void downShiftCutOff();
-uint8_t gear_getCurrent();
+uint8_t getCurrentGear();
 #endif
