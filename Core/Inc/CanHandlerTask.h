@@ -15,17 +15,21 @@
 
 
 typedef struct{
-uint16_t	Lambda;
-float		CutoffV;
-float		MAP;
-uint8_t		ATS;
-uint16_t	RPM;
-uint16_t	TPS;
-float		FPS;
-float		OPS;
-float 		IGN;
-float 		WTS;
-float 		VCC;
+	uint16_t	Lambda;
+	float		CutoffV;
+	float		MAP;
+	uint8_t		ATS;
+	uint16_t	RPM;
+	uint16_t	TPS;
+	float		FPS;
+	float		OPS;
+	float 		IGN;
+	float 		WTS;
+	float 		VCC;
+	uint16_t speedFrontL;
+	uint16_t speedFrontR;
+	uint16_t speedBackL;
+	uint16_t speedBackR;
 } EngineCANBuffer;
 
 typedef struct{
@@ -39,6 +43,7 @@ typedef struct{
 	uint64_t Heartbit;
 	uint8_t forcedGear;
 	uint8_t clutchRequest;
+
 }ASCANBuffer;
 
 typedef struct {

@@ -77,8 +77,8 @@ void canHandlerThread(void *argument){
 }
 
 
-// TODO check new ids
 void initEngineCAN(){
+	//TODO update the filters to new ids
 	canTxEngQueue = xQueueCreate(10, sizeof(CANMessage));
 	// Lambda + CutOffV (259)
     addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0103 << 5, 0);
@@ -94,6 +94,11 @@ void initEngineCAN(){
 
 	// RPM + TPS (266)
 	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x010A << 5, 0);
+	
+	//UPDATED FILTERS
+	
+	// Speed all 4 tyres, (513)
+	addFilterCAN(&CANFilterEngine, &hcan1, counter++, 0x0209 << 5, 0);
 
 	// // Start CAN
 	HAL_CAN_Start(&hcan1);
@@ -180,6 +185,14 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 
 					EngCANBuffer.IGN = (data[3] << 8 | data[2])/16.f;
 					break;
+				case 521: //Speed big endian o little endian?
+					EngCANBuffer.speedFrontL = (data[1] << 8 | data[0]);
+					EngCANBuffer.speedFrontR = (data[3] << 8 | data[2]);
+					EngCANBuffer.speedBackL = (data[5] << 8 | data[4]);
+					EngCANBuffer.speedBackR = (data[7] << 8 | data[6]);
+					canTxASQueue()
+					break;
+
 			}
 		}
 }
