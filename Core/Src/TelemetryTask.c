@@ -45,17 +45,6 @@ void telemetryThread(void* argument) {
     uint16_t ADC_AUX1 = 0;
     uint16_t ADC_AUX2 = 0;
 
-    // Engine CAN Variables
-    uint16_t	Lambda = 0;
-    uint32_t	MAP = 0;
-    uint8_t		ATS = 0;
-    uint16_t	RPM = 0;
-    uint16_t	TPS = 0;
-    uint32_t	FPS = 0;
-    uint32_t	OPS = 0;
-    uint32_t	IGN = 0;
-    uint32_t	WTS = 0;
-    uint32_t	VCC = 0;
 
     xLastWakeTime = xTaskGetTickCount(); // rate of execution
 
@@ -80,22 +69,6 @@ void telemetryThread(void* argument) {
             xSemaphoreGive(ADCSemHandle);
         }
 
-        // Let's get the Engine CAN values
-        if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
-
-            Lambda = EngCANBuffer.Lambda;
-            MAP = EngCANBuffer.MAP;
-            ATS = EngCANBuffer.ATS;
-            RPM = EngCANBuffer.RPM;
-            TPS = EngCANBuffer.TPS;
-            FPS = EngCANBuffer.FPS;
-            OPS = EngCANBuffer.OPS;
-            IGN = EngCANBuffer.IGN;
-            WTS = EngCANBuffer.WTS;
-            VCC = EngCANBuffer.VCC;
-
-            xSemaphoreGive(EngCanSemHandle);
-        }
 
         // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 //////////////////////////////////////////
         sendCANInt16(&msg, desmo1, desmo2, APPS1, APPS2, 450, 0, 0, 0, 8);
