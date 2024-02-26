@@ -154,7 +154,7 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 			switch (id){
 				case 259:
 					EngCANBuffer.Lambda = (data[1] << 8 | data[0])/1000;
-					EngCANBuffer.CutoffV = (data[3] << 8 | data[2])/816.f;
+					//EngCANBuffer.CutoffV = (data[3] << 8 | data[2])/816.f;
 					break;
 
 				case 261:
@@ -190,7 +190,7 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 					EngCANBuffer.speedFrontR = (data[3] << 8 | data[2]);
 					EngCANBuffer.speedBackL = (data[5] << 8 | data[4]);
 					EngCANBuffer.speedBackR = (data[7] << 8 | data[6]);
-					canTxASQueue()
+					// TODO send the msg in the other can, study for the use of canTxASQueue() or directly HAL
 					break;
 
 			}
