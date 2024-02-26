@@ -80,6 +80,7 @@ void gearThread(void* argument) {
             xSemaphoreGive(EngCanSemHandle);
         }
     
+        // Gear control
         if(reqUpShift == 1){
             reqDownShift = 0;
             if(rpm > RPM_THRESHOLD){
@@ -98,6 +99,9 @@ void gearThread(void* argument) {
                 downShift();
             }
         }
+
+        // Clutch control
+        DAC->DHR12R1 = clutchRequest; //channel 1 12-bit right-aligned data holding register
 
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
     }
