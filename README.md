@@ -23,4 +23,3 @@
         - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
     - [ ] AccASTask
         - [ ] Aggiungere velocità a CanHandler
-    - [ ] AutoGearTask
