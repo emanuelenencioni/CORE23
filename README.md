@@ -15,9 +15,11 @@
     - [ ] TelemetryTask
     - [X] CheckModeTask
         - [X] Add signal to resume ASBCheckTask
-    - [ ] ASBCheckTask
-    - [ ] ErrHandASTask
-    - [ ] ASStateHandlerTask
-        -[ ] Finire PWM
+    - [X] ASBCheckTask
+    - [X] ErrHandASTask
+    - [X] ASStateHandlerTask
+        -[X] Finire PWM
     - [ ] GearTask
         - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
+    - [ ] AccASTask
+        - [ ] Aggiungere velocità a CanHandler

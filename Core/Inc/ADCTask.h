@@ -21,7 +21,7 @@ typedef struct{
     float APPS1;
     float APPS2;
     float VPPMSense;
-    float BPPS;
+    float BPS;
     float EBSAir1;
     float EBSAir2;
     uint16_t ADC_AUX1;
