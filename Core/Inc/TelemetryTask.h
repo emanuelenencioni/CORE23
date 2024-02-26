@@ -12,5 +12,7 @@
 #define TELEMETRYTASK_H_
 
 void telemetryThread(void* argument);
-void sendCANMessage(CANMessage* msg, uint16_t data, uint16_t stdId = 0, uint32_t extId = 0, uint8_t ide = 0, uint8_t rtr = 0, uint8_t dlc = 0);
+void sendCANInt32(CANMessage* msg, uint32_t data, uint16_t stdId, uint32_t extId, uint8_t ide, uint8_t rtr, uint8_t dlc);
+void sendCANInt16(CANMessage* msg, uint16_t data, uint16_t stdId, uint32_t extId, uint8_t ide, uint8_t rtr, uint8_t dlc);
+void sendCANFloat(CANMessage* msg, float data, uint16_t stdId, uint32_t extId, uint8_t ide, uint8_t rtr, uint8_t dlc);
 #endif
