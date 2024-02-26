@@ -40,12 +40,12 @@ Core/Src/ADCTask.c \
 Core/Src/ASAccTask.c \
 Core/Src/ASBCheckTask.c \
 Core/Src/ASStateHandTask.c \
-Core/Src/AccTask.c \
 Core/Src/CanHandlerTask.c \
 Core/Src/CheckModeTask.c \
 Core/Src/ErrHandASTask.c \
 Core/Src/FanTask.c \
 Core/Src/GearTask.c \
+Core/Src/PedalTask.c \
 Core/Src/TelemetryTask.c \
 Core/Src/freertos.c \
 Core/Src/main.c \

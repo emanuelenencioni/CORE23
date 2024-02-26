@@ -1,4 +1,4 @@
-#include "AccTask.h"
+#include "PedalTask.h"
 
 //adc buffer from dma
 extern ADCBuffer adcReadings;
@@ -19,7 +19,7 @@ extern osMutexId_t ADCSemHandle;
 CANMessage msgAcc;
 
 // Acc task function
-void accThread(void* argument) {
+void pedalThread(void* argument) {
     CAN_TxHeaderTypeDef header;
     TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 100;

@@ -13,5 +13,5 @@
 #ifndef ACCTASK_H_
 #define ACCTASK_H_
 
-void accThread(void* argument);
+void pedalThread(void* argument);
 #endif
