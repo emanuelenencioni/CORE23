@@ -21,7 +21,7 @@ void telemetryThread(void* argument) {
     CANMessage msg;
 
     TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 10;
+	const TickType_t xFrequency = pdMS_TO_TICKS(100);
 
     // Settings for can message
     header.StdId = 450;
@@ -105,6 +105,9 @@ void telemetryThread(void* argument) {
 
         // INVIO EBS AIR1 E EBS AIR2, ADC AUX1 E ADC AUX2 //////////////////////////////////////////
         sendCANInt16(&msg, EBSAir1, EBSAir2, ADC_AUX1, ADC_AUX2, 452, 0, 0, 0, 8);
+
+        //TODO send to LoRa
+        __NOP();
 
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
     }
