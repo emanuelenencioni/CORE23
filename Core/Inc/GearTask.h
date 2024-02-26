@@ -6,7 +6,7 @@
 #include "queue.h"
 #include "CanHandlerTask.h"
 #include "ADCTask.h"
-//#include "stdlib.h"
+#include "stdlib.h"
 
 #ifndef GEARTASK_H_
 #define GEARTASK_H_

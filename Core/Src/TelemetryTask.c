@@ -97,59 +97,33 @@ void telemetryThread(void* argument) {
             xSemaphoreGive(EngCanSemHandle);
         }
 
-        //INVIO DESMO 1 E DESMO2, APPS1 E APPS2 //////////////////////////////////////////
-        header.StdId = 450; // Gear position
-        //header.DLC = 8;
-        msg.header = header;
+        // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 //////////////////////////////////////////
+        sendCANInt16(&msg, desmo1, desmo2, APPS1, APPS2, 450, 0, 0, 0, 8);
 
-        msg.data[0] = (uint8_t)(desmo1 >> 8); // Byte più significativo di desmo1
-        msg.data[1] = (uint8_t)desmo1; // Byte meno significativo di desmo1
-        msg.data[2] = (uint8_t)(desmo2 >> 8); // Byte più significativo di desmo2
-        msg.data[3] = (uint8_t)desmo2; // Byte meno significativo di desmo2
-        msg.data[4] = (uint8_t)(APPS1 >> 8); // Byte più significativo di APPS1
-        msg.data[5] = (uint8_t)APPS1; // Byte meno significativo di APPS1
-        msg.data[6] = (uint8_t)(APPS2 >> 8); // Byte più significativo di APPS2
-        msg.data[7] = (uint8_t)APPS2; // Byte meno significativo di APPS2
+        // INVIO CLUTCH OIL E GEAR UP AIR, VPPM SENSE E BPS //////////////////////////////////////////
+        sendCANInt16(&msg, clutchOil, GearUpAir, VPPMSense, BPS, 451, 0, 0, 0, 8);
 
-        xQueueSend(canTxASQueue, &msg, 0);
-        /////////////////////////////////////////////////////////////////////////
-
-        //INVIO CLUTCH OIL E GEAR UP AIR, VPPM SENSE E BPS //////////////////////////////////////////
-        header.StdId = 451; // Gear position
-        //header.DLC = 8;
-        msg.header = header;
-
-        msg.data[0] = (uint8_t)(clutchOil >> 8); // Byte più significativo di clutchOil
-        msg.data[1] = (uint8_t)clutchOil; // Byte meno significativo di clutchOil
-        msg.data[2] = (uint8_t)(GearUpAir >> 8); // Byte più significativo di GearUpAir
-        msg.data[3] = (uint8_t)GearUpAir; // Byte meno significativo di GearUpAir
-        msg.data[4] = (uint8_t)(VPPMSense >> 8); // Byte più significativo di VPPMSense
-        msg.data[5] = (uint8_t)VPPMSense; // Byte meno significativo di VPPMSense
-        msg.data[6] = (uint8_t)(BPS >> 8); // Byte più significativo di BPS
-        msg.data[7] = (uint8_t)BPS; // Byte meno significativo di BPS
-
-
-        xQueueSend(canTxASQueue, &msg, 0);
-        /////////////////////////////////////////////////////////////////////////
-
-        // INVIO VPPM SENSE E BPS //////////////////////////////////////////
-        header.StdId = 452; // Gear position
-        //header.DLC = 8;
-        msg.header = header;
-
-        msg.data[0] = (uint8_t)(EBSAir1 >> 8); // Byte più significativo di EBSAir1
-        msg.data[1] = (uint8_t)EBSAir1; // Byte meno significativo di EBSAir1
-        msg.data[2] = (uint8_t)(EBSAir2 >> 8); // Byte più significativo di EBSAir2
-        msg.data[3] = (uint8_t)EBSAir2; // Byte meno significativo di EBSAir2
-        msg.data[4] = (uint8_t)(ADC_AUX1 >> 8); // Byte più significativo di ADC_AUX1
-        msg.data[5] = (uint8_t)ADC_AUX1; // Byte meno significativo di ADC_AUX1
-        msg.data[6] = (uint8_t)(ADC_AUX2 >> 8); // Byte più significativo di ADC_AUX2
-        msg.data[7] = (uint8_t)ADC_AUX2; // Byte meno significativo di ADC_AUX2
-
-        xQueueSend(canTxASQueue, &msg, 0); // TODO: check the queue
-        /////////////////////////////////////////////////////////////////////////
+        // INVIO EBS AIR1 E EBS AIR2, ADC AUX1 E ADC AUX2 //////////////////////////////////////////
+        sendCANInt16(&msg, EBSAir1, EBSAir2, ADC_AUX1, ADC_AUX2, 452, 0, 0, 0, 8);
 
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
     }
 
+}
+
+void sendCANInt16(CANMessage* msg, uint16_t data1, uint16_t data2, uint16_t data3, uint16_t data4, uint16_t stdId, uint32_t extId, uint8_t ide, uint8_t rtr, uint8_t dlc) {
+    msg->header.StdId = stdId;
+    msg->header.ExtId = extId;
+    msg->header.IDE = ide;
+    msg->header.RTR = rtr;
+    msg->header.DLC = dlc;
+
+    msg->data[0] = (uint8_t)(data1 >> 8);
+    msg->data[1] = (uint8_t)data1;
+    msg->data[2] = (uint8_t)(data2 >> 8);
+    msg->data[3] = (uint8_t)data2;
+    msg->data[4] = (uint8_t)(data3 >> 8);
+    msg->data[5] = (uint8_t)data3;
+    msg->data[6] = (uint8_t)(data4 >> 8);
+    msg->data[7] = (uint8_t)data4;
 }
