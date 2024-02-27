@@ -31,13 +31,10 @@ void ADCThread(void* argument) {
         /* Infinite loop */
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
-                // for(int i=0;i<12;i++) {
-                //     adcReadings[i] = adcBuffer[i];
-                // }
-                //TODO sapere le map per lo stronzo
-
+                //ReadADCs && WriteADCBuffer
                 adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 100); // TODO vedere fondo scala sensori EBS
                 adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 100); //EBS_AIR2
+                //TODO finire mapping valori ADC
 
                 xSemaphoreGive(ADCSemHandle);
         }

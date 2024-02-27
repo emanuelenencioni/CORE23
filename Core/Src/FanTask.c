@@ -32,12 +32,13 @@ void fansThread(void* argument) {
     while(1){
 
         if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE) {
-
+            // ReadTempData
             waterTemp = EngCANBuffer.WTS; // store the value of the water temperature sensor
             airTemp = EngCANBuffer.ATS; // store the value of the air temperature senso
 
             xSemaphoreGive(EngCanSemHandle);
 
+            //HandleFanSpeed
             if (waterTemp < 80){
                 TIM2->CCR3 = 0; // Stop the Fan
             }
@@ -51,13 +52,8 @@ void fansThread(void* argument) {
             else if (airTemp >= 50){
                 TIM2->CCR4 = (airTemp+10); // Set the PWM duty cycle to the value of the air temperature sensor
             }
-
-            
-            
         }
 
-    vTaskDelayUntil( &xLastWakeTime, xFrequency);
+        vTaskDelayUntil( &xLastWakeTime, xFrequency);
     }
-
-
 }
