@@ -3,44 +3,33 @@
 // Engine CAN
 extern CAN_HandleTypeDef hcan1;
 extern osMutexId_t EngCanSemHandle;
-
-
 QueueHandle_t canTxEngQueue;
 uint32_t TxMailboxEng;
-
-
 CAN_FilterTypeDef CANFilterEngine;
-
 // Buffer for all the message incoming from the CAN connected to the engine. In critical section.
 EngineCANBuffer EngCANBuffer;
 
 
 // AS CAN
 extern CAN_HandleTypeDef hcan2;
-
 extern osMutexId_t ASCanSemHandle;
-
 QueueHandle_t canTxASQueue;
 uint32_t TxMailboxAS;
-
 CAN_FilterTypeDef CANFilterAS;
-
 // Buffer for all the message incoming from the CAN connected to the AS. In critical section.
 ASCANBuffer AutCanBuffer;
 
+
+
 CANMessage rxMsg, txMsg;
-
-//For segnaling errors
-extern osMutexId_t CanErrSemHandle;
-
 uint16_t mailSize;
-
 uint8_t canInitialized = 0;
 uint8_t counter;
 
 
 // For error handling if CAN goes down or input/output error
 uint8_t shutdownCMD = 0;
+extern osMutexId_t CanErrSemHandle;
 
 void canHandlerThread(void *argument){
 
@@ -204,6 +193,7 @@ void engineCanTxHandler(){
 			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) == HAL_ERROR) {
 				if(xSemaphoreTake(CanErrSemHandle, (TickType_t) 0)){
 						//TODO add check in ErrorHandManTask
+						shutdownCMD = 1;
 					xSemaphoreGive(CanErrSemHandle);
 				}
 			}
@@ -267,7 +257,7 @@ void ASCanTxHandler(){
 		while(xQueueReceive(canTxASQueue, &txMsg, 0) == pdTRUE) {// TODO capire criticità del while
 			if(HAL_CAN_AddTxMessage(&hcan2, &txMsg.header, txMsg.data, &TxMailboxAS) != HAL_OK){
 				if(xSemaphoreTake(CanErrSemHandle, (TickType_t) 0)){
-						//TODO add check in ErrorHandManTask
+						shutdownCMD = 1;
 					xSemaphoreGive(CanErrSemHandle);
 				}
 			}

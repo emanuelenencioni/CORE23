@@ -14,6 +14,8 @@ extern QueueHandle_t canTxASQueue;
 
 extern osThreadId_t ASStateHandTaskHandle;
 extern osThreadId_t ASBCheckTaskHandle;
+extern osThreadId_t PedalTask;
+extern osThreadId_t ASAccTask;
 
 
 //Can message for sending state error to the pilot23
@@ -64,15 +66,15 @@ void checkModeThread(void* argument){
                     xSemaphoreGive(ASCanSemHandle);
                 }
                 if( reqMode == Autonomous || reqMode == Manual) 
-                    // updateMode
+                    // UpdateMode
                     actualMode = reqMode;
                 else{ 
                     if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
-                        // readRPM
+                        // ReadRPM
                         rpm = EngCANBuffer.RPM;
                         xSemaphoreGive(EngCanSemHandle);
                     }
-                    // checkForPlausability
+                    // CheckForPlausability
                     if(rpm > MIN_RPM_ENG_ON) // TS active while no Mode selected
                         sendErrorToPilot(12);
                     else 
@@ -85,18 +87,20 @@ void checkModeThread(void* argument){
             case Autonomous:
                 if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
                     if(!autTaskActivated){
+                        vTaskDelete(PedalTask);
                         vTaskResume(ASStateHandTaskHandle);
                         vTaskResume(ASBCheckTaskHandle);
+                        vTaskResume(ASAccTask);
                         autTaskActivated = 1;
                     }
                 }
                 else{ 
                     if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
-                        // ReadingModeData
+                        //ReadRPM
                         rpm = EngCANBuffer.RPM;
                         xSemaphoreGive(EngCanSemHandle);
                     }
-                    
+                    //CheckForAutoPlausability
                     if(rpm > MIN_RPM_ENG_ON) // TS active while and ASMS OFF
                         sendErrorToPilot(11);
                 }
@@ -105,7 +109,7 @@ void checkModeThread(void* argument){
 
 
             case Manual:
-                // checkASMSOff
+                // CheckASMSOff
                 if(HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET)// ASMS on in manual mode
                     sendErrorToPilot(10);
                 
