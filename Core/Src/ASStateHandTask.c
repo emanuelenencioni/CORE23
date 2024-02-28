@@ -93,6 +93,7 @@ void ASStateHandlerThread(void* argument){
         
 
         if(xSemaphoreTake(ASBCheckSemHandle, (TickType_t) 0)){
+            //ReadCheckASB
             ASBCheckLocal = checkedASB;
         xSemaphoreGive(ASBCheckSemHandle);
         }
