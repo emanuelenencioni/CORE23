@@ -73,6 +73,7 @@ void ASBCheckThread(void* argument) {
     }
     do{
         if(xSemaphoreTake(EngCanSemHandle, portMAX_DELAY)){
+            //ReadRPM
             rpm = EngCANBuffer.RPM;
         }
         xSemaphoreGive(EngCanSemHandle);
@@ -116,12 +117,14 @@ void ASBCheckThread(void* argument) {
         vTaskSuspend(NULL);
     }
 
-
+    vTaskResume(ErrHandASTaskHandle);
     if(xSemaphoreTake(ASBCheckSemHandle, portMAX_DELAY)){
+        // SetASBCheckSem
         checkedASB = 1;
         xSemaphoreGive(ASBCheckSemHandle);
     }
-    vTaskResume(ErrHandASTaskHandle);
+
+    //SendPCStart
     xQueueSend(canTxASQueue, &pcMsg, 0);
     
     vTaskSuspend(NULL);
