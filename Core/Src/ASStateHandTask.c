@@ -66,8 +66,6 @@ void ASStateHandlerThread(void* argument){
 
     xLastWakeTime = xTaskGetTickCount();
     while(1){
-        
-
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
         
         if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){

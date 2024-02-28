@@ -5,7 +5,7 @@
 
 void ASAccThread(void* argument);
 
-void LaunchRoutine();
+void launchRoutine();
 void slowRoutine();
 
 float getSpeed();

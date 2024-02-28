@@ -14,24 +14,29 @@ extern ASCANBuffer AutCanBuffer;
 void ASAccThread(void* argument) {
     uint8_t launch = 1;
     uint8_t reqAcceleration = 0;
+    uint16_t rpm = 0;
     float speed;
     float accValue = 0;
+    uint8_t reqStart = 0;
 
     while(1) {
         if(xSemaphoreTake(EngCanSemHandle, portMAX_DELAY) == pdTRUE) {
+            //ReadMotorData
             speed = getSpeed();
+            rpm = EngCANBuffer.RPM;
             xSemaphoreGive(EngCanSemHandle);
         }
 
         if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY) == pdTRUE) {
             //ReadAccCan
             reqAcceleration = AutCanBuffer.reqAcceleration;
+            reqStart = AutCanBuffer.reqStart;
             xSemaphoreGive(ASCanSemHandle);
         }
         if(launch) {
             if(reqAcceleration) { // Start the launch procedure if acceleration is requested from the PC
                 launch = 0;
-                LaunchRoutine();
+                launchRoutine();
             }
         }
         else {
@@ -53,7 +58,7 @@ void ASAccThread(void* argument) {
 }
 
 
-void LaunchRoutine() {
+void launchRoutine() {
     __NOP();
 }
 
