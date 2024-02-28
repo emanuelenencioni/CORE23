@@ -53,7 +53,7 @@ void gearThread(void* argument) {
     while(1){
         
         if(xSemaphoreTake(ADCSemHandle, portMAX_DELAY) == pdTRUE) {
-
+            //GetDesmoPosition
             desmo1 = adcReadings.desmo1;
             desmo2 = adcReadings.desmo2;
             VPPMSense = adcReadings.VPPMSense;
