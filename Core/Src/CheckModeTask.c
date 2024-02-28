@@ -14,8 +14,8 @@ extern QueueHandle_t canTxASQueue;
 
 extern osThreadId_t ASStateHandTaskHandle;
 extern osThreadId_t ASBCheckTaskHandle;
-extern osThreadId_t PedalTask;
-extern osThreadId_t ASAccTask;
+extern osThreadId_t PedalTaskHandle;
+extern osThreadId_t ASAccTaskHandle;
 
 
 //Can message for sending state error to the pilot23
@@ -87,10 +87,10 @@ void checkModeThread(void* argument){
             case Autonomous:
                 if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
                     if(!autTaskActivated){
-                        vTaskDelete(PedalTask);
+                        vTaskDelete(PedalTaskHandle);
                         vTaskResume(ASStateHandTaskHandle);
                         vTaskResume(ASBCheckTaskHandle);
-                        vTaskResume(ASAccTask);
+                        vTaskResume(ASAccTaskHandle);
                         autTaskActivated = 1;
                     }
                 }
