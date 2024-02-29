@@ -22,7 +22,7 @@ CANMessage msgAcc;
 void pedalThread(void* argument) {
     CAN_TxHeaderTypeDef header;
     TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 100;
+	const TickType_t xFrequency = pdMS_TO_TICKS(100);
     uint32_t timer = 0;
     uint16_t apps1 = 0;
     uint16_t apps2 = 0;

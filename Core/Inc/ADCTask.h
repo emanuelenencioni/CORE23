@@ -4,7 +4,7 @@
 #include "task.h"
 #include "semphr.h"
 #include "queue.h"
-#include "CanHandlerTask.h"
+
 
 #ifndef ADCTASK_H_
 #define ADCTASK_H_
