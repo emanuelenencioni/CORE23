@@ -101,6 +101,12 @@ Attivato subito, controlla le varie variabili condivise degli altri task.
 | DAC_write  | Writing data on the DAC ||
 | Auto_Cmd  | Management of the Autonomous System Status ||
 
+### Dati temporali
+Presi facendo una media di 10000 takes. Singolarmente su ogni task.
+$2^{32} - 1 =  4294967296$
+
+
+
 
 ### Domande prof
 - Le funzioni di entry point, lei, guardando le slide ne usava come una di inizio e una di fine, però non dovrebbe essere una sola? Nel nostro caso, ogni task esegue una funzione "xxThread" che ha il ciclo infinito nel caso dei task periodici etc...  Come dobbiamo fare quindi? 

@@ -7,8 +7,8 @@
 #include "CanHandlerTask.h"
 //#include "stdlib.h"
 
-#ifndef ACCTASK_H_
-#define ACCTASK_H_
+#ifndef FANSCONTRTASK_H_
+#define FANSCONTRTASK_H_
 
-void fansThread(void* argument);
+void fansContrThread(void* argument);
 #endif

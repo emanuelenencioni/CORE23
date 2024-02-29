@@ -60,13 +60,11 @@ void telemetryThread(void* argument) {
     uint8_t clutchRequest = 0;
     uint8_t reqAcceleration = 0;
 
-    xLastWakeTime = xTaskGetTickCount(); // rate of execution
+    xLastWakeTime = xTaskGetTickCount();
 
     while(1){
-
-        // Let's get the ADC values
         if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
-
+            //ReadADCData
             desmo1 = adcReadings.desmo1;
             desmo2 = adcReadings.desmo2;
             clutchOil = adcReadings.clutchOil;
@@ -83,7 +81,7 @@ void telemetryThread(void* argument) {
             xSemaphoreGive(ADCSemHandle);
         }
 
-        if(autonomousMode == 1) {
+        if(autonomousMode) {
             
             // Let's get the AS CAN values
             if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
@@ -104,16 +102,15 @@ void telemetryThread(void* argument) {
             }
         }
 
+        //SendTelemetry
 
-
-
-        // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 //////////////////////////////////////////
+        // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 
         sendCANInt16(&msg, desmo1, desmo2, APPS1, APPS2, 450, 0, 0, 0, 8);
 
-        // INVIO CLUTCH OIL E GEAR UP AIR, VPPM SENSE E BPS //////////////////////////////////////////
+        // INVIO CLUTCH OIL E GEAR UP AIR, VPPM SENSE E BPS
         sendCANInt16(&msg, clutchOil, GearUpAir, VPPMSense, BPS, 451, 0, 0, 0, 8);
 
-        // INVIO EBS AIR1 E EBS AIR2, ADC AUX1 E ADC AUX2 //////////////////////////////////////////
+        // INVIO EBS AIR1 E EBS AIR2, ADC AUX1 E ADC AUX2 
         sendCANInt16(&msg, EBSAir1, EBSAir2, ADC_AUX1, ADC_AUX2, 452, 0, 0, 0, 8);
 
         //TODO send to LoRa

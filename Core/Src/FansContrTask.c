@@ -1,4 +1,4 @@
-#include "FanTask.h"
+#include "FansContrTask.h"
 
 //CAN variables
 extern osMutexId_t ASCanSemHandle;
@@ -16,7 +16,7 @@ CANMessage msgFan;
 extern TIM_HandleTypeDef htim2;
 
 
-void fansThread(void* argument) {
+void fansContrThread(void* argument) {
     
     TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 10;

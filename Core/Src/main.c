@@ -54,6 +54,7 @@ SPI_HandleTypeDef hspi3;
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim12;
 
 /* Definitions for FansContrTask */
@@ -189,6 +190,7 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM12_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_TIM5_Init(void);
 void fansThread(void *argument);
 void debugThread(void *argument);
 void pedalsThread(void *argument);
@@ -250,6 +252,7 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM12_Init();
   MX_ADC1_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
   
   /* USER CODE END 2 */
@@ -333,12 +336,23 @@ int main(void)
   // Always before kernel start, shutdown CMD should be always on
   HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, SET);
 
+  // vTaskSuspend(ASStateHandTaskHandle);
+  // vTaskSuspend(ASBCheckTaskHandle);
+  // vTaskSuspend(ErrHandASTaskHandle);
+
+
+
+  /* USER CODE END RTOS_THREADS */
   vTaskSuspend(ASStateHandTaskHandle);
   vTaskSuspend(ASBCheckTaskHandle);
   vTaskSuspend(ErrHandASTaskHandle);
-  
-  /* USER CODE END RTOS_THREADS */
-
+  //vTaskSuspend(ADCTaskHandle);
+  vTaskSuspend(CheckModeTaskHandle);
+  vTaskSuspend(ErrHandASTaskHandle);
+  vTaskSuspend(FansContrTaskHandle);
+  vTaskSuspend(GearTaskHandle);
+  vTaskSuspend(PedalTaskHandle);
+  vTaskSuspend(TelemetryTaskHandle);
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
@@ -349,6 +363,13 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
+ 
+  
+  
+
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -908,6 +929,51 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
+  * @brief TIM5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM5_Init(void)
+{
+
+  /* USER CODE BEGIN TIM5_Init 0 */
+
+  /* USER CODE END TIM5_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM5_Init 1 */
+
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 108;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 4294967295;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM5_Init 2 */
+
+  /* USER CODE END TIM5_Init 2 */
 
 }
 

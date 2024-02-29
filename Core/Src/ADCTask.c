@@ -12,9 +12,13 @@ extern ADC_HandleTypeDef hadc1;
 extern osMutexId_t ADCSemHandle;
 // Define the ADC buffer for DMA
 
-
 // Define the ADC buffer in critical section
 ADCBuffer adcReadings;
+
+//FOR TESTING
+extern CAN_HandleTypeDef hcan2;
+extern TIM_HandleTypeDef htim5;
+extern osThreadId_t CanHandlerTaskHandle;
 
 // ADC task function
 void ADCThread(void* argument) {
@@ -24,19 +28,54 @@ void ADCThread(void* argument) {
     volatile uint16_t adcBuffer[ADC_BUFFER_SIZE];
     HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adcBuffer, sizeof(adcBuffer)/sizeof(adcBuffer[0]));
     
+    osDelay(5000);
+    HAL_TIM_Base_Start(&htim5);
+    //Task deactivation for get times.
+    vTaskSuspend(CanHandlerTaskHandle);
 
+
+    uint32_t start_time = 0;
+    uint32_t finish_time = 0;
+    uint16_t count = 0;
+    uint32_t avg = 0;
     xLastWakeTime = xTaskGetTickCount();
     while (1) {
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
         /* Infinite loop */
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
-                //ReadADCs && WriteADCBuffer
+                //ReadADCWriteADCBuffer
+                start_time = TIM5->CNT;
                 adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 100); // TODO vedere fondo scala sensori EBS
                 adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 100); //EBS_AIR2
-                //TODO finire mapping valori ADC
 
+                //TODO finire mapping valori ADC
+                finish_time = TIM5->CNT;
                 xSemaphoreGive(ADCSemHandle);
+        }
+        
+        if(count < 10){
+            avg += finish_time - start_time;
+            count++;
+        }
+        else{
+            uint32_t TxMailbox;
+            avg /= 10;
+            CANMessage msg;
+            CAN_TxHeaderTypeDef header;
+            // Settings for can message
+            header.StdId = 400;
+            header.ExtId = 0;
+            header.IDE = 0;
+            header.RTR = 0;
+            header.DLC = 4;
+            msg.header = header;
+            msg.data[0] = (uint8_t) (avg >> 24);
+            msg.data[1] = (uint8_t) (avg >> 16);
+            msg.data[2] = (uint8_t) (avg >> 8);
+            msg.data[3] = (uint8_t) avg;
+            HAL_CAN_AddTxMessage(&hcan2, &msg.header, msg.data, &TxMailbox);
+            vTaskSuspend(NULL);
         }
     }
 }
