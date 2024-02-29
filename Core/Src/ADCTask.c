@@ -46,8 +46,19 @@ void ADCThread(void* argument) {
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 //ReadADCWriteADCBuffer
                 start_time = TIM5->CNT;
+                //TODO da checkare gli indirizzi del buffer
                 adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 100); // TODO vedere fondo scala sensori EBS
                 adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 100); //EBS_AIR2
+                adcReadings.ADC_AUX1 = map(adcBuffer[6], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.ADC_AUX2 = map(adcBuffer[7], 0, 4096, 0, 100);
+                adcReadings.BPS = map(adcBuffer[8], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.APPS1 = map(adcBuffer[9], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.APPS2 = map(adcBuffer[10], 0, 4096, 0, 100);
+                adcReadings.VPPMSense = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.GearUpAir = map(adcBuffer[12], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.clutchOil = map(adcBuffer[13], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.desmo1 = map(adcBuffer[14], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.desmo2 = map(adcBuffer[15], 0, 4096, 0, 100);
 
                 //TODO finire mapping valori ADC
                 finish_time = TIM5->CNT;
