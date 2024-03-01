@@ -331,18 +331,6 @@ int main(void)
   // vTaskSuspend(ErrHandASTaskHandle);
   // vTaskSupend(PedalTaskHandle);
   // vTaskSupend(GearTaskHandle);
-  vTaskSuspend(ASStateHandTaskHandle);
-  vTaskSuspend(ASBCheckTaskHandle);
-  //vTaskSuspend(ADCTaskHandle);
-  vTaskSuspend(CheckModeTaskHandle);
-  vTaskSuspend(ErrHandASTaskHandle);
-  vTaskSuspend(FansContrTaskHandle);
-  vTaskSuspend(GearTaskHandle);
-  vTaskSuspend(PedalTaskHandle);
-  vTaskSuspend(TelemetryTaskHandle);
-  vTaskSuspend(CanHandlerTaskHandle);
-  vTaskSuspend(ASAccTaskHandle);
-  HAL_CAN_Start(&hcan2);
 
   /* USER CODE END RTOS_THREADS */
 

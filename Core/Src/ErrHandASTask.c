@@ -16,9 +16,7 @@ extern uint8_t shutdownCMD;
 extern osMutexId_t ADCSemHandle;
 extern ADCBuffer adcReadings;
 
-//FOR TESTING
-extern CAN_HandleTypeDef hcan2;
-extern TIM_HandleTypeDef htim5;
+
 
 errorHandlerASThread(void* argument){
     TickType_t xLastWakeTime;
@@ -38,13 +36,7 @@ errorHandlerASThread(void* argument){
     msg.header = header;
     msg.data[0] = 15;
 
-    //FOR TESTING
-    HAL_TIM_Base_Start(&htim5);
-    uint32_t start_time = 0;
-    uint32_t finish_time = 0;
-    uint16_t count = 0;
-    uint32_t avg = 0;
-    uint8_t avg_count = 100;
+
 
     xLastWakeTime = xTaskGetTickCount();
     do{
@@ -92,33 +84,7 @@ errorHandlerASThread(void* argument){
             }
             xSemaphoreGive(ADCSemHandle);
         }
-        if(count < avg_count){
-            avg += finish_time - start_time;
-            count++;
-        }
-        else{
-            uint32_t TxMailbox = 0;
-            avg /= avg_count;
-            CANMessage msg;
-            CAN_TxHeaderTypeDef header_test;
-            // Settings for can message
-            header_test.StdId = 400;
-            header_test.ExtId = 0;
-            header_test.IDE = 0;
-            header_test.RTR = 0;
-            header_test.DLC = 4;
-            msg.header = header_test;
-            msg.data[0] = (uint8_t) (avg >> 24);
-            msg.data[1] = (uint8_t) (avg >> 16);
-            msg.data[2] = (uint8_t) (avg >> 8);
-            msg.data[3] = (uint8_t) avg;
-            HAL_CAN_AddTxMessage(&hcan2, &msg.header, msg.data, &TxMailbox);
-            vTaskSuspend(NULL);
-        }
-
     }
     while(HAL_GPIO_ReadPin(SHUTDOWN_SENSE_GPIO_Port, SHUTDOWN_SENSE_Pin));
-
-    
     //STOP TASK
 }
