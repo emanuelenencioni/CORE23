@@ -99,13 +99,6 @@ const osThreadAttr_t ASAccTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for ErrHandManTask */
-osThreadId_t ErrHandManTaskHandle;
-const osThreadAttr_t ErrHandManTask_attributes = {
-  .name = "ErrHandManTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
 /* Definitions for ErrHandASTask */
 osThreadId_t ErrHandASTaskHandle;
 const osThreadAttr_t ErrHandASTask_attributes = {
@@ -191,13 +184,12 @@ static void MX_TIM3_Init(void);
 static void MX_TIM12_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM5_Init(void);
-void fansThread(void *argument);
+void fansContrThread(void *argument);
 void debugThread(void *argument);
-void pedalsThread(void *argument);
+void pedalThread(void *argument);
 void gearThread(void *argument);
 void telemetryThread(void *argument);
 void ASAccThread(void *argument);
-void errorHandlerThread(void *argument);
 void errorHandlerASThread(void *argument);
 void ASStateHandlerThread(void *argument);
 void ASBCheckThread(void *argument);
@@ -293,13 +285,13 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of FansContrTask */
-  FansContrTaskHandle = osThreadNew(fansThread, NULL, &FansContrTask_attributes);
+  FansContrTaskHandle = osThreadNew(fansContrThread, NULL, &FansContrTask_attributes);
 
   /* creation of DebugTask */
   DebugTaskHandle = osThreadNew(debugThread, NULL, &DebugTask_attributes);
 
   /* creation of PedalTask */
-  PedalTaskHandle = osThreadNew(pedalsThread, NULL, &PedalTask_attributes);
+  PedalTaskHandle = osThreadNew(pedalThread, NULL, &PedalTask_attributes);
 
   /* creation of GearTask */
   GearTaskHandle = osThreadNew(gearThread, NULL, &GearTask_attributes);
@@ -309,9 +301,6 @@ int main(void)
 
   /* creation of ASAccTask */
   ASAccTaskHandle = osThreadNew(ASAccThread, NULL, &ASAccTask_attributes);
-
-  /* creation of ErrHandManTask */
-  ErrHandManTaskHandle = osThreadNew(errorHandlerThread, NULL, &ErrHandManTask_attributes);
 
   /* creation of ErrHandASTask */
   ErrHandASTaskHandle = osThreadNew(errorHandlerASThread, NULL, &ErrHandASTask_attributes);
@@ -338,14 +327,12 @@ int main(void)
 
   // vTaskSuspend(ASStateHandTaskHandle);
   // vTaskSuspend(ASBCheckTaskHandle);
+  // vTaskSuspend(TelemetryTaskHandle);
   // vTaskSuspend(ErrHandASTaskHandle);
-
-
-
-  /* USER CODE END RTOS_THREADS */
+  // vTaskSupend(PedalTaskHandle);
+  // vTaskSupend(GearTaskHandle);
   vTaskSuspend(ASStateHandTaskHandle);
   vTaskSuspend(ASBCheckTaskHandle);
-  vTaskSuspend(ErrHandASTaskHandle);
   //vTaskSuspend(ADCTaskHandle);
   vTaskSuspend(CheckModeTaskHandle);
   vTaskSuspend(ErrHandASTaskHandle);
@@ -353,6 +340,12 @@ int main(void)
   vTaskSuspend(GearTaskHandle);
   vTaskSuspend(PedalTaskHandle);
   vTaskSuspend(TelemetryTaskHandle);
+  vTaskSuspend(CanHandlerTaskHandle);
+  vTaskSuspend(ASAccTaskHandle);
+  HAL_CAN_Start(&hcan2);
+
+  /* USER CODE END RTOS_THREADS */
+
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
@@ -1163,14 +1156,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_fansThread */
+/* USER CODE BEGIN Header_fansContrThread */
 /**
   * @brief  Function implementing the FansContrTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_fansThread */
-__weak void fansThread(void *argument)
+/* USER CODE END Header_fansContrThread */
+__weak void fansContrThread(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
@@ -1199,22 +1192,22 @@ __weak void debugThread(void *argument)
   /* USER CODE END debugThread */
 }
 
-/* USER CODE BEGIN Header_pedalsThread */
+/* USER CODE BEGIN Header_pedalThread */
 /**
 * @brief Function implementing the PedalTask thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_pedalsThread */
-__weak void pedalsThread(void *argument)
+/* USER CODE END Header_pedalThread */
+__weak void pedalThread(void *argument)
 {
-  /* USER CODE BEGIN pedalsThread */
+  /* USER CODE BEGIN pedalThread */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END pedalsThread */
+  /* USER CODE END pedalThread */
 }
 
 /* USER CODE BEGIN Header_gearThread */
@@ -1269,24 +1262,6 @@ __weak void ASAccThread(void *argument)
     osDelay(1);
   }
   /* USER CODE END ASAccThread */
-}
-
-/* USER CODE BEGIN Header_errorHandlerThread */
-/**
-* @brief Function implementing the ErrHandManTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_errorHandlerThread */
-__weak void errorHandlerThread(void *argument)
-{
-  /* USER CODE BEGIN errorHandlerThread */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END errorHandlerThread */
 }
 
 /* USER CODE BEGIN Header_errorHandlerASThread */
