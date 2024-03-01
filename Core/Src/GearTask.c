@@ -25,11 +25,13 @@ CANMessage msgGear;
 
 uint16_t gear_pos[] = {3260, 3620, 200, 875, 1570, 2250}; // Gear position values
 
+
+
 void gearThread(void* argument) {
     CAN_TxHeaderTypeDef header;
 
     TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 10;
+	const TickType_t xFrequency = pdMS_TO_TICKS(50);
 
     // Gear task function
     uint8_t reqDownShift = 0;
@@ -61,13 +63,12 @@ void gearThread(void* argument) {
             xSemaphoreGive(ADCSemHandle);
         }
         //GetCurrentGear
+        
         actualGear = getCurrentGear();
         msgGear.data[0] = actualGear; // Byte più significativo di desmo1
         xQueueSend(canTxASQueue, &msgGear, 0); // TODO: check the queue
 
-
-
-        if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
+        if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY) == pdTRUE) {
             //ReadRequestedShift
             reqDownShift = AutCanBuffer.reqDownShift--;
             reqUpShift = AutCanBuffer.reqUpShift--;

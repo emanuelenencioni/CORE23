@@ -16,6 +16,7 @@ extern osThreadId_t ASStateHandTaskHandle;
 extern osThreadId_t ASBCheckTaskHandle;
 extern osThreadId_t PedalTaskHandle;
 extern osThreadId_t ASAccTaskHandle;
+extern osThreadId_t TelemetryTaskHandle;
 
 
 //Can message for sending state error to the pilot23
@@ -23,7 +24,7 @@ CANMessage msg;
 
 uint8_t selectedMission;
 
-enum Mode {NotSelected = 0, Manual = 1, Autonomous = 2};
+
 
 enum  Mode actualMode;
 enum Mode reqMode; 
@@ -47,6 +48,7 @@ void checkModeThread(void* argument){
     msg.header = header;
 
     uint8_t autTaskActivated = 0;
+    uint8_t telemTaskActivated = 0;
     uint16_t rpm = 0;
 
     actualMode = NotSelected;
@@ -82,9 +84,11 @@ void checkModeThread(void* argument){
                             sendErrorToPilot(10);
                 }
                 break;
-
-
             case Autonomous:
+                if(!telemTaskActivated){
+                    vTaskResume(TelemetryTaskHandle);
+                    telemTaskActivated = 1;
+                }
                 if (HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET){
                     if(!autTaskActivated){
                         vTaskDelete(PedalTaskHandle);
@@ -110,6 +114,10 @@ void checkModeThread(void* argument){
 
             case Manual:
                 // CheckASMSOff
+                if(!telemTaskActivated){
+                    vTaskResume(TelemetryTaskHandle);
+                    telemTaskActivated = 1;
+                }
                 if(HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin) == GPIO_PIN_SET)// ASMS on in manual mode
                     sendErrorToPilot(10);
                 
@@ -127,6 +135,12 @@ void sendErrorToPilot(uint8_t errorCode) {
 
 
 void readModeData() {
-    reqMode = AutCanBuffer.reqMode;
-    selectedMission = AutCanBuffer.selectedMission;
+    if(AutCanBuffer.reqMode > 2 || AutCanBuffer.reqMode < 0)
+        reqMode = 0;
+    else
+        reqMode = AutCanBuffer.reqMode;
+    if(AutCanBuffer.selectedMission < 0 || AutCanBuffer.selectedMission > 6)
+        selectedMission = 0;
+    else
+        selectedMission = AutCanBuffer.selectedMission;
 }

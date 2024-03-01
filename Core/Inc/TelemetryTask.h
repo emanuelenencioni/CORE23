@@ -1,11 +1,5 @@
-#include "cmsis_os.h"
-#include "cmsis_os2.h"
-#include "main.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
-#include "CanHandlerTask.h"
 #include "ADCTask.h"
+#include "CheckModeTask.h"
 //#include "stdlib.h"
 
 #ifndef TELEMETRYTASK_H_

@@ -15,13 +15,16 @@ extern osMutexId_t ADCSemHandle;
 //adc buffer from dma
 extern ADCBuffer adcReadings;
 
+// actualMode from CheckModeTask
+extern enum  Mode actualMode;
+
 void telemetryThread(void* argument) {
 
     CAN_TxHeaderTypeDef header;
     CANMessage msg;
 
     TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(100);
+	const TickType_t xFrequency = pdMS_TO_TICKS(200);
 
     // Settings for can message
     header.StdId = 450;
@@ -30,8 +33,6 @@ void telemetryThread(void* argument) {
     header.RTR = 0;
     header.DLC = 8;
     msg.header = header;
-
-    uint8_t autonomousMode = 0;
 
     // ADC Variables
     uint16_t desmo1 = 0;
@@ -63,7 +64,7 @@ void telemetryThread(void* argument) {
     xLastWakeTime = xTaskGetTickCount();
 
     while(1){
-        if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
+        if(xSemaphoreTake(ADCSemHandle, portMAX_DELAY) == pdTRUE) {
             //ReadADCData
             desmo1 = adcReadings.desmo1;
             desmo2 = adcReadings.desmo2;
@@ -77,14 +78,13 @@ void telemetryThread(void* argument) {
             EBSAir2 = adcReadings.EBSAir2;
             ADC_AUX1 = adcReadings.ADC_AUX1;
             ADC_AUX2 = adcReadings.ADC_AUX2;
-
             xSemaphoreGive(ADCSemHandle);
         }
 
-        if(autonomousMode) {
+        if(actualMode == Autonomous) {
             
             // Let's get the AS CAN values
-            if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE) {
+            if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY) == pdTRUE) {
 
                 reqUpShift = AutCanBuffer.reqUpShift;
                 reqDownShift = AutCanBuffer.reqDownShift;
@@ -97,13 +97,13 @@ void telemetryThread(void* argument) {
                 forcedGear = AutCanBuffer.forcedGear;
                 clutchRequest = AutCanBuffer.clutchRequest;
                 reqAcceleration = AutCanBuffer.reqAcceleration;
-
+                
                 xSemaphoreGive(ASCanSemHandle);
             }
         }
 
         //SendTelemetry
-
+        
         // INVIO DESMO 1 E DESMO2, APPS1 E APPS2 
         sendCANInt16(&msg, desmo1, desmo2, APPS1, APPS2, 450, 0, 0, 0, 8);
 
@@ -115,7 +115,7 @@ void telemetryThread(void* argument) {
 
         //TODO send to LoRa
         __NOP();
-
+        
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
     }
 
@@ -136,4 +136,5 @@ void sendCANInt16(CANMessage* msg, uint16_t data1, uint16_t data2, uint16_t data
     msg->data[5] = (uint8_t)data3;
     msg->data[6] = (uint8_t)(data4 >> 8);
     msg->data[7] = (uint8_t)data4;
+    xQueueSend(canTxASQueue, msg, 0);
 }

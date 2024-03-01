@@ -34,7 +34,7 @@ extern osMutexId_t CanErrSemHandle;
 void canHandlerThread(void *argument){
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency =  20;
+	const TickType_t xFrequency =  pdMS_TO_TICKS(40);
 
     if (!canInitialized){
 		counter = 0;
@@ -50,12 +50,12 @@ void canHandlerThread(void *argument){
 
 		vTaskDelayUntil( &xLastWakeTime, xFrequency); //Periodic task
 		// Engine CAN
-		if(xSemaphoreTake(EngCanSemHandle, (TickType_t) 0) == pdTRUE){
+		if(xSemaphoreTake(EngCanSemHandle, portMAX_DELAY) == pdTRUE){
 			engineCanRxHandler();
 			xSemaphoreGive(EngCanSemHandle);
 		}
 		//AS CAN
-		if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE){
+		if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY) == pdTRUE){
 			ASCanRxHandler();
 			xSemaphoreGive(ASCanSemHandle);
 		}
@@ -261,6 +261,7 @@ void ASCanTxHandler(){
 					xSemaphoreGive(CanErrSemHandle);
 				}
 			}
+			vTaskDelay(2);
 		}
 	}
 }

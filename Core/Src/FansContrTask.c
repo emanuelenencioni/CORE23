@@ -19,7 +19,7 @@ extern TIM_HandleTypeDef htim2;
 void fansContrThread(void* argument) {
     
     TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 10;
+	const TickType_t xFrequency = pdMS_TO_TICKS(100);
 
     uint8_t waterTemp = 0;
     uint8_t airTemp = 0;
@@ -37,21 +37,20 @@ void fansContrThread(void* argument) {
             airTemp = EngCANBuffer.ATS; // store the value of the air temperature senso
 
             xSemaphoreGive(EngCanSemHandle);
+        }
+        //HandleFanSpeed
+        if (waterTemp < 80){
+            TIM2->CCR3 = 0; // Stop the Fan
+        }
+        else if (waterTemp >= 80){
+            TIM2->CCR3 = (waterTemp-10); // Set the PWM duty cycle to the value of the water temperature sensor
+        }
 
-            //HandleFanSpeed
-            if (waterTemp < 80){
-                TIM2->CCR3 = 0; // Stop the Fan
-            }
-            else if (waterTemp >= 80){
-                TIM2->CCR3 = (waterTemp-10); // Set the PWM duty cycle to the value of the water temperature sensor
-            }
-
-            if (airTemp < 50){
-                TIM2->CCR4 = 0; // Stop the Fan
-            }
-            else if (airTemp >= 50){
-                TIM2->CCR4 = (airTemp+10); // Set the PWM duty cycle to the value of the air temperature sensor
-            }
+        if (airTemp < 50){
+            TIM2->CCR4 = 0; // Stop the Fan
+        }
+        else if (airTemp >= 50){
+            TIM2->CCR4 = (airTemp+10); // Set the PWM duty cycle to the value of the air temperature sensor
         }
 
         vTaskDelayUntil( &xLastWakeTime, xFrequency);

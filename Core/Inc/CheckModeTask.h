@@ -8,6 +8,7 @@
 #define WAIT_FOR_PILOT_STATE 50 
 
 
+enum Mode {NotSelected = 0, Manual = 1, Autonomous = 2};
 
 void checkModeThread(void* argument);
 
