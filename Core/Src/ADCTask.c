@@ -26,7 +26,7 @@ void ADCThread(void* argument) {
     xLastWakeTime = xTaskGetTickCount();
     while (1) {
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
-        /* Infinite loop */
+        /* Infinite loop */asdadasda
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 //ReadADCWriteADCBuffer
