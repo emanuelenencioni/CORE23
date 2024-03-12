@@ -123,3 +123,9 @@ Check mode task
 	- Chiedere alla prof: Periodo/Deadline/Priorità dinamica nelle ptpn sono un problema?
 - 
 lettura dati: tutto prima: dipende, da quanto tempo impiega la lettura. attenzione, magari si usa una versione del dato non aggiornata.
+
+
+nuove domande prof:
+- Controllo se if  e do while ok.
+-  task attivati da altri task, per ora lascerei che solo ASBCheckTask sia attivato in questo modo perché è un one-shot task. gli altri essendo attivati e poi funzionanti sempre lascerei così altrimenti si perde la periodicità del task.
+- Conviene sviluppare due reti di petri? una per autonomous una per manuale? molto probabilmente sì.
