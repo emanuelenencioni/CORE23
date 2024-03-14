@@ -24,5 +24,6 @@
     - [ ] AccASTask
         - [X] Aggiungere velocità a CanHandler
     
+    - [ ] Gestire Brake Light sia in manual che autonomous.
 
     - [ ] Sistemare priorità dei tasks
