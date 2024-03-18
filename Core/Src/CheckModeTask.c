@@ -74,9 +74,7 @@ void checkModeThread(void* argument){
         switch(actualMode){
             default:
                 if(xSemaphoreTake(ASCanSemHandle, (TickType_t) WAIT_FOR_PILOT_STATE) == pdTRUE){
-                    start_time = TIM5->CNT;
                     readModeData();
-                    finish_time = TIM5->CNT;
                     xSemaphoreGive(ASCanSemHandle);
                 }
                 if( reqMode == Autonomous || reqMode == Manual) 
@@ -167,9 +165,9 @@ void checkModeThread(void* argument){
 
 void sendErrorToPilot(uint8_t errorCode) {
     msg.data[0] = errorCode;
-    //if(xQueueSend(canTxASQueue, &msg, 0) != pdTRUE){
-        // TODO comm. error
-    //}
+    if(xQueueSend(canTxASQueue, &msg, 0) != pdTRUE){
+        //TODO comm. error
+    }
 }
 
 
