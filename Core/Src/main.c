@@ -325,12 +325,12 @@ int main(void)
   // Always before kernel start, shutdown CMD should be always on
   HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, SET);
 
-  // vTaskSuspend(ASStateHandTaskHandle);
-  // vTaskSuspend(ASBCheckTaskHandle);
-  // vTaskSuspend(TelemetryTaskHandle);
-  // vTaskSuspend(ErrHandASTaskHandle);
-  // vTaskSupend(PedalTaskHandle);
-  // vTaskSupend(GearTaskHandle);
+  vTaskSuspend(ASStateHandTaskHandle);
+  vTaskSuspend(ASBCheckTaskHandle);
+  vTaskSuspend(TelemetryTaskHandle);
+  vTaskSuspend(ErrHandASTaskHandle);
+  vTaskSuspend(PedalTaskHandle);
+  vTaskSuspend(GearTaskHandle);
 
   /* USER CODE END RTOS_THREADS */
 
