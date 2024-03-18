@@ -77,7 +77,7 @@ errorHandlerASThread(void* argument){
     
         if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE){
             //GetEBSAirPressure
-            if(adcReadings.EBSAir1 < 7.0 || adcReadings.EBSAir2 < 7.0){
+            if(adcReadings.EBSAir1 < 3500 || adcReadings.EBSAir2 < 3500){
                 HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
                 msg.data[1] = 2;
                 xQueueSend(canTxASQueue, &msg, 0);
