@@ -22,7 +22,8 @@ typedef struct{
     uint16_t APPS1;
     uint16_t APPS2;
     uint16_t VPPMSense;
-    uint16_t BPS;
+    uint16_t BPSFront;
+    uint16_t BPSRear;
     uint16_t EBSAir1;
     uint16_t EBSAir2;
     uint16_t ADC_AUX1;

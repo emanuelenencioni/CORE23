@@ -26,17 +26,18 @@ void ADCThread(void* argument) {
     xLastWakeTime = xTaskGetTickCount();
     while (1) {
         vTaskDelayUntil( &xLastWakeTime, xFrequency);
-        /* Infinite loop */asdadasda
+        /* Infinite loop */
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 //ReadADCWriteADCBuffer
                 //TODO da checkare gli indirizzi del buffer
-                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 100); // TODO vedere fondo scala sensori EBS
-                adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 100); //EBS_AIR2
+                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
+                adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
                 adcReadings.ADC_AUX1 = map(adcBuffer[6], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.ADC_AUX2 = map(adcBuffer[7], 0, 4096, 0, 100);
-                adcReadings.BPS = map(adcBuffer[8], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.APPS1 = map(adcBuffer[9], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.BPSFront = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
+                adcReadings.BPSBack = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
+                adcReadings.APPS1 = mapmap(adcBuffer[9], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.APPS2 = map(adcBuffer[10], 0, 4096, 0, 100);
                 adcReadings.VPPMSense = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.GearUpAir = map(adcBuffer[12], 0, 4096, 0, 100); //TODO finire mapping valori ADC
