@@ -21,6 +21,7 @@ typedef struct{
     uint16_t GearUpAir;
     uint16_t APPS1;
     uint16_t APPS2;
+    uint16_t APPS3;
     uint16_t VPPMSense;
     uint16_t BPSFront;
     uint16_t BPSRear;

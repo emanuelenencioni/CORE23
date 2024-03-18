@@ -2,10 +2,19 @@
 
 
 /**
- * ADCBuffer sensors:
+ * ADCBuffer sensors (same order as IOC):
+ * - 0: Desmo1
+ * - 1: Cluch oil
+ * - 2: Gear up air
+ * - 3: VPPM sense
  * - 4: EBS Air 2
  * - 5: EBS Air 1
- * - 
+ * - 6: APPS2
+ * - 7: BPS
+ * - 8: AUX2
+ * - 9: Desmo2
+ * - 10: APPS1, 11 seems connected too.
+ * - 11: AUX1
  */
 
 extern ADC_HandleTypeDef hadc1;
@@ -33,19 +42,26 @@ void ADCThread(void* argument) {
                 //TODO da checkare gli indirizzi del buffer
                 adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
                 adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
-                adcReadings.ADC_AUX1 = map(adcBuffer[6], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.ADC_AUX2 = map(adcBuffer[7], 0, 4096, 0, 100);
-                adcReadings.BPSFront = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
-                adcReadings.BPSBack = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
-                adcReadings.APPS1 = mapmap(adcBuffer[9], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.APPS2 = map(adcBuffer[10], 0, 4096, 0, 100);
-                adcReadings.VPPMSense = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.GearUpAir = map(adcBuffer[12], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.clutchOil = map(adcBuffer[13], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.desmo1 = map(adcBuffer[14], 0, 4096, 0, 100); //TODO finire mapping valori ADC
-                adcReadings.desmo2 = map(adcBuffer[15], 0, 4096, 0, 100);
+                adcReadings.ADC_AUX1 = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.ADC_AUX2 = map(adcBuffer[8], 0, 4096, 0, 100);
 
-                //TODO finire mapping valori ADC
+                // TODO i think we don't have BPS sensors in adc here, but the AIM will send it via CAN
+                adcReadings.BPSFront = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
+                adcReadings.BPSRear = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
+                
+                //BOSCH APPS 0-5 V linear operating
+                adcReadings.APPS1 = map(adcBuffer[10], 0, 4096, 0, 100);
+                adcReadings.APPS2 = map(adcBuffer[6], 0, 4096, 0, 100);
+
+                //Bourns APPS
+                adcReadings.APPS3 = map(adcBuffer[10], 0, 4096, 0, 100); //TODO add apps3 in mx, find range testing it.
+
+                adcReadings.VPPMSense = map(adcBuffer[3], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.GearUpAir = map(adcBuffer[2], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.clutchOil = map(adcBuffer[1], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.desmo1 = map(adcBuffer[0], 0, 4096, 0, 100); //TODO finire mapping valori ADC
+                adcReadings.desmo2 = map(adcBuffer[9], 0, 4096, 0, 100);
+
                 xSemaphoreGive(ADCSemHandle);
         }
         
@@ -55,6 +71,6 @@ void ADCThread(void* argument) {
 
 // https://electronics.stackexchange.com/questions/581003/stm32h7-adc-with-dma-reading-only-zeros-using-hal-and-freertos
 
-float map(float x, float in_min, float in_max, float out_min, float out_max) {
+float map(float x, float in_min, float in_max, float out_min, float out_max) { // TODO float? maybe int or long is better
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
