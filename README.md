@@ -15,7 +15,8 @@
     - [ ] TelemetryTask
     - [X] CheckModeTask
         - [X] Add signal to resume ASBCheckTask
-    - [X] ASBCheckTask
+    - [ ] ASBCheckTask
+        - [ ]Vedere se serve capire se PC è acceso e può ricevere msg
     - [X] ErrHandASTask
     - [X] ASStateHandlerTask
         -[X] Finire PWM
