@@ -101,20 +101,32 @@ void initASCAN(){
 	if(xSemaphoreTake(ASCanSemHandle, (TickType_t) WAIT_FOR_PILOT_STATE) == pdTRUE){
         // TODO init value of the buffer
 		AutCanBuffer.reqMode = 0; // NotSelected
+		AutCanBuffer.reqUpShift = 0;
+		AutCanBuffer.reqDownShift = 0;
+		
 		xSemaphoreGive(ASCanSemHandle);
     }
 	
-    addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012C << 5, 1);
 	
-	// Mission status from PC
-	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x015F << 5, 1);
+	
 	// Actual brake pressure
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0065 << 5, 1);
+	// 290 Mode and Mission
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0122 << 5, 1);
+	// 300 Clutch setpoint
+    addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012C << 5, 1);
+	// 301 Paddles input
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012D << 5, 1);
+	// 302 Buttons
 	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012E << 5, 1);
+	// 303 Forced gear 
     addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x012F << 5, 1);
-
+	// 351 Mission status from PC
+	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x015F << 5, 1); // TODO not used anymore 
+	// 352 PC heartbit
+	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0160 << 5, 1);
+	// 353 PC critical error
+	addFilterCAN(&CANFilterAS, &hcan2, counter++, 0x0161 << 5, 1);
 
 	HAL_CAN_Start(&hcan2);
 	
@@ -181,7 +193,6 @@ void engineCanRxHandler(){ // TODO vedere se gli id sono giusti e anche i relati
 					EngCANBuffer.speedBackR = (data[7] << 8 | data[6]);
 					// TODO send the msg in the other can, study for the use of canTxASQueue() or directly HAL
 					break;
-
 			}
 		}
 }
@@ -246,7 +257,7 @@ void ASCanRxHandler(){
 					break;
 
 				case 351:
-					AutCanBuffer.missionStatus = data[0];
+					AutCanBuffer.PCStatus = data[0];
 					break;
 			}
 		}

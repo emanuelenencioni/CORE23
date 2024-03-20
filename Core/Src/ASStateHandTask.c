@@ -2,7 +2,7 @@
 
 
 
-enum MissionStatus {Starting = 0, ReadyToDrive = 1, Finished = 2, Error = 3};
+enum PCStatus {Starting = 0, ReadyToDrive = 1, Finished = 2, Error = 3};
 enum Mission {Manual = 0, Acceleration = 1, Skidpad = 2, Autocross = 3, Trackdrive = 4, Inspection = 5, EBSTest = 6}; 
 
 extern osMutexId_t ASCanSemHandle;
@@ -44,7 +44,7 @@ void ASStateHandlerThread(void* argument){
     uint8_t neutral = 1; //for indicating the state of the gear
     uint8_t readyToDrive = 0;
     uint8_t brakePressure = 0;
-    enum MissionStatus missionStatus = Starting;
+    enum PCStatus pcStatus = Starting;
     enum Mission mission = Manual; 
 
     CANMessage msg;
@@ -75,7 +75,7 @@ void ASStateHandlerThread(void* argument){
         }
         if(xSemaphoreTake(ASCanSemHandle, (TickType_t) 0) == pdTRUE){
             // ReadASData
-            missionStatus = AutCanBuffer.missionStatus;
+            pcStatus = AutCanBuffer.PCStatus < 4? AutCanBuffer.PCStatus : 0;
             mission = AutCanBuffer.selectedMission;
             brakePressure = AutCanBuffer.brakePressureFront;
 			xSemaphoreGive(ASCanSemHandle);
@@ -98,7 +98,9 @@ void ASStateHandlerThread(void* argument){
 
         // Computing State, check FS_RULES 2024 v 1.1
         if(!shutdownSense){
-            if(missionStatus == Finished){
+            if(pcStatus == Finished){
+                // Trigger SDC
+                HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, GPIO_PIN_RESET);
                 if(0){ // TODO RES activated
                     setASEmergency();
                 }

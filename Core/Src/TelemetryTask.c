@@ -53,7 +53,7 @@ void telemetryThread(void* argument) {
     uint8_t reqDownShift = 0;
     uint8_t reqMode = 0;
     uint8_t selectedMission = 0;
-    uint8_t missionStatus = 0;
+    uint8_t pcStatus = 0;
     uint8_t brakePressureFront = 0;
     uint8_t brakePressureBack = 0;
     uint64_t Heartbit = 0;
@@ -73,7 +73,7 @@ void telemetryThread(void* argument) {
             APPS1 = adcReadings.APPS1;
             APPS2 = adcReadings.APPS2;
             VPPMSense = adcReadings.VPPMSense;
-            BPS = adcReadings.BPS;
+            BPS = adcReadings.BPSFront;
             EBSAir1 = adcReadings.EBSAir1;
             EBSAir2 = adcReadings.EBSAir2;
             ADC_AUX1 = adcReadings.ADC_AUX1;
@@ -90,7 +90,7 @@ void telemetryThread(void* argument) {
                 reqDownShift = AutCanBuffer.reqDownShift;
                 reqMode = AutCanBuffer.reqMode;
                 selectedMission = AutCanBuffer.selectedMission;
-                missionStatus = AutCanBuffer.missionStatus;
+                pcStatus = AutCanBuffer.PCStatus;
                 brakePressureFront = AutCanBuffer.brakePressureFront;
                 brakePressureBack = AutCanBuffer.brakePressureBack;
                 Heartbit = AutCanBuffer.Heartbit;
