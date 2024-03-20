@@ -39,9 +39,8 @@ void ADCThread(void* argument) {
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 //ReadADCWriteADCBuffer
-                //TODO da checkare gli indirizzi del buffer
-                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
-                adcReadings.EBSAir1 = map(adcBuffer[5], 0, 4096, 0, 16000); // mBar TODO vedere fondo scala sensori EBS, sensor range 0.1 - 10 V
+                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232); // mBar 
+                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232); // mBar
                 adcReadings.ADC_AUX1 = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.ADC_AUX2 = map(adcBuffer[8], 0, 4096, 0, 100);
 

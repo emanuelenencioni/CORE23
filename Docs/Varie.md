@@ -1,0 +1,5 @@
+### ADCTask
+#### Calcolo range sensori
+I vari sensori hanno range diversi, 
+##### EBS Air pressure sensor (EBSAir1 EBSAir2)
+Sensori identici, dal datasheet si ha un range 0.1 10 V andando da 0 a 16 Bar. Sulla CORE23(24) invece si ha un ripartitore che permette all'ADC di 0-12 V, perciò occorre rimappare i valori in modo corretto. Dal range si calcola il coefficiente angolare della trasformazione lineare (tutto calcolato in millivolt - millibar) $$m= \frac{10000-100}{12000} = \frac{99}{160}$$ quindi la funzione finale risulta: $y = \frac{99}{160}x + 100$, questo permette anche di calcolare i valori fuori range del sensore per usare tutto il range dell'ADC, in questo modo basta una semplice map(): $[-161, 19232]$. Per risparmare memoria occorre quindi salvare prima il dato come int, per poi portare i possibili valori minori di 0 a zero.
