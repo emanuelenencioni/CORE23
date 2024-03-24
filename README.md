@@ -28,3 +28,7 @@
     - [ ] Gestire Brake Light sia in manual che autonomous.
 
     - [ ] Sistemare priorità dei tasks
+
+    Priorità 5 -> 15
+             7 -> 8
+             10 -> 5
