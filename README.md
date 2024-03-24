@@ -10,9 +10,9 @@
         - [ ] Spostare cutoff nel gearTask.
         - [ ] Finire handling AS.
         - [ ] inviare nella ASCan tutti i dati per la pilot, devo capire meglio se sta cosa ha senso
-    - [ ] PedalTask
+    - [X] PedalTask
     - [X] ADCTask
-    - [ ] TelemetryTask
+    - [X] TelemetryTask
     - [X] CheckModeTask
         - [X] Add signal to resume ASBCheckTask
     - [ ] ASBCheckTask
@@ -27,8 +27,4 @@
     
     - [ ] Gestire Brake Light sia in manual che autonomous.
 
-    - [ ] Sistemare priorità dei tasks
-
-    Priorità 5 -> 15
-             7 -> 8
-             10 -> 5
+    - [X] Sistemare priorità dei tasks
