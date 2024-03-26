@@ -9,14 +9,13 @@
         - [X] Check ID.
         - [ ] Spostare cutoff nel gearTask.
         - [ ] Finire handling AS.
-        - [ ] inviare nella ASCan tutti i dati per la pilot, devo capire meglio se sta cosa ha senso
-    - [ ] PedalTask
+    - [X] PedalTask
     - [X] ADCTask
-    - [ ] TelemetryTask
+    - [X] TelemetryTask
     - [X] CheckModeTask
         - [X] Add signal to resume ASBCheckTask
     - [ ] ASBCheckTask
-        - [ ]Vedere se serve capire se PC è acceso e può ricevere msg
+        - [ ] Vedere se serve capire se PC è acceso e può ricevere msg
     - [X] ErrHandASTask
     - [X] ASStateHandlerTask
         -[X] Finire PWM
@@ -27,4 +26,4 @@
     
     - [ ] Gestire Brake Light sia in manual che autonomous.
 
-    - [ ] Sistemare priorità dei tasks
+    - [X] Sistemare priorità dei tasks
