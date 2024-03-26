@@ -14,11 +14,12 @@
     - [X] TelemetryTask
     - [X] CheckModeTask
         - [X] Add signal to resume ASBCheckTask
+        - [ ] Autonomous: se Una marcia è inserita, non deve poter permette di andare avanti -> gestire anche Neutral LED. (Neutrale led acceso)
     - [ ] ASBCheckTask
         - [ ] Vedere se serve capire se PC è acceso e può ricevere msg
     - [X] ErrHandASTask
     - [X] ASStateHandlerTask
-        -[X] Finire PWM
+        - [X] Finire PWM
     - [ ] GearTask -> solo manuale
         - [ ] Eliminare controllo sulla marcia, lo farà la Pilot23
     - [ ] AccASTask
