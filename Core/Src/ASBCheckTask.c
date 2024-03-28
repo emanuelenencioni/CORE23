@@ -29,8 +29,8 @@ void ASBCheckThread(void* argument) {
     uint16_t rpm = 0;
     float EBSAir1 = 0;
     float EBSAir2 = 0;
-    uint8_t BrakePressureFront = 0;
-    uint8_t BrakePressureBack = 0;
+    uint16_t BrakePressureFront = 0;
+    uint16_t BrakePressureRear = 0;
     header.StdId = 400;
     header.ExtId = 0;
     header.IDE = 0;
@@ -61,11 +61,11 @@ void ASBCheckThread(void* argument) {
     if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY)){
         //ReadBrakePressure
         BrakePressureFront = AutCanBuffer.brakePressureFront; // TODO read from ADC
-        BrakePressureBack = AutCanBuffer.brakePressureBack;
+        brakePressureRear = AutCanBuffer.brakePressureRear;
         xSemaphoreGive(ASCanSemHandle);
     }
     // 200 mBar offset from 4500
-    if(EBSAir1 < 4300 || EBSAir2 < 4300 || BrakePressureFront < 0 || BrakePressureFront > 500 || BrakePressureBack < 0 || BrakePressureBack > 200){
+    if(EBSAir1 < 4300 || EBSAir2 < 4300 || BrakePressureFront < 0 || BrakePressureFront > 500 || BrakePressureRear < 0 || brakePressureRear > 200){
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
         msg.data[1] = 0;
         xQueueSend(canTxASQueue, &msg, 0);
@@ -88,11 +88,11 @@ void ASBCheckThread(void* argument) {
     if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY)){
         //ReadBrakePressure
         BrakePressureFront = AutCanBuffer.brakePressureFront;
-        BrakePressureBack = AutCanBuffer.brakePressureBack;
+        BrakePressureRear = AutCanBuffer.brakePressureRear;
         xSemaphoreGive(ASCanSemHandle);
     }
     // 6000 mBar offset
-    if(!(BrakePressureFront > 27000 && BrakePressureBack > 16000 && BrakePressureFront < 38000  && BrakePressureBack < 27000)){
+    if(!(BrakePressureFront > 27000 && brakePressureRear > 16000 && BrakePressureFront < 38000  && brakePressureRear < 27000)){
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
         msg.data[1] = 1;
         xQueueSend(canTxASQueue, &msg, 0);

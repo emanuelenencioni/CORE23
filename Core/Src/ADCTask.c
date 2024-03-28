@@ -43,10 +43,6 @@ void ADCThread(void* argument) {
                 adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232); // mBar
                 adcReadings.ADC_AUX1 = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.ADC_AUX2 = map(adcBuffer[8], 0, 4096, 0, 100);
-
-                // TODO i think we don't have BPS sensors in adc here, but the AIM will send it via CAN
-                adcReadings.BPSFront = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
-                adcReadings.BPSRear = map(adcBuffer[8], 0, 4096, 0, 130000); // mBar TODO vedere scala, pressure signal from sensor range 1-5 V
                 
                 //BOSCH APPS 0-5 V linear operating
                 adcReadings.APPS1 = map(adcBuffer[10], 0, 4096, 0, 100);

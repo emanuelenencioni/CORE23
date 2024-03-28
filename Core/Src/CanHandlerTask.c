@@ -217,26 +217,23 @@ void ASCanRxHandler(){
 			uint32_t id =  rxMsg.header.StdId;
 			uint8_t* data = rxMsg.data;
 			switch (id){
-				case 101:
-					AutCanBuffer.brakePressureFront = data[0];
-					AutCanBuffer.brakePressureBack = data[1];
+				case 101: // in dBar
+					AutCanBuffer.brakePressureFront = (data[0] << 8 data[1]);
+					AutCanBuffer.brakePressureRear = (data[2] << 8 data[3]);
 					break;
 				case 290:
 					AutCanBuffer.reqMode = data[0];
 					AutCanBuffer.selectedMission = data[1];
 
 					break;
-				case 300: // 
+				case 300: //
 					AutCanBuffer.clutchRequest = data[0];
 					break;
 				case 301:
 					//PADDLES:
 					if(data[0] == 1) //upshift
-					
-						//request_upShift();
 						AutCanBuffer.reqUpShift = 1;
 					else if (data[0] == 2) //downshift
-						//request_downShift();
 						AutCanBuffer.reqDownShift = 1;
 					break;
 				case 302:

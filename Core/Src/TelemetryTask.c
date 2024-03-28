@@ -54,8 +54,8 @@ void telemetryThread(void* argument) {
     uint8_t reqMode = 0;
     uint8_t selectedMission = 0;
     uint8_t pcStatus = 0;
-    uint8_t brakePressureFront = 0;
-    uint8_t brakePressureBack = 0;
+    uint16_t brakePressureFront = 0;
+    uint16_t brakePressureRear = 0;
     uint64_t Heartbit = 0;
     uint8_t forcedGear = 0;
     uint8_t clutchRequest = 0;
@@ -92,7 +92,7 @@ void telemetryThread(void* argument) {
                 selectedMission = AutCanBuffer.selectedMission;
                 pcStatus = AutCanBuffer.PCStatus;
                 brakePressureFront = AutCanBuffer.brakePressureFront;
-                brakePressureBack = AutCanBuffer.brakePressureBack;
+                brakePressureRear = AutCanBuffer.brakePressureRear;
                 Heartbit = AutCanBuffer.Heartbit;
                 forcedGear = AutCanBuffer.forcedGear;
                 clutchRequest = AutCanBuffer.clutchRequest;
