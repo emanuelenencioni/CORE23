@@ -39,8 +39,8 @@ void ADCThread(void* argument) {
 
             if(xSemaphoreTake(ADCSemHandle, (TickType_t) 0) == pdTRUE) {
                 //ReadADCWriteADCBuffer
-                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232); // mBar 
-                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232); // mBar
+                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232) / 100; // dBar 
+                adcReadings.EBSAir2 = map(adcBuffer[4], 0, 4096, -161, 19232) < 0 ? 0 : map(adcBuffer[4], 0, 4096, -161, 19232) / 100; // dBar
                 adcReadings.ADC_AUX1 = map(adcBuffer[11], 0, 4096, 0, 100); //TODO finire mapping valori ADC
                 adcReadings.ADC_AUX2 = map(adcBuffer[8], 0, 4096, 0, 100);
                 
@@ -66,6 +66,6 @@ void ADCThread(void* argument) {
 
 // https://electronics.stackexchange.com/questions/581003/stm32h7-adc-with-dma-reading-only-zeros-using-hal-and-freertos
 
-float map(float x, float in_min, float in_max, float out_min, float out_max) { // TODO float? maybe int or long is better
+uint32_t map(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max) { // TODO to test
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
