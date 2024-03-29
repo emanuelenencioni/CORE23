@@ -107,8 +107,8 @@ void Error_Handler(void);
 #define RES_IN1_GPIO_Port GPIOB
 #define RES_IN2_Pin GPIO_PIN_7
 #define RES_IN2_GPIO_Port GPIOE
-#define FREE_USE_Pin GPIO_PIN_8
-#define FREE_USE_GPIO_Port GPIOE
+#define RES_STATUS_Pin GPIO_PIN_8
+#define RES_STATUS_GPIO_Port GPIOE
 #define ASMS_STATUS_Pin GPIO_PIN_9
 #define ASMS_STATUS_GPIO_Port GPIOE
 #define BRAKE_LIGHT_Pin GPIO_PIN_11

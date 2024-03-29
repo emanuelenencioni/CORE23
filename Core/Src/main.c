@@ -1052,9 +1052,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LORA_D0_GPIO_Port, LORA_D0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : GEAR_PROX_DOWN_Pin GEAR_PROX_UP_Pin DIO_AUX1_Pin RES_IN2_Pin
-                           FREE_USE_Pin ASMS_STATUS_Pin */
+                           RES_STATUS_Pin ASMS_STATUS_Pin */
   GPIO_InitStruct.Pin = GEAR_PROX_DOWN_Pin|GEAR_PROX_UP_Pin|DIO_AUX1_Pin|RES_IN2_Pin
-                          |FREE_USE_Pin|ASMS_STATUS_Pin;
+                          |RES_STATUS_Pin|ASMS_STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
