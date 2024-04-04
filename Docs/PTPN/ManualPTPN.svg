@@ -6,14 +6,13 @@
   <defs id="genericDefs" />
   <g>
     <g style="stroke-linecap:round; text-rendering:optimizeLegibility;">
-      <circle cx="180" cy="90" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="100" xml:space="preserve" y="120">WaitReadADCSemWriteBufferIn</text>
       <circle cx="510" cy="90" r="15" style="fill:none;" />
       <text style="stroke:none;" x="440" xml:space="preserve" y="120">ReadADCSemWriteBufferIn</text>
       <circle cx="5260" cy="150" r="15" style="fill:none;" />
       <circle cx="5260" cy="150" r="2" style="fill:red; stroke:none;" />
       <text style="stroke:none;" x="5270" xml:space="preserve" y="180">ADCSem</text>
       <circle cx="190" cy="440" r="15" style="fill:none;" />
+      <circle cx="190" cy="440" r="2" style="fill:red; stroke:none;" />
       <text style="stroke:none;" x="150" xml:space="preserve" y="470">WaitReadADCDataIn</text>
       <circle cx="420" cy="439" r="15" style="fill:none;" />
       <text style="stroke:none;" x="380" xml:space="preserve" y="469">ReadADCDataIn</text>
@@ -27,6 +26,7 @@
       <circle cx="1130" cy="440" r="15" style="fill:none;" />
       <text style="stroke:none;" x="1090" xml:space="preserve" y="470">SendTelemetryIn</text>
       <circle cx="200" cy="260" r="15" style="fill:none;" />
+      <circle cx="200" cy="260" r="2" style="fill:red; stroke:none;" />
       <text style="stroke:none;" x="160" xml:space="preserve" y="290">WaitReadAPPSIn</text>
       <circle cx="390" cy="260" r="15" style="fill:none;" />
       <text style="stroke:none;" x="370" xml:space="preserve" y="290">ReadAPPSIn</text>
@@ -54,16 +54,9 @@
       <circle cx="920" cy="980" r="15" style="fill:none;" />
       <text style="stroke:none;" x="880" xml:space="preserve" y="1010">ASCanRxHandlerIn</text>
       <circle cx="1160" cy="980" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="1100" xml:space="preserve" y="1010">WaitEngingCanTxHandlerIn</text>
-      <circle cx="1440" cy="980" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="1390" xml:space="preserve" y="1010">EngineCanTxHandlerIn</text>
-      <circle cx="1730" cy="980" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="1680" xml:space="preserve" y="1010">WaitASCanTxHandlerIn</text>
-      <circle cx="2020" cy="980" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="1980" xml:space="preserve" y="1010">ASCanTxHandlerIn</text>
-      <circle cx="1590" cy="1080" r="15" style="fill:none;" />
-      <circle cx="1590" cy="1080" r="2" style="fill:red; stroke:none;" />
-      <text style="stroke:none;" x="1610" xml:space="preserve" y="1100">CanErrSem</text>
+      <text style="stroke:none;" x="1110" xml:space="preserve" y="1010">EngineCanTxHandlerIn</text>
+      <circle cx="1460" cy="980" r="15" style="fill:none;" />
+      <text style="stroke:none;" x="1420" xml:space="preserve" y="1010">ASCanTxHandlerIn</text>
       <circle cx="360" cy="1660" r="15" style="fill:none;" />
       <text style="stroke:none;" x="310" xml:space="preserve" y="1690">WaitReadModeDataIn</text>
       <circle cx="640" cy="1660" r="15" style="fill:none;" />
@@ -76,16 +69,12 @@
       <text style="stroke:none;" x="1240" xml:space="preserve" y="1690">ReadRPMIn</text>
       <circle cx="1480" cy="1660" r="15" style="fill:none;" />
       <text style="stroke:none;" x="1430" xml:space="preserve" y="1690">CheckPlausabilityIn1</text>
-      <circle cx="360" cy="1810" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="320" xml:space="preserve" y="1840">WaitReadRPM1</text>
-      <circle cx="320" cy="1900" r="15" style="fill:none;" />
-      <text style="stroke:none;" x="330" xml:space="preserve" y="1930">CheckASMSOffIn</text>
       <circle cx="160" cy="1660" r="15" style="fill:none;" />
       <circle cx="160" cy="1660" r="2" style="fill:red; stroke:none;" />
       <text style="stroke:none;" x="130" xml:space="preserve" y="1690">CheckModeIn1</text>
       <circle cx="190" cy="2620" r="15" style="fill:none;" />
       <circle cx="190" cy="2620" r="2" style="fill:red; stroke:none;" />
-      <text style="stroke:none;" x="130" xml:space="preserve" y="2650">WaitGetDesmoPositionIn</text>
+      <text style="stroke:none;" x="140" xml:space="preserve" y="2650">WaitGetDesmoPositionIn</text>
       <circle cx="540" cy="2620" r="15" style="fill:none;" />
       <text style="stroke:none;" x="490" xml:space="preserve" y="2650">GetDesmoPositionIn</text>
       <circle cx="800" cy="2620" r="15" style="fill:none;" />
@@ -100,41 +89,44 @@
       <text style="stroke:none;" x="2000" xml:space="preserve" y="2650">ReadRPMIn4</text>
       <circle cx="2430" cy="2620" r="15" style="fill:none;" />
       <text style="stroke:none;" x="2400" xml:space="preserve" y="2650">ActuateGearIn</text>
+      <circle cx="180" cy="90" r="15" style="fill:none;" />
+      <circle cx="180" cy="90" r="2" style="fill:red; stroke:none;" />
+      <text style="stroke:none;" x="100" xml:space="preserve" y="120">WaitReadADCSemWriteBufferIn</text>
       <rect height="30" style="stroke:none;" width="6" x="57" y="75" />
       <text style="stroke:none;" x="40" xml:space="preserve" y="120">ADCTask</text>
       <text style="stroke:none;" x="30" xml:space="preserve" y="70">[50000,50000]</text>
       <text style="stroke:none;" x="66" xml:space="preserve" y="87"></text>
       <rect height="30" style="stroke:none;" width="6" x="347" y="75" />
       <text style="stroke:none;" x="280" xml:space="preserve" y="120">WaitReadADCSemWriteBuffer</text>
-      <text style="stroke:none;" x="340" xml:space="preserve" y="70">[0,0]</text>
-      <text style="stroke:none;" x="320" xml:space="preserve" y="60">[prio=15] - {cpu}</text>
+      <text style="stroke:none;" x="340" xml:space="preserve" y="60">[0,10]</text>
+      <text style="stroke:none;" x="310" xml:space="preserve" y="70">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="667" y="75" />
       <text style="stroke:none;" x="610" xml:space="preserve" y="120">ReadADCSemWriteBuffer</text>
-      <text style="stroke:none;" x="660" xml:space="preserve" y="70">[1,1]</text>
-      <text style="stroke:none;" x="640" xml:space="preserve" y="60">[prio=15] - {cpu}</text>
+      <text style="stroke:none;" x="660" xml:space="preserve" y="60">[1,10]</text>
+      <text style="stroke:none;" x="630" xml:space="preserve" y="70">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="87" y="425" />
-      <text style="stroke:none;" x="60" xml:space="preserve" y="471">TelemetryTask</text>
+      <text style="stroke:none;" x="60" xml:space="preserve" y="470">TelemetryTask</text>
       <text style="stroke:none;" x="50" xml:space="preserve" y="420">[200000,200000]</text>
       <text style="stroke:none;" x="96" xml:space="preserve" y="437"></text>
       <rect height="30" style="stroke:none;" width="6" x="287" y="425" />
       <text style="stroke:none;" x="260" xml:space="preserve" y="471">WaitReadADCData</text>
-      <text style="stroke:none;" x="280" xml:space="preserve" y="411">[0,0]</text>
+      <text style="stroke:none;" x="280" xml:space="preserve" y="410">[0,10]</text>
       <text style="stroke:none;" x="260" xml:space="preserve" y="420">[prio=5] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="787" y="425" />
       <text style="stroke:none;" x="750" xml:space="preserve" y="470">WaitReadASCanData</text>
-      <text style="stroke:none;" x="780" xml:space="preserve" y="400">[0,0]</text>
+      <text style="stroke:none;" x="780" xml:space="preserve" y="410">[0,10]</text>
       <text style="stroke:none;" x="760" xml:space="preserve" y="420">[prio=5] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="1247" y="424" />
-      <text style="stroke:none;" x="1210" xml:space="preserve" y="469">SendTelemetry</text>
-      <text style="stroke:none;" x="1230" xml:space="preserve" y="399">[11,50]</text>
-      <text style="stroke:none;" x="1210" xml:space="preserve" y="420">[prio=5] - {cpu}</text>
+      <rect height="30" style="stroke:none;" width="6" x="1247" y="425" />
+      <text style="stroke:none;" x="1210" xml:space="preserve" y="470">SendTelemetry</text>
+      <text style="stroke:none;" x="1230" xml:space="preserve" y="401">[11,60]</text>
+      <text style="stroke:none;" x="1210" xml:space="preserve" y="421">[prio=5] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="547" y="425" />
       <text style="stroke:none;" x="520" xml:space="preserve" y="470">ReadADCData</text>
-      <text style="stroke:none;" x="530" xml:space="preserve" y="400">[1,1]</text>
+      <text style="stroke:none;" x="540" xml:space="preserve" y="410">[1,10]</text>
       <text style="stroke:none;" x="520" xml:space="preserve" y="420">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="997" y="425" />
       <text style="stroke:none;" x="960" xml:space="preserve" y="470">ReadASCanData</text>
-      <text style="stroke:none;" x="990" xml:space="preserve" y="400">[1,1]</text>
+      <text style="stroke:none;" x="990" xml:space="preserve" y="410">[1,10]</text>
       <text style="stroke:none;" x="970" xml:space="preserve" y="420">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="97" y="245" />
       <text style="stroke:none;" x="80" xml:space="preserve" y="290">PedalTask</text>
@@ -142,19 +134,19 @@
       <text style="stroke:none;" x="106" xml:space="preserve" y="257"></text>
       <rect height="30" style="stroke:none;" width="6" x="297" y="245" />
       <text style="stroke:none;" x="270" xml:space="preserve" y="290">WaitReadAPPS</text>
-      <text style="stroke:none;" x="290" xml:space="preserve" y="230">[0,0]</text>
+      <text style="stroke:none;" x="290" xml:space="preserve" y="230">[0,10]</text>
       <text style="stroke:none;" x="270" xml:space="preserve" y="240">[prio=8] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="477" y="245" />
-      <text style="stroke:none;" x="490" xml:space="preserve" y="290">ReadAPPS</text>
-      <text style="stroke:none;" x="470" xml:space="preserve" y="230">[1,1]</text>
-      <text style="stroke:none;" x="450" xml:space="preserve" y="240">[prio=15] - {cpu}</text>
+      <rect height="30" style="stroke:none;" width="6" x="467" y="245" />
+      <text style="stroke:none;" x="480" xml:space="preserve" y="290">ReadAPPS</text>
+      <text style="stroke:none;" x="460" xml:space="preserve" y="230">[1,10]</text>
+      <text style="stroke:none;" x="440" xml:space="preserve" y="240">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="657" y="245" />
       <text style="stroke:none;" x="640" xml:space="preserve" y="290">SendData</text>
-      <text style="stroke:none;" x="650" xml:space="preserve" y="230">[1,1]</text>
+      <text style="stroke:none;" x="650" xml:space="preserve" y="230">[1,10]</text>
       <text style="stroke:none;" x="630" xml:space="preserve" y="240">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="847" y="245" />
       <text style="stroke:none;" x="810" xml:space="preserve" y="290">CheckPlausability</text>
-      <text style="stroke:none;" x="840" xml:space="preserve" y="230">[1,1]</text>
+      <text style="stroke:none;" x="840" xml:space="preserve" y="230">[1,10]</text>
       <text style="stroke:none;" x="820" xml:space="preserve" y="240">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="67" y="725" />
       <text style="stroke:none;" x="40" xml:space="preserve" y="770">FanContrTask</text>
@@ -162,15 +154,15 @@
       <text style="stroke:none;" x="76" xml:space="preserve" y="737"></text>
       <rect height="30" style="stroke:none;" width="6" x="307" y="725" />
       <text style="stroke:none;" x="260" xml:space="preserve" y="770">WaitReadTempData</text>
-      <text style="stroke:none;" x="300" xml:space="preserve" y="710">[0,0]</text>
+      <text style="stroke:none;" x="300" xml:space="preserve" y="710">[0,10]</text>
       <text style="stroke:none;" x="280" xml:space="preserve" y="720">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="517" y="725" />
       <text style="stroke:none;" x="490" xml:space="preserve" y="770">ReadTempData</text>
-      <text style="stroke:none;" x="510" xml:space="preserve" y="710">[1,1]</text>
+      <text style="stroke:none;" x="510" xml:space="preserve" y="710">[1,10]</text>
       <text style="stroke:none;" x="490" xml:space="preserve" y="720">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="747" y="725" />
       <text style="stroke:none;" x="710" xml:space="preserve" y="770">HandleFanSpeed</text>
-      <text style="stroke:none;" x="740" xml:space="preserve" y="710">[1,1]</text>
+      <text style="stroke:none;" x="740" xml:space="preserve" y="710">[1,10]</text>
       <text style="stroke:none;" x="720" xml:space="preserve" y="720">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="67" y="965" />
       <text style="stroke:none;" x="30" xml:space="preserve" y="1010">CanHandlerTask</text>
@@ -178,130 +170,101 @@
       <text style="stroke:none;" x="76" xml:space="preserve" y="977"></text>
       <rect height="30" style="stroke:none;" width="6" x="327" y="965" />
       <text style="stroke:none;" x="270" xml:space="preserve" y="1010">WaitEngineCanRxHandler</text>
-      <text style="stroke:none;" x="320" xml:space="preserve" y="950">[0,0]</text>
+      <text style="stroke:none;" x="320" xml:space="preserve" y="950">[0,10]</text>
       <text style="stroke:none;" x="300" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="567" y="965" />
       <text style="stroke:none;" x="520" xml:space="preserve" y="1010">EngineCanRxHandler</text>
-      <text style="stroke:none;" x="560" xml:space="preserve" y="950">[1,6]</text>
+      <text style="stroke:none;" x="560" xml:space="preserve" y="950">[1,16]</text>
       <text style="stroke:none;" x="530" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="797" y="965" />
       <text style="stroke:none;" x="760" xml:space="preserve" y="1010">WaitASCanRxHandler</text>
-      <text style="stroke:none;" x="790" xml:space="preserve" y="950">[0,0]</text>
+      <text style="stroke:none;" x="790" xml:space="preserve" y="950">[0,10]</text>
       <text style="stroke:none;" x="770" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1027" y="965" />
       <text style="stroke:none;" x="990" xml:space="preserve" y="1010">ASCanRxHandler</text>
-      <text style="stroke:none;" x="1020" xml:space="preserve" y="950">[1,6]</text>
+      <text style="stroke:none;" x="1020" xml:space="preserve" y="950">[1,16]</text>
       <text style="stroke:none;" x="1000" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="1297" y="965" />
-      <text style="stroke:none;" x="1250" xml:space="preserve" y="1010">WaitEngingCanTxHandler</text>
-      <text style="stroke:none;" x="1290" xml:space="preserve" y="950">[0,0]</text>
-      <text style="stroke:none;" x="1270" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
+      <rect height="30" style="stroke:none;" width="6" x="1277" y="965" />
+      <text style="stroke:none;" x="1230" xml:space="preserve" y="1010">EngineCanTxHandler</text>
+      <text style="stroke:none;" x="1270" xml:space="preserve" y="950">[1,16]</text>
+      <text style="stroke:none;" x="1250" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1567" y="965" />
-      <text style="stroke:none;" x="1520" xml:space="preserve" y="1010">EngineCanTxHandler</text>
-      <text style="stroke:none;" x="1560" xml:space="preserve" y="950">[1,6]</text>
+      <text style="stroke:none;" x="1540" xml:space="preserve" y="1010">ASCanTxHandler</text>
+      <text style="stroke:none;" x="1560" xml:space="preserve" y="950">[1,16]</text>
       <text style="stroke:none;" x="1540" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="2127" y="965" />
-      <text style="stroke:none;" x="2100" xml:space="preserve" y="1010">ASCanTxHandler</text>
-      <text style="stroke:none;" x="2120" xml:space="preserve" y="950">[1,6]</text>
-      <text style="stroke:none;" x="2100" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="1887" y="965" />
-      <text style="stroke:none;" x="1840" xml:space="preserve" y="1010">WaitASCanTxHandler</text>
-      <text style="stroke:none;" x="1880" xml:space="preserve" y="950">[0,0]</text>
-      <text style="stroke:none;" x="1860" xml:space="preserve" y="960">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="17" y="1645" />
       <text style="stroke:none;" x="30" xml:space="preserve" y="1690">CheckModeTask</text>
       <text style="stroke:none;" x="10" xml:space="preserve" y="1640">[200000,200000]</text>
       <text style="stroke:none;" x="26" xml:space="preserve" y="1657"></text>
       <rect height="30" style="stroke:none;" width="6" x="517" y="1645" />
       <text style="stroke:none;" x="470" xml:space="preserve" y="1690">WaitReadModeData</text>
-      <text style="stroke:none;" x="510" xml:space="preserve" y="1630">[0,0]</text>
+      <text style="stroke:none;" x="510" xml:space="preserve" y="1630">[0,10]</text>
       <text style="stroke:none;" x="490" xml:space="preserve" y="1640">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="947" y="1645" />
       <text style="stroke:none;" x="920" xml:space="preserve" y="1690">UpdateMode</text>
-      <text style="stroke:none;" x="940" xml:space="preserve" y="1630">[1,1]</text>
+      <text style="stroke:none;" x="940" xml:space="preserve" y="1630">[1,10]</text>
       <text style="stroke:none;" x="920" xml:space="preserve" y="1640">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="737" y="1645" />
       <text style="stroke:none;" x="710" xml:space="preserve" y="1690">ReadModeData</text>
-      <text style="stroke:none;" x="730" xml:space="preserve" y="1630">[1,2]</text>
+      <text style="stroke:none;" x="730" xml:space="preserve" y="1630">[1,20]</text>
       <text style="stroke:none;" x="710" xml:space="preserve" y="1640">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1157" y="1645" />
       <text style="stroke:none;" x="1130" xml:space="preserve" y="1690">WaitReadRPM</text>
-      <text style="stroke:none;" x="1150" xml:space="preserve" y="1630">[0,0]</text>
+      <text style="stroke:none;" x="1150" xml:space="preserve" y="1630">[0,10]</text>
       <text style="stroke:none;" x="1130" xml:space="preserve" y="1640">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1357" y="1645" />
       <text style="stroke:none;" x="1340" xml:space="preserve" y="1690">ReadRPM</text>
-      <text style="stroke:none;" x="1350" xml:space="preserve" y="1630">[1,1]</text>
+      <text style="stroke:none;" x="1350" xml:space="preserve" y="1630">[1,10]</text>
       <text style="stroke:none;" x="1330" xml:space="preserve" y="1640">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1597" y="1645" />
       <text style="stroke:none;" x="1560" xml:space="preserve" y="1690">CheckPlausability1</text>
-      <text style="stroke:none;" x="1590" xml:space="preserve" y="1630">[1,1]</text>
+      <text style="stroke:none;" x="1590" xml:space="preserve" y="1630">[1,10]</text>
       <text style="stroke:none;" x="1570" xml:space="preserve" y="1640">[prio=8] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="267" y="1795" />
-      <text style="stroke:none;" x="240" xml:space="preserve" y="1840">CheckMode2</text>
-      <text style="stroke:none;" x="260" xml:space="preserve" y="1780">[1,1]</text>
-      <text style="stroke:none;" x="240" xml:space="preserve" y="1790">[prio=8] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="477" y="1885" />
-      <text style="stroke:none;" x="440" xml:space="preserve" y="1930">CheckASMSOff</text>
-      <text style="stroke:none;" x="470" xml:space="preserve" y="1870">[1,1]</text>
-      <text style="stroke:none;" x="450" xml:space="preserve" y="1880">[prio=8] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="447" y="1795" />
-      <text style="stroke:none;" x="420" xml:space="preserve" y="1840">ReadRPMIn1</text>
-      <text style="stroke:none;" x="440" xml:space="preserve" y="1780">[1,1]</text>
-      <text style="stroke:none;" x="420" xml:space="preserve" y="1790">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="247" y="1645" />
       <text style="stroke:none;" x="220" xml:space="preserve" y="1690">CheckMode1</text>
-      <text style="stroke:none;" x="240" xml:space="preserve" y="1630">[0,0]</text>
+      <text style="stroke:none;" x="240" xml:space="preserve" y="1630">[0,5]</text>
       <text style="stroke:none;" x="220" xml:space="preserve" y="1640">[prio=8] - {cpu}</text>
-      <rect height="30" style="stroke:none;" width="6" x="257" y="1885" />
-      <text style="stroke:none;" x="230" xml:space="preserve" y="1930">CheckMode3</text>
-      <text style="stroke:none;" x="250" xml:space="preserve" y="1870">[0,0]</text>
-      <text style="stroke:none;" x="230" xml:space="preserve" y="1880">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="77" y="2605" />
       <text style="stroke:none;" x="60" xml:space="preserve" y="2650">GearTask</text>
       <text style="stroke:none;" x="50" xml:space="preserve" y="2600">[50000,50000]</text>
       <text style="stroke:none;" x="50" xml:space="preserve" y="2600"></text>
       <rect height="30" style="stroke:none;" width="6" x="377" y="2605" />
       <text style="stroke:none;" x="330" xml:space="preserve" y="2650">WaitGetDesmoPosition</text>
-      <text style="stroke:none;" x="370" xml:space="preserve" y="2590">[0,0]</text>
+      <text style="stroke:none;" x="370" xml:space="preserve" y="2590">[0,10]</text>
       <text style="stroke:none;" x="350" xml:space="preserve" y="2600">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="657" y="2605" />
       <text style="stroke:none;" x="620" xml:space="preserve" y="2650">GetDesmoPosition</text>
-      <text style="stroke:none;" x="650" xml:space="preserve" y="2590">[1,2]</text>
+      <text style="stroke:none;" x="650" xml:space="preserve" y="2590">[1,12]</text>
       <text style="stroke:none;" x="630" xml:space="preserve" y="2600">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="937" y="2605" />
       <text style="stroke:none;" x="900" xml:space="preserve" y="2650">GetCurrentGear</text>
-      <text style="stroke:none;" x="930" xml:space="preserve" y="2590">[9,15]</text>
+      <text style="stroke:none;" x="930" xml:space="preserve" y="2590">[9,25]</text>
       <text style="stroke:none;" x="910" xml:space="preserve" y="2600">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1207" y="2605" />
       <text style="stroke:none;" x="1150" xml:space="preserve" y="2650">WaitReadRequestedShift</text>
-      <text style="stroke:none;" x="1200" xml:space="preserve" y="2590">[0,0]</text>
+      <text style="stroke:none;" x="1200" xml:space="preserve" y="2590">[0,10]</text>
       <text style="stroke:none;" x="1180" xml:space="preserve" y="2600">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1537" y="2605" />
       <text style="stroke:none;" x="1490" xml:space="preserve" y="2650">ReadRequestedShift</text>
-      <text style="stroke:none;" x="1530" xml:space="preserve" y="2590">[1,2]</text>
+      <text style="stroke:none;" x="1530" xml:space="preserve" y="2590">[1,12]</text>
       <text style="stroke:none;" x="1510" xml:space="preserve" y="2600">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="1857" y="2605" />
       <text style="stroke:none;" x="1830" xml:space="preserve" y="2650">WaitReadRPM4</text>
-      <text style="stroke:none;" x="1850" xml:space="preserve" y="2590">[0,0]</text>
+      <text style="stroke:none;" x="1850" xml:space="preserve" y="2590">[0,10]</text>
       <text style="stroke:none;" x="1830" xml:space="preserve" y="2600">[prio=8] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="2147" y="2605" />
       <text style="stroke:none;" x="2130" xml:space="preserve" y="2650">ReadRPM4</text>
-      <text style="stroke:none;" x="2140" xml:space="preserve" y="2590">[1,2]</text>
+      <text style="stroke:none;" x="2140" xml:space="preserve" y="2590">[1,12]</text>
       <text style="stroke:none;" x="2120" xml:space="preserve" y="2600">[prio=15] - {cpu}</text>
       <rect height="30" style="stroke:none;" width="6" x="2677" y="2605" />
       <text style="stroke:none;" x="2650" xml:space="preserve" y="2650">ActuateGear</text>
-      <text style="stroke:none;" x="2670" xml:space="preserve" y="2590">[1,2]</text>
+      <text style="stroke:none;" x="2670" xml:space="preserve" y="2590">[1,12]</text>
       <text style="stroke:none;" x="2650" xml:space="preserve" y="2600">[prio=8] - {cpu}</text>
       <circle cx="100" cy="90" r="3" style="fill:none;" />
       <line style="fill:none;" x1="63" x2="100" y1="90" y2="90" />
       <line style="fill:none;" x1="100" x2="165" y1="90" y2="90" />
       <line style="fill:none;" x1="165" x2="154" y1="90" y2="86" />
       <line style="fill:none;" x1="165" x2="154" y1="90" y2="94" />
-      <circle cx="220" cy="90" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="195" x2="220" y1="90" y2="90" />
-      <line style="fill:none;" x1="220" x2="347" y1="90" y2="90" />
-      <line style="fill:none;" x1="347" x2="336" y1="90" y2="86" />
-      <line style="fill:none;" x1="347" x2="336" y1="90" y2="94" />
       <circle cx="270" cy="150" r="3" style="fill:none;" />
       <circle cx="270" cy="100" r="3" style="fill:none;" />
       <line style="fill:none;" x1="5245" x2="270" y1="150" y2="150" />
@@ -309,6 +272,11 @@
       <line style="fill:none;" x1="270" x2="347" y1="100" y2="100" />
       <line style="fill:none;" x1="347" x2="336" y1="100" y2="96" />
       <line style="fill:none;" x1="347" x2="336" y1="100" y2="104" />
+      <circle cx="220" cy="90" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="195" x2="220" y1="90" y2="90" />
+      <line style="fill:none;" x1="220" x2="347" y1="90" y2="90" />
+      <line style="fill:none;" x1="347" x2="336" y1="90" y2="86" />
+      <line style="fill:none;" x1="347" x2="336" y1="90" y2="94" />
       <circle cx="430" cy="90" r="3" style="fill:none;" />
       <line style="fill:none;" x1="353" x2="430" y1="90" y2="90" />
       <line style="fill:none;" x1="430" x2="495" y1="90" y2="90" />
@@ -319,10 +287,10 @@
       <line style="fill:none;" x1="610" x2="667" y1="90" y2="90" />
       <line style="fill:none;" x1="667" x2="656" y1="90" y2="86" />
       <line style="fill:none;" x1="667" x2="656" y1="90" y2="94" />
-      <circle cx="780" cy="100" r="3" style="fill:none;" />
+      <circle cx="780" cy="90" r="3" style="fill:none;" />
       <circle cx="780" cy="150" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="673" x2="780" y1="100" y2="100" />
-      <line style="fill:none;" x1="780" x2="780" y1="100" y2="150" />
+      <line style="fill:none;" x1="673" x2="780" y1="90" y2="90" />
+      <line style="fill:none;" x1="780" x2="780" y1="90" y2="150" />
       <line style="fill:none;" x1="780" x2="5245" y1="150" y2="150" />
       <line style="fill:none;" x1="5245" x2="5234" y1="150" y2="146" />
       <line style="fill:none;" x1="5245" x2="5234" y1="150" y2="154" />
@@ -354,17 +322,17 @@
       <line style="fill:none;" x1="354" x2="405" y1="439" y2="439" />
       <line style="fill:none;" x1="405" x2="394" y1="439" y2="435" />
       <line style="fill:none;" x1="405" x2="394" y1="439" y2="443" />
-      <circle cx="730" cy="439" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="675" x2="730" y1="440" y2="439" />
-      <line style="fill:none;" x1="730" x2="787" y1="439" y2="439" />
-      <line style="fill:none;" x1="787" x2="776" y1="439" y2="435" />
-      <line style="fill:none;" x1="787" x2="776" y1="439" y2="443" />
-      <circle cx="4030" cy="510" r="3" style="fill:none;" />
-      <circle cx="730" cy="510" r="3" style="fill:none;" />
+      <circle cx="730" cy="440" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="675" x2="730" y1="440" y2="440" />
+      <line style="fill:none;" x1="730" x2="787" y1="440" y2="440" />
+      <line style="fill:none;" x1="787" x2="776" y1="440" y2="436" />
+      <line style="fill:none;" x1="787" x2="776" y1="440" y2="444" />
+      <circle cx="4030" cy="500" r="3" style="fill:none;" />
+      <circle cx="730" cy="500" r="3" style="fill:none;" />
       <circle cx="730" cy="450" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="510" />
-      <line style="fill:none;" x1="4030" x2="730" y1="510" y2="510" />
-      <line style="fill:none;" x1="730" x2="730" y1="510" y2="450" />
+      <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="500" />
+      <line style="fill:none;" x1="4030" x2="730" y1="500" y2="500" />
+      <line style="fill:none;" x1="730" x2="730" y1="500" y2="450" />
       <line style="fill:none;" x1="730" x2="787" y1="450" y2="450" />
       <line style="fill:none;" x1="787" x2="776" y1="450" y2="446" />
       <line style="fill:none;" x1="787" x2="776" y1="450" y2="454" />
@@ -412,12 +380,12 @@
       <line style="fill:none;" x1="1115" x2="1104" y1="440" y2="436" />
       <line style="fill:none;" x1="1115" x2="1104" y1="440" y2="444" />
       <circle cx="1050" cy="449" r="3" style="fill:none;" />
-      <circle cx="1050" cy="500" r="3" style="fill:none;" />
-      <circle cx="4030" cy="500" r="3" style="fill:none;" />
+      <circle cx="1050" cy="490" r="3" style="fill:none;" />
+      <circle cx="4030" cy="490" r="3" style="fill:none;" />
       <line style="fill:none;" x1="1003" x2="1050" y1="449" y2="449" />
-      <line style="fill:none;" x1="1050" x2="1050" y1="449" y2="500" />
-      <line style="fill:none;" x1="1050" x2="4030" y1="500" y2="500" />
-      <line style="fill:none;" x1="4030" x2="4030" y1="500" y2="405" />
+      <line style="fill:none;" x1="1050" x2="1050" y1="449" y2="490" />
+      <line style="fill:none;" x1="1050" x2="4030" y1="490" y2="490" />
+      <line style="fill:none;" x1="4030" x2="4030" y1="490" y2="405" />
       <line style="fill:none;" x1="4030" x2="4026" y1="405" y2="416" />
       <line style="fill:none;" x1="4030" x2="4034" y1="405" y2="416" />
       <circle cx="139" cy="260" r="3" style="fill:none;" />
@@ -452,14 +420,14 @@
       <line style="fill:none;" x1="375" x2="364" y1="260" y2="264" />
       <circle cx="441" cy="260" r="3" style="fill:none;" />
       <line style="fill:none;" x1="405" x2="441" y1="260" y2="260" />
-      <line style="fill:none;" x1="441" x2="477" y1="260" y2="260" />
-      <line style="fill:none;" x1="477" x2="466" y1="260" y2="256" />
-      <line style="fill:none;" x1="477" x2="466" y1="260" y2="264" />
+      <line style="fill:none;" x1="441" x2="467" y1="260" y2="260" />
+      <line style="fill:none;" x1="467" x2="456" y1="260" y2="256" />
+      <line style="fill:none;" x1="467" x2="456" y1="260" y2="264" />
       <circle cx="530" cy="250" r="3" style="fill:none;" />
       <circle cx="530" cy="200" r="3" style="fill:none;" />
       <circle cx="1180" cy="200" r="3" style="fill:none;" />
       <circle cx="1180" cy="150" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="483" x2="530" y1="250" y2="250" />
+      <line style="fill:none;" x1="473" x2="530" y1="250" y2="250" />
       <line style="fill:none;" x1="530" x2="530" y1="250" y2="200" />
       <line style="fill:none;" x1="530" x2="1180" y1="200" y2="200" />
       <line style="fill:none;" x1="1180" x2="1180" y1="200" y2="150" />
@@ -467,7 +435,7 @@
       <line style="fill:none;" x1="5245" x2="5234" y1="150" y2="146" />
       <line style="fill:none;" x1="5245" x2="5234" y1="150" y2="154" />
       <circle cx="529" cy="260" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="483" x2="529" y1="260" y2="260" />
+      <line style="fill:none;" x1="473" x2="529" y1="260" y2="260" />
       <line style="fill:none;" x1="529" x2="575" y1="260" y2="260" />
       <line style="fill:none;" x1="575" x2="564" y1="260" y2="256" />
       <line style="fill:none;" x1="575" x2="564" y1="260" y2="264" />
@@ -496,9 +464,9 @@
       <line style="fill:none;" x1="246" x2="307" y1="740" y2="740" />
       <line style="fill:none;" x1="307" x2="296" y1="740" y2="736" />
       <line style="fill:none;" x1="307" x2="296" y1="740" y2="744" />
-      <circle cx="250" cy="750" r="3" style="fill:none;" />
       <circle cx="3340" cy="790" r="3" style="fill:none;" />
       <circle cx="250" cy="790" r="3" style="fill:none;" />
+      <circle cx="250" cy="750" r="3" style="fill:none;" />
       <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="790" />
       <line style="fill:none;" x1="3340" x2="250" y1="790" y2="790" />
       <line style="fill:none;" x1="250" x2="250" y1="790" y2="750" />
@@ -544,11 +512,11 @@
       <line style="fill:none;" x1="231" x2="327" y1="980" y2="980" />
       <line style="fill:none;" x1="327" x2="316" y1="980" y2="976" />
       <line style="fill:none;" x1="327" x2="316" y1="980" y2="984" />
+      <circle cx="3340" cy="840" r="3" style="fill:none;" />
       <circle cx="800" cy="840" r="3" style="fill:none;" />
       <circle cx="800" cy="880" r="3" style="fill:none;" />
       <circle cx="270" cy="880" r="3" style="fill:none;" />
       <circle cx="270" cy="970" r="3" style="fill:none;" />
-      <circle cx="3340" cy="840" r="3" style="fill:none;" />
       <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="840" />
       <line style="fill:none;" x1="3340" x2="800" y1="840" y2="840" />
       <line style="fill:none;" x1="800" x2="800" y1="840" y2="880" />
@@ -590,19 +558,23 @@
       <line style="fill:none;" x1="740" x2="797" y1="980" y2="980" />
       <line style="fill:none;" x1="797" x2="786" y1="980" y2="976" />
       <line style="fill:none;" x1="797" x2="786" y1="980" y2="984" />
-      <circle cx="4030" cy="910" r="3" style="fill:none;" />
+      <circle cx="4030" cy="870" r="3" style="fill:none;" />
+      <circle cx="3350" cy="870" r="3" style="fill:none;" />
+      <circle cx="3350" cy="860" r="3" style="fill:none;" />
+      <circle cx="3330" cy="860" r="3" style="fill:none;" />
+      <circle cx="3330" cy="870" r="3" style="fill:none;" />
+      <circle cx="840" cy="860" r="3" style="fill:none;" />
+      <circle cx="840" cy="910" r="3" style="fill:none;" />
       <circle cx="740" cy="910" r="3" style="fill:none;" />
       <circle cx="740" cy="970" r="3" style="fill:none;" />
-      <circle cx="3350" cy="910" r="3" style="fill:none;" />
-      <circle cx="3330" cy="910" r="3" style="fill:none;" />
-      <circle cx="3350" cy="900" r="3" style="fill:none;" />
-      <circle cx="3330" cy="900" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="910" />
-      <line style="fill:none;" x1="4030" x2="3350" y1="910" y2="910" />
-      <line style="fill:none;" x1="3350" x2="3350" y1="910" y2="900" />
-      <line style="fill:none;" x1="3350" x2="3330" y1="900" y2="900" />
-      <line style="fill:none;" x1="3330" x2="3330" y1="900" y2="910" />
-      <line style="fill:none;" x1="3330" x2="740" y1="910" y2="910" />
+      <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="870" />
+      <line style="fill:none;" x1="4030" x2="3350" y1="870" y2="870" />
+      <line style="fill:none;" x1="3350" x2="3350" y1="870" y2="860" />
+      <line style="fill:none;" x1="3350" x2="3330" y1="860" y2="860" />
+      <line style="fill:none;" x1="3330" x2="3330" y1="860" y2="870" />
+      <line style="fill:none;" x1="3330" x2="840" y1="870" y2="860" />
+      <line style="fill:none;" x1="840" x2="840" y1="860" y2="910" />
+      <line style="fill:none;" x1="840" x2="740" y1="910" y2="910" />
       <line style="fill:none;" x1="740" x2="740" y1="910" y2="970" />
       <line style="fill:none;" x1="740" x2="797" y1="970" y2="970" />
       <line style="fill:none;" x1="797" x2="786" y1="970" y2="966" />
@@ -617,99 +589,47 @@
       <line style="fill:none;" x1="981" x2="1027" y1="980" y2="980" />
       <line style="fill:none;" x1="1027" x2="1016" y1="980" y2="976" />
       <line style="fill:none;" x1="1027" x2="1016" y1="980" y2="984" />
-      <circle cx="1079" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1033" x2="1079" y1="980" y2="980" />
-      <line style="fill:none;" x1="1079" x2="1145" y1="980" y2="980" />
-      <line style="fill:none;" x1="1145" x2="1134" y1="980" y2="976" />
-      <line style="fill:none;" x1="1145" x2="1134" y1="980" y2="984" />
       <circle cx="1090" cy="970" r="3" style="fill:none;" />
-      <circle cx="1090" cy="920" r="3" style="fill:none;" />
-      <circle cx="2420" cy="920" r="3" style="fill:none;" />
-      <circle cx="2420" cy="930" r="3" style="fill:none;" />
-      <circle cx="4030" cy="930" r="3" style="fill:none;" />
-      <circle cx="3350" cy="920" r="3" style="fill:none;" />
-      <circle cx="3330" cy="920" r="3" style="fill:none;" />
-      <circle cx="3330" cy="930" r="3" style="fill:none;" />
-      <circle cx="3350" cy="930" r="3" style="fill:none;" />
+      <circle cx="1090" cy="870" r="3" style="fill:none;" />
+      <circle cx="2420" cy="880" r="3" style="fill:none;" />
+      <circle cx="2420" cy="890" r="3" style="fill:none;" />
+      <circle cx="3330" cy="890" r="3" style="fill:none;" />
+      <circle cx="3330" cy="880" r="3" style="fill:none;" />
+      <circle cx="3350" cy="880" r="3" style="fill:none;" />
+      <circle cx="3350" cy="890" r="3" style="fill:none;" />
+      <circle cx="4030" cy="890" r="3" style="fill:none;" />
       <line style="fill:none;" x1="1033" x2="1090" y1="970" y2="970" />
-      <line style="fill:none;" x1="1090" x2="1090" y1="970" y2="920" />
-      <line style="fill:none;" x1="1090" x2="2420" y1="920" y2="920" />
-      <line style="fill:none;" x1="2420" x2="2420" y1="920" y2="930" />
-      <line style="fill:none;" x1="2420" x2="3330" y1="930" y2="930" />
-      <line style="fill:none;" x1="3330" x2="3330" y1="930" y2="920" />
-      <line style="fill:none;" x1="3330" x2="3350" y1="920" y2="920" />
-      <line style="fill:none;" x1="3350" x2="3350" y1="920" y2="930" />
-      <line style="fill:none;" x1="3350" x2="4030" y1="930" y2="930" />
-      <line style="fill:none;" x1="4030" x2="4030" y1="930" y2="405" />
+      <line style="fill:none;" x1="1090" x2="1090" y1="970" y2="870" />
+      <line style="fill:none;" x1="1090" x2="2420" y1="870" y2="880" />
+      <line style="fill:none;" x1="2420" x2="2420" y1="880" y2="890" />
+      <line style="fill:none;" x1="2420" x2="3330" y1="890" y2="890" />
+      <line style="fill:none;" x1="3330" x2="3330" y1="890" y2="880" />
+      <line style="fill:none;" x1="3330" x2="3350" y1="880" y2="880" />
+      <line style="fill:none;" x1="3350" x2="3350" y1="880" y2="890" />
+      <line style="fill:none;" x1="3350" x2="4030" y1="890" y2="890" />
+      <line style="fill:none;" x1="4030" x2="4030" y1="890" y2="405" />
       <line style="fill:none;" x1="4030" x2="4026" y1="405" y2="416" />
       <line style="fill:none;" x1="4030" x2="4034" y1="405" y2="416" />
-      <circle cx="1191" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1175" x2="1191" y1="980" y2="980" />
-      <line style="fill:none;" x1="1191" x2="1297" y1="980" y2="980" />
-      <line style="fill:none;" x1="1297" x2="1286" y1="980" y2="976" />
-      <line style="fill:none;" x1="1297" x2="1286" y1="980" y2="984" />
-      <circle cx="1580" cy="1050" r="3" style="fill:none;" />
-      <circle cx="1240" cy="1050" r="3" style="fill:none;" />
-      <circle cx="1240" cy="990" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1585" x2="1580" y1="1066" y2="1050" />
-      <line style="fill:none;" x1="1580" x2="1240" y1="1050" y2="1050" />
-      <line style="fill:none;" x1="1240" x2="1240" y1="1050" y2="990" />
-      <line style="fill:none;" x1="1240" x2="1297" y1="990" y2="990" />
-      <line style="fill:none;" x1="1297" x2="1286" y1="990" y2="986" />
-      <line style="fill:none;" x1="1297" x2="1286" y1="990" y2="994" />
-      <circle cx="1304" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1303" x2="1304" y1="980" y2="980" />
-      <line style="fill:none;" x1="1304" x2="1425" y1="980" y2="980" />
-      <line style="fill:none;" x1="1425" x2="1414" y1="980" y2="976" />
-      <line style="fill:none;" x1="1425" x2="1414" y1="980" y2="984" />
-      <circle cx="1470" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1455" x2="1470" y1="980" y2="980" />
-      <line style="fill:none;" x1="1470" x2="1567" y1="980" y2="980" />
+      <circle cx="1089" cy="980" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="1033" x2="1089" y1="980" y2="980" />
+      <line style="fill:none;" x1="1089" x2="1145" y1="980" y2="980" />
+      <line style="fill:none;" x1="1145" x2="1134" y1="980" y2="976" />
+      <line style="fill:none;" x1="1145" x2="1134" y1="980" y2="984" />
+      <circle cx="1190" cy="980" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="1175" x2="1190" y1="980" y2="980" />
+      <line style="fill:none;" x1="1190" x2="1277" y1="980" y2="980" />
+      <line style="fill:none;" x1="1277" x2="1266" y1="980" y2="976" />
+      <line style="fill:none;" x1="1277" x2="1266" y1="980" y2="984" />
+      <circle cx="1380" cy="980" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="1283" x2="1380" y1="980" y2="980" />
+      <line style="fill:none;" x1="1380" x2="1445" y1="980" y2="980" />
+      <line style="fill:none;" x1="1445" x2="1434" y1="980" y2="976" />
+      <line style="fill:none;" x1="1445" x2="1434" y1="980" y2="984" />
+      <circle cx="1540" cy="980" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="1475" x2="1540" y1="980" y2="980" />
+      <line style="fill:none;" x1="1540" x2="1567" y1="980" y2="980" />
       <line style="fill:none;" x1="1567" x2="1556" y1="980" y2="976" />
       <line style="fill:none;" x1="1567" x2="1556" y1="980" y2="984" />
-      <circle cx="1670" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1573" x2="1670" y1="980" y2="980" />
-      <line style="fill:none;" x1="1670" x2="1715" y1="980" y2="980" />
-      <line style="fill:none;" x1="1715" x2="1704" y1="980" y2="976" />
-      <line style="fill:none;" x1="1715" x2="1704" y1="980" y2="984" />
-      <circle cx="1630" cy="990" r="3" style="fill:none;" />
-      <circle cx="1630" cy="1040" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1573" x2="1630" y1="990" y2="990" />
-      <line style="fill:none;" x1="1630" x2="1630" y1="990" y2="1040" />
-      <line style="fill:none;" x1="1630" x2="1601" y1="1040" y2="1069" />
-      <line style="fill:none;" x1="1601" x2="1612" y1="1069" y2="1065" />
-      <line style="fill:none;" x1="1601" x2="1605" y1="1069" y2="1058" />
-      <circle cx="2100" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="2035" x2="2100" y1="980" y2="980" />
-      <line style="fill:none;" x1="2100" x2="2127" y1="980" y2="980" />
-      <line style="fill:none;" x1="2127" x2="2116" y1="980" y2="976" />
-      <line style="fill:none;" x1="2127" x2="2116" y1="980" y2="984" />
-      <circle cx="2180" cy="990" r="3" style="fill:none;" />
-      <circle cx="2180" cy="1080" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="2133" x2="2180" y1="990" y2="990" />
-      <line style="fill:none;" x1="2180" x2="2180" y1="990" y2="1080" />
-      <line style="fill:none;" x1="2180" x2="1605" y1="1080" y2="1080" />
-      <line style="fill:none;" x1="1605" x2="1616" y1="1080" y2="1084" />
-      <line style="fill:none;" x1="1605" x2="1616" y1="1080" y2="1076" />
-      <circle cx="1820" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1745" x2="1820" y1="980" y2="980" />
-      <line style="fill:none;" x1="1820" x2="1887" y1="980" y2="980" />
-      <line style="fill:none;" x1="1887" x2="1876" y1="980" y2="976" />
-      <line style="fill:none;" x1="1887" x2="1876" y1="980" y2="984" />
-      <circle cx="1690" cy="1030" r="3" style="fill:none;" />
-      <circle cx="1800" cy="1030" r="3" style="fill:none;" />
-      <circle cx="1800" cy="990" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1603" x2="1690" y1="1073" y2="1030" />
-      <line style="fill:none;" x1="1690" x2="1800" y1="1030" y2="1030" />
-      <line style="fill:none;" x1="1800" x2="1800" y1="1030" y2="990" />
-      <line style="fill:none;" x1="1800" x2="1887" y1="990" y2="990" />
-      <line style="fill:none;" x1="1887" x2="1876" y1="990" y2="986" />
-      <line style="fill:none;" x1="1887" x2="1876" y1="990" y2="994" />
-      <circle cx="1970" cy="980" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="1893" x2="1970" y1="980" y2="980" />
-      <line style="fill:none;" x1="1970" x2="2005" y1="980" y2="980" />
-      <line style="fill:none;" x1="2005" x2="1994" y1="980" y2="976" />
-      <line style="fill:none;" x1="2005" x2="1994" y1="980" y2="984" />
       <circle cx="84" cy="1660" r="3" style="fill:none;" />
       <line style="fill:none;" x1="23" x2="84" y1="1660" y2="1660" />
       <line style="fill:none;" x1="84" x2="145" y1="1660" y2="1660" />
@@ -721,10 +641,18 @@
       <line style="fill:none;" x1="517" x2="506" y1="1660" y2="1656" />
       <line style="fill:none;" x1="517" x2="506" y1="1660" y2="1664" />
       <circle cx="4030" cy="1560" r="3" style="fill:none;" />
+      <circle cx="3350" cy="1560" r="3" style="fill:none;" />
+      <circle cx="3350" cy="1550" r="3" style="fill:none;" />
+      <circle cx="3330" cy="1550" r="3" style="fill:none;" />
+      <circle cx="3330" cy="1560" r="3" style="fill:none;" />
       <circle cx="470" cy="1560" r="3" style="fill:none;" />
       <circle cx="470" cy="1650" r="3" style="fill:none;" />
       <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="1560" />
-      <line style="fill:none;" x1="4030" x2="470" y1="1560" y2="1560" />
+      <line style="fill:none;" x1="4030" x2="3350" y1="1560" y2="1560" />
+      <line style="fill:none;" x1="3350" x2="3350" y1="1560" y2="1550" />
+      <line style="fill:none;" x1="3350" x2="3330" y1="1550" y2="1550" />
+      <line style="fill:none;" x1="3330" x2="3330" y1="1550" y2="1560" />
+      <line style="fill:none;" x1="3330" x2="470" y1="1560" y2="1560" />
       <line style="fill:none;" x1="470" x2="470" y1="1560" y2="1650" />
       <line style="fill:none;" x1="470" x2="517" y1="1650" y2="1650" />
       <line style="fill:none;" x1="517" x2="506" y1="1650" y2="1646" />
@@ -751,10 +679,18 @@
       <line style="fill:none;" x1="737" x2="726" y1="1660" y2="1664" />
       <circle cx="790" cy="1650" r="3" style="fill:none;" />
       <circle cx="790" cy="1580" r="3" style="fill:none;" />
+      <circle cx="3330" cy="1580" r="3" style="fill:none;" />
+      <circle cx="3330" cy="1570" r="3" style="fill:none;" />
+      <circle cx="3350" cy="1570" r="3" style="fill:none;" />
+      <circle cx="3350" cy="1580" r="3" style="fill:none;" />
       <circle cx="4030" cy="1580" r="3" style="fill:none;" />
       <line style="fill:none;" x1="743" x2="790" y1="1650" y2="1650" />
       <line style="fill:none;" x1="790" x2="790" y1="1650" y2="1580" />
-      <line style="fill:none;" x1="790" x2="4030" y1="1580" y2="1580" />
+      <line style="fill:none;" x1="790" x2="3330" y1="1580" y2="1580" />
+      <line style="fill:none;" x1="3330" x2="3330" y1="1580" y2="1570" />
+      <line style="fill:none;" x1="3330" x2="3350" y1="1570" y2="1570" />
+      <line style="fill:none;" x1="3350" x2="3350" y1="1570" y2="1580" />
+      <line style="fill:none;" x1="3350" x2="4030" y1="1580" y2="1580" />
       <line style="fill:none;" x1="4030" x2="4030" y1="1580" y2="405" />
       <line style="fill:none;" x1="4030" x2="4026" y1="405" y2="416" />
       <line style="fill:none;" x1="4030" x2="4034" y1="405" y2="416" />
@@ -768,6 +704,15 @@
       <line style="fill:none;" x1="1120" x2="1157" y1="1660" y2="1660" />
       <line style="fill:none;" x1="1157" x2="1146" y1="1660" y2="1656" />
       <line style="fill:none;" x1="1157" x2="1146" y1="1660" y2="1664" />
+      <circle cx="3340" cy="1600" r="3" style="fill:none;" />
+      <circle cx="1120" cy="1600" r="3" style="fill:none;" />
+      <circle cx="1120" cy="1650" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="1600" />
+      <line style="fill:none;" x1="3340" x2="1120" y1="1600" y2="1600" />
+      <line style="fill:none;" x1="1120" x2="1120" y1="1600" y2="1650" />
+      <line style="fill:none;" x1="1120" x2="1157" y1="1650" y2="1650" />
+      <line style="fill:none;" x1="1157" x2="1146" y1="1650" y2="1646" />
+      <line style="fill:none;" x1="1157" x2="1146" y1="1650" y2="1654" />
       <circle cx="1209" cy="1660" r="3" style="fill:none;" />
       <line style="fill:none;" x1="1163" x2="1209" y1="1660" y2="1660" />
       <line style="fill:none;" x1="1209" x2="1255" y1="1660" y2="1660" />
@@ -797,28 +742,6 @@
       <line style="fill:none;" x1="1546" x2="1597" y1="1660" y2="1660" />
       <line style="fill:none;" x1="1597" x2="1586" y1="1660" y2="1656" />
       <line style="fill:none;" x1="1597" x2="1586" y1="1660" y2="1664" />
-      <circle cx="210" cy="1660" r="3" style="fill:none;" />
-      <circle cx="210" cy="1810" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="175" x2="210" y1="1660" y2="1660" />
-      <line style="fill:none;" x1="210" x2="210" y1="1660" y2="1810" />
-      <line style="fill:none;" x1="210" x2="267" y1="1810" y2="1810" />
-      <line style="fill:none;" x1="267" x2="256" y1="1810" y2="1806" />
-      <line style="fill:none;" x1="267" x2="256" y1="1810" y2="1814" />
-      <circle cx="290" cy="1810" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="273" x2="290" y1="1810" y2="1810" />
-      <line style="fill:none;" x1="290" x2="345" y1="1810" y2="1810" />
-      <line style="fill:none;" x1="345" x2="334" y1="1810" y2="1806" />
-      <line style="fill:none;" x1="345" x2="334" y1="1810" y2="1814" />
-      <circle cx="371" cy="1900" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="335" x2="371" y1="1900" y2="1900" />
-      <line style="fill:none;" x1="371" x2="477" y1="1900" y2="1900" />
-      <line style="fill:none;" x1="477" x2="466" y1="1900" y2="1896" />
-      <line style="fill:none;" x1="477" x2="466" y1="1900" y2="1904" />
-      <circle cx="400" cy="1810" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="375" x2="400" y1="1810" y2="1810" />
-      <line style="fill:none;" x1="400" x2="447" y1="1810" y2="1810" />
-      <line style="fill:none;" x1="447" x2="436" y1="1810" y2="1806" />
-      <line style="fill:none;" x1="447" x2="436" y1="1810" y2="1814" />
       <circle cx="211" cy="1660" r="3" style="fill:none;" />
       <line style="fill:none;" x1="175" x2="211" y1="1660" y2="1660" />
       <line style="fill:none;" x1="211" x2="247" y1="1660" y2="1660" />
@@ -829,18 +752,6 @@
       <line style="fill:none;" x1="294" x2="345" y1="1660" y2="1660" />
       <line style="fill:none;" x1="345" x2="334" y1="1660" y2="1656" />
       <line style="fill:none;" x1="345" x2="334" y1="1660" y2="1664" />
-      <circle cx="210" cy="1660" r="3" style="fill:none;" />
-      <circle cx="210" cy="1900" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="175" x2="210" y1="1660" y2="1660" />
-      <line style="fill:none;" x1="210" x2="210" y1="1660" y2="1900" />
-      <line style="fill:none;" x1="210" x2="257" y1="1900" y2="1900" />
-      <line style="fill:none;" x1="257" x2="246" y1="1900" y2="1896" />
-      <line style="fill:none;" x1="257" x2="246" y1="1900" y2="1904" />
-      <circle cx="284" cy="1900" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="263" x2="284" y1="1900" y2="1900" />
-      <line style="fill:none;" x1="284" x2="305" y1="1900" y2="1900" />
-      <line style="fill:none;" x1="305" x2="294" y1="1900" y2="1896" />
-      <line style="fill:none;" x1="305" x2="294" y1="1900" y2="1904" />
       <circle cx="120" cy="2620" r="3" style="fill:none;" />
       <line style="fill:none;" x1="83" x2="120" y1="2620" y2="2620" />
       <line style="fill:none;" x1="120" x2="175" y1="2620" y2="2620" />
@@ -851,17 +762,17 @@
       <line style="fill:none;" x1="290" x2="377" y1="2620" y2="2620" />
       <line style="fill:none;" x1="377" x2="366" y1="2620" y2="2616" />
       <line style="fill:none;" x1="377" x2="366" y1="2620" y2="2624" />
-      <circle cx="330" cy="2150" r="3" style="fill:none;" />
-      <circle cx="330" cy="2610" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2140" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2150" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2140" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2150" r="3" style="fill:none;" />
+      <circle cx="5260" cy="2150" r="3" style="fill:none;" />
       <circle cx="4040" cy="2150" r="3" style="fill:none;" />
       <circle cx="4040" cy="2140" r="3" style="fill:none;" />
       <circle cx="4020" cy="2140" r="3" style="fill:none;" />
       <circle cx="4020" cy="2150" r="3" style="fill:none;" />
-      <circle cx="5260" cy="2150" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2150" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2140" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2140" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2150" r="3" style="fill:none;" />
+      <circle cx="330" cy="2150" r="3" style="fill:none;" />
+      <circle cx="330" cy="2610" r="3" style="fill:none;" />
       <line style="fill:none;" x1="5260" x2="5260" y1="165" y2="2150" />
       <line style="fill:none;" x1="5260" x2="4040" y1="2150" y2="2150" />
       <line style="fill:none;" x1="4040" x2="4040" y1="2150" y2="2140" />
@@ -893,14 +804,14 @@
       <line style="fill:none;" x1="785" x2="774" y1="2620" y2="2624" />
       <circle cx="740" cy="2610" r="3" style="fill:none;" />
       <circle cx="740" cy="2170" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2170" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2160" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2160" r="3" style="fill:none;" />
       <circle cx="3330" cy="2170" r="3" style="fill:none;" />
-      <circle cx="4040" cy="2170" r="3" style="fill:none;" />
-      <circle cx="4040" cy="2160" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2160" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2160" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2170" r="3" style="fill:none;" />
       <circle cx="4020" cy="2170" r="3" style="fill:none;" />
       <circle cx="4020" cy="2160" r="3" style="fill:none;" />
+      <circle cx="4040" cy="2160" r="3" style="fill:none;" />
+      <circle cx="4040" cy="2170" r="3" style="fill:none;" />
       <circle cx="5260" cy="2170" r="3" style="fill:none;" />
       <line style="fill:none;" x1="663" x2="740" y1="2610" y2="2610" />
       <line style="fill:none;" x1="740" x2="740" y1="2610" y2="2170" />
@@ -931,13 +842,13 @@
       <line style="fill:none;" x1="1120" x2="1207" y1="2620" y2="2620" />
       <line style="fill:none;" x1="1207" x2="1196" y1="2620" y2="2616" />
       <line style="fill:none;" x1="1207" x2="1196" y1="2620" y2="2624" />
-      <circle cx="1140" cy="2190" r="3" style="fill:none;" />
-      <circle cx="1140" cy="2610" r="3" style="fill:none;" />
       <circle cx="4030" cy="2190" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2180" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2190" r="3" style="fill:none;" />
       <circle cx="3350" cy="2190" r="3" style="fill:none;" />
       <circle cx="3350" cy="2180" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2180" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2190" r="3" style="fill:none;" />
+      <circle cx="1140" cy="2190" r="3" style="fill:none;" />
+      <circle cx="1140" cy="2610" r="3" style="fill:none;" />
       <line style="fill:none;" x1="4030" x2="4030" y1="405" y2="2190" />
       <line style="fill:none;" x1="4030" x2="3350" y1="2190" y2="2190" />
       <line style="fill:none;" x1="3350" x2="3350" y1="2190" y2="2180" />
@@ -965,11 +876,11 @@
       <line style="fill:none;" x1="1695" x2="1684" y1="2620" y2="2624" />
       <circle cx="1610" cy="2610" r="3" style="fill:none;" />
       <circle cx="1610" cy="2210" r="3" style="fill:none;" />
-      <circle cx="4030" cy="2210" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2210" r="3" style="fill:none;" />
-      <circle cx="3350" cy="2200" r="3" style="fill:none;" />
-      <circle cx="3330" cy="2200" r="3" style="fill:none;" />
       <circle cx="3330" cy="2210" r="3" style="fill:none;" />
+      <circle cx="3330" cy="2200" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2200" r="3" style="fill:none;" />
+      <circle cx="3350" cy="2210" r="3" style="fill:none;" />
+      <circle cx="4030" cy="2210" r="3" style="fill:none;" />
       <line style="fill:none;" x1="1543" x2="1610" y1="2610" y2="2610" />
       <line style="fill:none;" x1="1610" x2="1610" y1="2610" y2="2210" />
       <line style="fill:none;" x1="1610" x2="3330" y1="2210" y2="2210" />
@@ -985,6 +896,15 @@
       <line style="fill:none;" x1="1810" x2="1857" y1="2620" y2="2620" />
       <line style="fill:none;" x1="1857" x2="1846" y1="2620" y2="2616" />
       <line style="fill:none;" x1="1857" x2="1846" y1="2620" y2="2624" />
+      <circle cx="3340" cy="2250" r="3" style="fill:none;" />
+      <circle cx="1810" cy="2250" r="3" style="fill:none;" />
+      <circle cx="1810" cy="2610" r="3" style="fill:none;" />
+      <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="2250" />
+      <line style="fill:none;" x1="3340" x2="1810" y1="2250" y2="2250" />
+      <line style="fill:none;" x1="1810" x2="1810" y1="2250" y2="2610" />
+      <line style="fill:none;" x1="1810" x2="1857" y1="2610" y2="2610" />
+      <line style="fill:none;" x1="1857" x2="1846" y1="2610" y2="2606" />
+      <line style="fill:none;" x1="1857" x2="1846" y1="2610" y2="2614" />
       <circle cx="1950" cy="2620" r="3" style="fill:none;" />
       <line style="fill:none;" x1="1863" x2="1950" y1="2620" y2="2620" />
       <line style="fill:none;" x1="1950" x2="2015" y1="2620" y2="2620" />
@@ -1014,24 +934,6 @@
       <line style="fill:none;" x1="2570" x2="2677" y1="2620" y2="2620" />
       <line style="fill:none;" x1="2677" x2="2666" y1="2620" y2="2616" />
       <line style="fill:none;" x1="2677" x2="2666" y1="2620" y2="2624" />
-      <circle cx="3340" cy="1600" r="3" style="fill:none;" />
-      <circle cx="1110" cy="1650" r="3" style="fill:none;" />
-      <circle cx="1110" cy="1600" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="1600" />
-      <line style="fill:none;" x1="3340" x2="1110" y1="1600" y2="1600" />
-      <line style="fill:none;" x1="1110" x2="1110" y1="1600" y2="1650" />
-      <line style="fill:none;" x1="1110" x2="1157" y1="1650" y2="1650" />
-      <line style="fill:none;" x1="1157" x2="1146" y1="1650" y2="1646" />
-      <line style="fill:none;" x1="1157" x2="1146" y1="1650" y2="1654" />
-      <circle cx="1810" cy="2610" r="3" style="fill:none;" />
-      <circle cx="1810" cy="2250" r="3" style="fill:none;" />
-      <circle cx="3340" cy="2250" r="3" style="fill:none;" />
-      <line style="fill:none;" x1="3340" x2="3340" y1="705" y2="2250" />
-      <line style="fill:none;" x1="3340" x2="1810" y1="2250" y2="2250" />
-      <line style="fill:none;" x1="1810" x2="1810" y1="2250" y2="2610" />
-      <line style="fill:none;" x1="1810" x2="1857" y1="2610" y2="2610" />
-      <line style="fill:none;" x1="1857" x2="1846" y1="2610" y2="2606" />
-      <line style="fill:none;" x1="1857" x2="1846" y1="2610" y2="2614" />
     </g>
   </g>
 </svg>
