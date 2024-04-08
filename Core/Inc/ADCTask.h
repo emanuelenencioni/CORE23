@@ -30,6 +30,6 @@ typedef struct{
     uint16_t ADC_AUX1;
     uint16_t ADC_AUX2;
 } ADCBuffer;
-float map(float x, float in_min, float in_max, float out_min, float out_max);
+uint32_t map(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max);
 void ADCThread(void* argument);
 #endif
