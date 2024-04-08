@@ -59,14 +59,6 @@ void checkModeThread(void* argument){
     // Default error message
     msg.data[0] = 10;
 
-    //FOR TESTING
-    HAL_TIM_Base_Start(&htim5);
-    uint32_t start_time = 0;
-    uint32_t finish_time = 0;
-    uint16_t count = 0;
-    uint32_t avg = 0;
-    uint8_t avg_count = 100;
-
     xLastWakeTime = xTaskGetTickCount();
     while(1){
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
@@ -134,31 +126,6 @@ void checkModeThread(void* argument){
                 
                 break;
 
-        
-        }
-
-        if(count < avg_count){
-            avg += finish_time - start_time;
-            count++;
-        }
-        else{
-            uint32_t TxMailbox = 0;
-            avg /= avg_count;
-            CANMessage msg;
-            CAN_TxHeaderTypeDef header_test;
-            // Settings for can message
-            header_test.StdId = 400;
-            header_test.ExtId = 0;
-            header_test.IDE = 0;
-            header_test.RTR = 0;
-            header_test.DLC = 4;
-            msg.header = header_test;
-            msg.data[0] = (uint8_t) (avg >> 24);
-            msg.data[1] = (uint8_t) (avg >> 16);
-            msg.data[2] = (uint8_t) (avg >> 8);
-            msg.data[3] = (uint8_t) avg;
-            HAL_CAN_AddTxMessage(&hcan2, &msg.header, msg.data, &TxMailbox);
-            vTaskSuspend(NULL);
         }
     }
 }

@@ -29,8 +29,8 @@ void ASBCheckThread(void* argument) {
     uint16_t rpm = 0;
     float EBSAir1 = 0;
     float EBSAir2 = 0;
-    uint16_t BrakePressureFront = 0;
-    uint16_t BrakePressureRear = 0;
+    uint16_t brakePressureFront = 0;
+    uint16_t brakePressureRear = 0;
     header.StdId = 400;
     header.ExtId = 0;
     header.IDE = 0;
@@ -60,12 +60,12 @@ void ASBCheckThread(void* argument) {
 
     if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY)){
         //ReadBrakePressure
-        BrakePressureFront = AutCanBuffer.brakePressureFront; // TODO read from ADC
+        brakePressureFront = AutCanBuffer.brakePressureFront; // TODO read from ADC
         brakePressureRear = AutCanBuffer.brakePressureRear;
         xSemaphoreGive(ASCanSemHandle);
     }
-    // 200 mBar offset from 4500
-    if(EBSAir1 < 4300 || EBSAir2 < 4300 || BrakePressureFront < 0 || BrakePressureFront > 500 || BrakePressureRear < 0 || brakePressureRear > 200){
+    // 2 dBar offset from 450 dBar
+    if(EBSAir1 < 43 || EBSAir2 < 43 || brakePressureFront < 0 || brakePressureFront > 5 || brakePressureRear < 0 || brakePressureRear > 2){
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
         msg.data[1] = 0;
         xQueueSend(canTxASQueue, &msg, 0);
@@ -87,12 +87,12 @@ void ASBCheckThread(void* argument) {
 
     if(xSemaphoreTake(ASCanSemHandle, portMAX_DELAY)){
         //ReadBrakePressure
-        BrakePressureFront = AutCanBuffer.brakePressureFront;
-        BrakePressureRear = AutCanBuffer.brakePressureRear;
+        brakePressureFront = AutCanBuffer.brakePressureFront;
+        brakePressureRear = AutCanBuffer.brakePressureRear;
         xSemaphoreGive(ASCanSemHandle);
     }
-    // 6000 mBar offset
-    if(!(BrakePressureFront > 27000 && brakePressureRear > 16000 && BrakePressureFront < 38000  && brakePressureRear < 27000)){
+    // 60 dBar offset
+    if(!(brakePressureFront > 270 && brakePressureRear > 160 && brakePressureFront < 380  && brakePressureRear < 270)){
         HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, RESET);
         msg.data[1] = 1;
         xQueueSend(canTxASQueue, &msg, 0);

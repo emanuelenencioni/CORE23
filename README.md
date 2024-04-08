@@ -28,3 +28,4 @@
     - [ ] Gestire Brake Light sia in manual che autonomous.
 
     - [X] Sistemare priorità dei tasks
+    - [ ] Gestire ridondanza sulla cremagliera, dare errore in caso di troppo drift tra i due sensori.

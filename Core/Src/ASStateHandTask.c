@@ -40,6 +40,7 @@ void ASStateHandlerThread(void* argument){
     uint8_t shutdownSense = 0;
     uint8_t statusASMS = 0;
     uint8_t RESSignalGo = 0;
+    uint8_t statusRES = 0;
     uint16_t rpm = 0;
     uint8_t neutral = 1; //for indicating the state of the gear
     uint8_t readyToDrive = 0;
@@ -84,6 +85,7 @@ void ASStateHandlerThread(void* argument){
         // ReadGPIO
         statusASMS = HAL_GPIO_ReadPin(ASMS_STATUS_GPIO_Port, ASMS_STATUS_Pin);
         RESSignalGo = HAL_GPIO_ReadPin(RES_IN1_GPIO_Port, RES_IN1_Pin); 
+        statusRES = HAL_GPIO_ReadPin(RES_STATUS_GPIO_Port, RES_STATUS_Pin);
 
         //Check for anything other than CORE23 that open the SDC
         shutdownSense = HAL_GPIO_ReadPin(SHUTDOWN_SENSE_GPIO_Port, SHUTDOWN_SENSE_Pin);
@@ -100,8 +102,9 @@ void ASStateHandlerThread(void* argument){
         if(!shutdownSense){
             if(pcStatus == Finished){
                 // Trigger SDC
-                HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, GPIO_PIN_RESET);
-                if(0){ // TODO RES activated
+                
+                if(statusRES == 0){ 
+                    // RES activated
                     setASEmergency();
                 }
                 else{
@@ -116,6 +119,8 @@ void ASStateHandlerThread(void* argument){
             if(mission && statusASMS  && ASBCheckLocal && rpm >= MIN_RPM_ENG_ON){
                 if(!neutral){ //R2D -> only if TS on and gear is engaged
                     setASDriving();
+                    if(pcStatus == Finished) //if mission finished, TODO to test
+                        HAL_GPIO_WritePin(SHUTDOWN_CMD_GPIO_Port, SHUTDOWN_CMD_Pin, GPIO_PIN_RESET);
                 }
                 else {
                     if(brakePressure >= AS_INIT_BRAKE_PRESSURE){

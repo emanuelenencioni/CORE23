@@ -218,8 +218,8 @@ void ASCanRxHandler(){
 			uint8_t* data = rxMsg.data;
 			switch (id){
 				case 101: // in dBar
-					AutCanBuffer.brakePressureFront = (data[0] << 8 data[1]);
-					AutCanBuffer.brakePressureRear = (data[2] << 8 data[3]);
+					AutCanBuffer.brakePressureFront = (data[0] << 8 | data[1]);
+					AutCanBuffer.brakePressureRear = (data[2] << 8 | data[3]);
 					break;
 				case 290:
 					AutCanBuffer.reqMode = data[0];
@@ -272,4 +272,8 @@ void ASCanTxHandler(){
 			vTaskDelay(2);
 		}
 	}
+}
+
+void sendEngInfoToPilot(){
+	
 }
